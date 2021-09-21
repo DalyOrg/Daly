@@ -28,8 +28,8 @@ function App() {
     const quizSnapshot = await getDocs(quizzesCol);
     const quizList = await quizSnapshot.docs.map(doc => doc.data());
     let questions = [];
-    for(let i = 0; i < quizzes; i++) {
-      questions.append(quizzes[i].question);
+    for(let i = 0; i < quizList.length; i++) {
+      questions.push(quizList[i].question);
     }
     console.log(questions);
     setQuizzes(questions);
