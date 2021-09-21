@@ -22,7 +22,7 @@ const firebaseConfig = {
 
 
 function App() {
-  const [quizzes, setQuizzes] = useState(null);
+  const [quizzes, setQuizzes] = useState([]);
   async function getQuizzes(db) {
     const quizzesCol = collection(db, 'quizzes');
     const quizSnapshot = await getDocs(quizzesCol);
@@ -47,9 +47,11 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         Quizzes
-        {quizzes ? quizzes.map((data) => {
-          <li>{data}</li>
+        <li>
+        {quizzes ? quizzes.map((question) => {
+          return <ul>{quizzes[0]}</ul>
         }) : ""}
+        </li>
       </header>
     </div>
   );
