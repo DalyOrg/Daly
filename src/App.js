@@ -8,19 +8,6 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useEffect } from 'react';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBELbK1fogp_rAzpNXCVZehV8Mj-_-dW4k",
-  authDomain: "dalyorg-afce8.firebaseapp.com",
-  databaseURL: "https://dalyorg-afce8-default-rtdb.firebaseio.com",
-  projectId: "dalyorg-afce8",
-  storageBucket: "dalyorg-afce8.appspot.com",
-  messagingSenderId: "701841337894",
-  appId: "1:701841337894:web:eb840b893e7e02babf40e7",
-  measurementId: "G-9RXPQD33L4"
-};
-
-
-
 function App() {
   const [quizzes, setQuizzes] = useState([]);
   async function getQuizzes(db) {
