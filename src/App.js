@@ -44,7 +44,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        Quizzes
+        welcome to daly quizzes
         <li>
         {quizzes ? quizzes.map((question) => {
           return <ul>{quizzes[0]}</ul>
