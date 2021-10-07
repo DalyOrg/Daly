@@ -6,7 +6,6 @@ const Answer = ({answer, setAnswerChoices, questionId}) => {
             <label className="btn btn-outline-primary" htmlFor={`answer${answer.id}`}>
                 {answer.answerText}
             </label>
-            <br/><br/>
         </div>
     )
 }

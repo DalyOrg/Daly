@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './bootstrap.css';
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
