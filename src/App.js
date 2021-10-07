@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { useEffect } from 'react';
 
 const firebaseConfig = {
@@ -17,21 +16,29 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
-};
+}
 
 function App() {
   const [quizzes, setQuizzes] = useState([]);
+  const [quizName, setQuizName] = useState([]);
   async function getQuizzes(db) {
     const quizzesCol = collection(db, 'quizzes');
     const quizSnapshot = await getDocs(quizzesCol);
-    const quizList = await quizSnapshot.docs.map(doc => doc.data());
-    let questions = [];
+    let quizList = await quizSnapshot.docs.map(doc => doc.id);
+    let quizzes = [];
     for(let i = 0; i < quizList.length; i++) {
-      questions.push(quizList[i].question);
+      let result = await getQuizName(db, quizList[i]);
+      quizzes.push({id: quizList[i], name: result});
     }
-    console.log(questions);
-    setQuizzes(questions);
+    setQuizzes(quizzes);
   }
+
+  async function getQuizName(db, id) {
+    const quizzesCol = doc(db, 'quizzes', id);
+    const quizSnapshot = await getDoc(quizzesCol);
+    return quizSnapshot.data().name;
+  }
+
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
@@ -41,15 +48,14 @@ function App() {
   }, [db]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        welcome to daly quizzes
-        <li>
-        {quizzes ? quizzes.map((question) => {
-          return <ul>{quizzes[0]}</ul>
+    <div className="jumbotron jumbotron-fluid">
+      <header className="container">
+        <h1 className="display-4">Welcome to Daly!</h1>
+        <p className="lead">Please choose a quiz</p>
+        <hr className="my-4"/>
+        {quizzes ? quizzes.map((quiz) => {
+          return <button id={quiz.id} class="btn btn-primary">{quiz.name}</button>
         }) : ""}
-        </li>
       </header>
     </div>
   );
