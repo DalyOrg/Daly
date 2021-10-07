@@ -7,8 +7,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useEffect } from 'react';
-//import Question from './components/Question';
-//import Results from './components/Results';
+import Question from './components/Question';
+import Results from './components/Results';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -24,8 +24,7 @@ const firebaseConfig = {
 function App() {
   const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [curQuestion, setCurQuestion] = useState(null);
-  const [answerMap, setAnswerMap] = useState({});//how is this like..?
+  const [answerChoices, setAnswerChoices] = useState([]);//how is this like..?
   const [questionNum, setQuestionNum] = useState();
 
   const app = initializeApp(firebaseConfig);
@@ -41,32 +40,65 @@ function App() {
     setQuizzes(quizList);
   }
 
+  const getQuestions = useCallback(async function(){
+    if(quizzes[0] === undefined)
+      return
+    const questionsCol = collection(db, `/quizzes/${quizzes[0].id}/questions`);
+    const questionsSnapshot = await getDocs(questionsCol);
+    const questionsList = questionsSnapshot.docs.map((question) => {
+      return {...question.data(), id: question.id};
+    });
+    console.log(questionsList[0])
+    setQuestions(questionsList);
+    setQuestionNum(0);
+  }, [quizzes[0], db]);
+ 
   useEffect(() => {
     getQuizzes(db);
   }, [db]);
 
-  // const getQuestions = useCallback(async function(){
-  //   if(quizzes === undefined)
-  //     return;
-  //   const questionsCol = collection(db, `/quizzes/${quizzes[0].id}/questions`);
-  //   const questionsSnapshot = await getDocs(questionsCol);
-  //   const questionsList = questionsSnapshot.docs.map((question) => {
-  //     return {...question.data(), id: question.id};
-  //   });
-  //   console.log(questionsList[0])
-  //   setQuestions(questionsList);
-  //   setQuestionNum(0);
-  // }, [quizzes]);
+  useEffect(() => {
+    getQuestions()
+  }, [getQuestions]);
 
-  // useEffect(() => {
-  //   getQuestions()
-  // }, [quizzes]);
+  function changeAnswerChoices(curQuestion){// will it be ok when the array is not filled?
+    return function(answer){ //You can return a function!
+      // map question to answer
+      let newArr = [...answerChoices];
+      newArr[curQuestion] = answer;
+      setAnswerChoices(newArr);
+    }
+  }
+
+  function changeQuestionNum(i){
+    setQuestionNum(questionNum + i);
+  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <h2>{quizzes[0].name}</h2>
-        
+        {quizzes[0] ? <h2>{quizzes[0].name}</h2> : ""}
+        {
+          quizzes[0] ?
+            questionNum >= questions.length ? //if we are outside of quiz
+              //TODO: fill with result component
+              <Results
+                answerChoices = {answerChoices}
+              />
+            :
+            questionNum !== null && //if we are inside the quiz
+              //TODO: fill with question component
+              <Question
+                questionNum = {questionNum}
+                totalNumQuestions = {questions.length}
+                question={questions[questionNum]}
+                changeQuestionNum = {changeQuestionNum}
+                setAnswerChoices = {changeAnswerChoices(questionNum)}
+                db = {db}
+                quizId = {quizzes[0].id}
+              />
+            : ""
+        }
       </header>
     </div>
   );
