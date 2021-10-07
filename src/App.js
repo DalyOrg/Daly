@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 import logo from './logo.svg';
 import './App.css';
 // Import the functions you need from the SDKs you need
@@ -7,6 +7,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useEffect } from 'react';
+//import Question from './components/Question';
+//import Results from './components/Results';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,35 +23,50 @@ const firebaseConfig = {
 
 function App() {
   const [quizzes, setQuizzes] = useState([]);
-  async function getQuizzes(db) {
-    const quizzesCol = collection(db, 'quizzes');
-    const quizSnapshot = await getDocs(quizzesCol);
-    const quizList = await quizSnapshot.docs.map(doc => doc.data());
-    let questions = [];
-    for(let i = 0; i < quizList.length; i++) {
-      questions.push(quizList[i].question);
-    }
-    console.log(questions);
-    setQuizzes(questions);
-  }
+  const [questions, setQuestions] = useState([]);
+  const [curQuestion, setCurQuestion] = useState(null);
+  const [answerMap, setAnswerMap] = useState({});//how is this like..?
+  const [questionNum, setQuestionNum] = useState();
+
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
+
+  async function getQuizzes(db) {
+    const quizzesCol = collection(db, '/quizzes');
+    const quizSnapshot = await getDocs(quizzesCol);
+    const quizList = quizSnapshot.docs.map((quiz) => {
+      return {...quiz.data(), id: quiz.id};
+    });
+    setQuizzes(quizList);
+  }
 
   useEffect(() => {
     getQuizzes(db);
   }, [db]);
 
+  // const getQuestions = useCallback(async function(){
+  //   if(quizzes === undefined)
+  //     return;
+  //   const questionsCol = collection(db, `/quizzes/${quizzes[0].id}/questions`);
+  //   const questionsSnapshot = await getDocs(questionsCol);
+  //   const questionsList = questionsSnapshot.docs.map((question) => {
+  //     return {...question.data(), id: question.id};
+  //   });
+  //   console.log(questionsList[0])
+  //   setQuestions(questionsList);
+  //   setQuestionNum(0);
+  // }, [quizzes]);
+
+  // useEffect(() => {
+  //   getQuestions()
+  // }, [quizzes]);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        welcome to daly quizzes
-        <li>
-        {quizzes ? quizzes.map((question) => {
-          return <ul>{quizzes[0]}</ul>
-        }) : ""}
-        </li>
+        <h2>{quizzes[0].name}</h2>
+        
       </header>
     </div>
   );
