@@ -21,6 +21,7 @@ const firebaseConfig = {
 function App() {
   const [quizzes, setQuizzes] = useState([]);
   const [quizName, setQuizName] = useState([]);
+  const [questions, setQuestions] = useState([]);
   async function getQuizzes(db) {
     const quizzesCol = collection(db, 'quizzes');
     const quizSnapshot = await getDocs(quizzesCol);
@@ -39,6 +40,17 @@ function App() {
     return quizSnapshot.data().name;
   }
 
+  async function getQuestions(db, id) {
+    const quizzesCol = collection(db, 'quizzes', id, 'questions');
+    const quizSnapshot = await getDocs(quizzesCol);
+    let questions = await quizSnapshot.docs.map(doc => doc.data());
+    let questionText = [];
+    for(let i = 0; i < questions.length; i++) {
+      questionText.push(questions[i].questionText);
+    }
+    setQuestions(questionText);
+  }
+
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
@@ -47,6 +59,10 @@ function App() {
     getQuizzes(db);
   }, [db]);
 
+  function quizPress(id) {
+    getQuestions(db, id);
+  }
+
   return (
     <div className="jumbotron jumbotron-fluid">
       <header className="container">
@@ -54,7 +70,11 @@ function App() {
         <p className="lead">Please choose a quiz</p>
         <hr className="my-4"/>
         {quizzes ? quizzes.map((quiz) => {
-          return <button id={quiz.id} class="btn btn-primary">{quiz.name}</button>
+          return <button id={quiz.id} class="btn btn-primary" onClick={() => quizPress(quiz.id)}>{quiz.name}</button>
+        }) : ""}
+        {questions ? <div className='pt-4'/> : ""}
+        {questions ? questions.map((question) => {
+          return <li>{question}</li>
         }) : ""}
       </header>
     </div>
