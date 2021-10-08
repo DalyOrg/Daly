@@ -19,10 +19,10 @@ const firebaseConfig = {
 }
 
 function App() {
-  const [quizzes, setQuizzes] = useState([]);
-  const [quiz, setQuiz] = useState([]);
-  const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState([]);
+  const [quizzes, setQuizzes] = useState();
+  const [quiz, setQuiz] = useState();
+  const [questions, setQuestions] = useState();
+  const [answers, setAnswers] = useState();
   async function getQuizzes(db) {
     const quizzesCol = collection(db, 'quizzes');
     const quizSnapshot = await getDocs(quizzesCol);
@@ -100,6 +100,8 @@ function App() {
         {questions ? questions.map((question) => {
           return <li key={question.id} onClick={() => questionPress(question.id)}>{question['text']}</li>
         }) : ""}
+        {answers ? <div className='pt-4'/> : ""}
+        {answers ? "Answers:" : ""}
         {answers ? answers.map((answer) => {
           return <li>{answer}</li>
         }) : ""}
