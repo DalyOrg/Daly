@@ -20,8 +20,9 @@ const firebaseConfig = {
 
 function App() {
   const [quizzes, setQuizzes] = useState([]);
-  const [quizName, setQuizName] = useState([]);
+  const [quiz, setQuiz] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
   async function getQuizzes(db) {
     const quizzesCol = collection(db, 'quizzes');
     const quizSnapshot = await getDocs(quizzesCol);
@@ -44,11 +45,29 @@ function App() {
     const quizzesCol = collection(db, 'quizzes', id, 'questions');
     const quizSnapshot = await getDocs(quizzesCol);
     let questions = await quizSnapshot.docs.map(doc => doc.data());
+    let questionIds = await quizSnapshot.docs.map(doc => doc.id);
     let questionText = [];
     for(let i = 0; i < questions.length; i++) {
-      questionText.push(questions[i].questionText);
+      let text = questions[i].questionText;
+      let id = questionIds[i];
+      questionText.push({
+        text, id
+      });
     }
+    console.log(questionText);
     setQuestions(questionText);
+  }
+
+  async function getAnswers(db, id) {
+    console.log(quiz, id);
+    const quizzesCol = collection(db, 'quizzes', quiz, 'questions', id, 'answers');
+    const quizSnapshot = await getDocs(quizzesCol);
+    let questions = await quizSnapshot.docs.map(doc => doc.data());
+    let questionText = [];
+    for(let i = 0; i < questions.length; i++) {
+      questionText.push(questions[i].answerText);
+    }
+    setAnswers(questionText);
   }
 
   const app = initializeApp(firebaseConfig);
@@ -60,7 +79,12 @@ function App() {
   }, [db]);
 
   function quizPress(id) {
+    setQuiz(id);
     getQuestions(db, id);
+  }
+
+  function questionPress(id) {
+    getAnswers(db, id);
   }
 
   return (
@@ -74,7 +98,10 @@ function App() {
         }) : ""}
         {questions ? <div className='pt-4'/> : ""}
         {questions ? questions.map((question) => {
-          return <li>{question}</li>
+          return <li key={question.id} onClick={() => questionPress(question.id)}>{question['text']}</li>
+        }) : ""}
+        {answers ? answers.map((answer) => {
+          return <li>{answer}</li>
         }) : ""}
       </header>
     </div>
