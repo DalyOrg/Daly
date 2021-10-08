@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState, useCallback } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { useEffect } from 'react';
+import Question from './components/Question';
+import Results from './components/Results';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -19,93 +23,88 @@ const firebaseConfig = {
 }
 
 function App() {
-  const [quizzes, setQuizzes] = useState();
-  const [quiz, setQuiz] = useState();
-  const [questions, setQuestions] = useState();
-  const [answers, setAnswers] = useState();
-  async function getQuizzes(db) {
-    const quizzesCol = collection(db, 'quizzes');
-    const quizSnapshot = await getDocs(quizzesCol);
-    let quizList = await quizSnapshot.docs.map(doc => doc.id);
-    let quizzes = [];
-    for(let i = 0; i < quizList.length; i++) {
-      let result = await getQuizName(db, quizList[i]);
-      quizzes.push({id: quizList[i], name: result});
-    }
-    setQuizzes(quizzes);
-  }
-
-  async function getQuizName(db, id) {
-    const quizzesCol = doc(db, 'quizzes', id);
-    const quizSnapshot = await getDoc(quizzesCol);
-    return quizSnapshot.data().name;
-  }
-
-  async function getQuestions(db, id) {
-    const quizzesCol = collection(db, 'quizzes', id, 'questions');
-    const quizSnapshot = await getDocs(quizzesCol);
-    let questions = await quizSnapshot.docs.map(doc => doc.data());
-    let questionIds = await quizSnapshot.docs.map(doc => doc.id);
-    let questionText = [];
-    for(let i = 0; i < questions.length; i++) {
-      let text = questions[i].questionText;
-      let id = questionIds[i];
-      questionText.push({
-        text, id
-      });
-    }
-    console.log(questionText);
-    setQuestions(questionText);
-  }
-
-  async function getAnswers(db, id) {
-    console.log(quiz, id);
-    const quizzesCol = collection(db, 'quizzes', quiz, 'questions', id, 'answers');
-    const quizSnapshot = await getDocs(quizzesCol);
-    let questions = await quizSnapshot.docs.map(doc => doc.data());
-    let questionText = [];
-    for(let i = 0; i < questions.length; i++) {
-      questionText.push(questions[i].answerText);
-    }
-    setAnswers(questionText);
-  }
+  const [quizzes, setQuizzes] = useState([]);
+  const [selectedQuiz, setSelectedQuiz] = useState();
+  const [questions, setQuestions] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [answerMap, setAnswerMap] = useState({});
 
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
+  async function getQuizzes(db) {
+    const quizzesCol = collection(db, '/quizzes');
+    const quizSnapshot = await getDocs(quizzesCol);
+    const quizList = quizSnapshot.docs.map((quiz) => {
+      return {...quiz.data(), id: quiz.id};
+    });
+    setQuizzes(quizList);
+  }
+
+  const getQuestions = useCallback(async function(){
+    if(selectedQuiz === undefined)
+      return
+    const questionsCol = collection(db, `/quizzes/${selectedQuiz.id}/questions`);
+    const questionsSnapshot = await getDocs(questionsCol);
+    const questionsList = questionsSnapshot.docs.map((question) => {
+      return {...question.data(), id: question.id};
+    });
+    console.log(questionsList[0])
+    setQuestions(questionsList);
+    setSelectedQuestion(0);
+  }, [selectedQuiz, db]);
+
   useEffect(() => {
     getQuizzes(db);
   }, [db]);
 
-  function quizPress(id) {
-    setQuiz(id);
-    getQuestions(db, id);
+  useEffect(() => {
+    getQuestions()
+  }, [getQuestions]);
+
+  function mapSelectedAnswer(question){
+    return function(answer){
+      // map question to answer
+      let newMap = {...answerMap}
+      newMap[question] = answer
+      setAnswerMap(newMap)
+    }
   }
 
-  function questionPress(id) {
-    getAnswers(db, id);
+  function incrementSelectedQuestion(i){
+    setSelectedQuestion(selectedQuestion + i)
   }
 
   return (
-    <div className="jumbotron jumbotron-fluid">
-      <header className="container">
-        <h1 className="display-4">Welcome to Daly!</h1>
-        <p className="lead">Please choose a quiz</p>
-        <hr className="my-4"/>
-        {quizzes ? quizzes.map((quiz) => {
-          return <button id={quiz.id} class="btn btn-primary" onClick={() => quizPress(quiz.id)}>{quiz.name}</button>
-        }) : ""}
-        {questions ? <div className='pt-4'/> : ""}
-        {questions ? questions.map((question) => {
-          return <li key={question.id} onClick={() => questionPress(question.id)}>{question['text']}</li>
-        }) : ""}
-        {answers ? <div className='pt-4'/> : ""}
-        {answers ? "Answers:" : ""}
-        {answers ? answers.map((answer) => {
-          return <li>{answer}</li>
-        }) : ""}
-      </header>
+    <div className="App d-flex flex-column gap-3">
+      <h1>
+        Quiz App
+      </h1>
+      <div className='d-flex flex-column gap-3'>
+        {
+          selectedQuiz ?
+            selectedQuestion >= questions.length ?
+              <Results answerMap={answerMap} />
+            :
+            selectedQuestion !== null &&
+              <Question
+                question={questions[selectedQuestion]}
+                incrementSelectedQuestion={incrementSelectedQuestion}
+                setSelectedAnswer={mapSelectedAnswer(selectedQuestion)}
+                db={db}
+                selectedQuizId={selectedQuiz.id}
+              />
+          :
+          quizzes && quizzes.map((quiz) => 
+            <button className='btn btn-primary mx-auto'
+              onClick={() => setSelectedQuiz(quiz)}
+            >
+              {quiz.name}
+            </button>
+          )
+        }
+      </div>
     </div>
   );
 }
