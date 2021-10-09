@@ -1,12 +1,11 @@
 import { useState, useCallback } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, doc, getDoc, getDocs } from 'firebase/firestore';
+//import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useEffect } from 'react';
 import Question from './components/Question';
 import Results from './components/Results';
@@ -23,7 +22,7 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 function App() {
@@ -53,11 +52,11 @@ function App() {
     console.log(questionsList[0])
     setQuestions(questionsList);
     setSelectedQuestion(0);
-  }, [selectedQuiz, db]);
+  }, [selectedQuiz]);
 
   useEffect(() => {
     getQuizzes(db);
-  }, [db]);
+  }, []);
 
   useEffect(() => {
     getQuestions()
@@ -73,6 +72,7 @@ function App() {
   }
 
   function incrementSelectedQuestion(i){
+    if(selectedQuestion + i < 0) return
     setSelectedQuestion(selectedQuestion + i)
   }
 
