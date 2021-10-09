@@ -22,16 +22,16 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 }
 
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
 function App() {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState();
   const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [answerMap, setAnswerMap] = useState({});
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getFirestore(app);
 
   async function getQuizzes(db) {
     const quizzesCol = collection(db, '/quizzes');
@@ -79,7 +79,7 @@ function App() {
   return (
     <div className="App d-flex flex-column gap-3">
       <h1>
-        Quiz App
+        Daly
       </h1>
       <div className='d-flex flex-column gap-3'>
         {
