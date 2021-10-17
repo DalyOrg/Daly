@@ -39,8 +39,8 @@ jobs:
       uses: appleboy/ssh-action@v0.1.4
       with:
         host: ${{ secrets.BACK_END_SERVER_HOST }}
-        key: ${{ secrets.BACK_END_SERVER_KEY }}
         username: ${{ secrets.BACK_END_SERVER_USER }}
+        key: ${{ secrets.BACK_END_SERVER_KEY }}
         
         script:
           git clone git@github.com:DalyOrg/Daly.git
