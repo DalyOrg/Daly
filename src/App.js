@@ -79,7 +79,7 @@ function App() {
   return (
     <div className="App d-flex flex-column gap-3">
       <h1>
-        Daly
+        Daly Quiz App
       </h1>
       <div className='d-flex flex-column gap-3'>
         {
