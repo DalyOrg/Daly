@@ -24,3 +24,7 @@ yarn-error.log*
 
 # Dotenv
 *.env
+
+# back-end
+daly-backend/node_modules
+daly-backend/dist
