@@ -1,20 +1,11 @@
 import axios from 'axios';
+import wrapErrorHandling from './common';
 
-function wrapErrorHandling(adapter){
-    return function(){
-        try{
-            adapter(getQuiz)
-        } catch(err){
-            // do stuff
-        }
-    }
-}
-
-async function getQuiz(quizId){
+async function getQuizAdapter(quizId){
     let res = await axios.get(
-        'url/api'
+        `/quiz/${quizId}`
     );
-    res.data = 'json we want';
-    return res.data;
+    return res.data; // Quiz Object
 }
 
+export const getQuiz = wrapErrorHandling(getQuizAdapter)
