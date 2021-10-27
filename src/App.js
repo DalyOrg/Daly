@@ -13,10 +13,14 @@ import NotFoundPage from "./webpages/404";
 import LandingPage from "./webpages/LandingPage";
 import LoginPage from "./webpages/Login";
 import HomePage from "./webpages/HomePage";
+import TopBar from "./components/TopBar";
+
+
 
 class App extends Component {
     render() {
         return <Router>
+            <TopBar></TopBar>
             <Switch>
                 <Route exact path="/" component={LandingPage}></Route>
                 <Route path="/login" component={LoginPage}/>
