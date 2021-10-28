@@ -10,7 +10,7 @@ import { BrowserRouter as Router,
 
 //webpages
 import NotFoundPage from "./webpages/404";
-import LandingPage from "./webpages/LandingPage";
+import LandingPage from "./webpages/LandingPage/LandingPage";
 import LoginPage from "./webpages/Login";
 import HomePage from "./webpages/HomePage";
 import TopBar from "./components/TopBar";
@@ -23,8 +23,8 @@ class App extends Component {
             <TopBar></TopBar>
             <Switch>
                 <Route exact path="/" component={LandingPage}></Route>
-                <Route path="/login" component={LoginPage}/>
-                <Route path="/home" component={HomePage}/>
+                <Route exact path="/login" component={LoginPage}/>
+                <Route exact path="/home" component={HomePage}/>
                 
                 <Route exact path="/404" component={NotFoundPage}/>
                 <Redirect to="/404"></Redirect>

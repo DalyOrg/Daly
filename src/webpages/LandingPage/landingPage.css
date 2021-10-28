@@ -1,0 +1,60 @@
+.landing-page-image
+{
+  background-image: url("C:/Users/User/Desktop/Daly/src/webpages/LandingPage/quiz_time.png");
+  background-color: black;
+  height: 400px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+}
+
+.bottom-bar
+{
+    background-color: #8B008B;
+    width:100%;
+    height:60px;
+}
+
+.message-one
+{
+    color: #FF97D4;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 20%;
+    font-family: Quando;
+}
+
+.explore-button
+{
+    position: absolute;
+    top: 70%;
+    left: 70%;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 10px;
+    color: #FF97D6;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: #01FDCA;
+}
+
+.message-two
+{
+    color: white;
+    text-align: center;
+    font-family: Montserrat;
+}
+
+.copyright-text
+{
+    color: white;
+    font-size: 15px;
+    position: absolute;
+    top: 95%;
+    font-family: Quando;
+}
