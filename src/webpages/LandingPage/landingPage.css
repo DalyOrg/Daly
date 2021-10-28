@@ -20,8 +20,8 @@
 {
     color: #FF97D4;
     text-align: center;
-    position: fixed;
-    top: 50%;
+    position: absolute;
+    top: 70%;
     left: 20%;
     font-family: Quando;
 }
