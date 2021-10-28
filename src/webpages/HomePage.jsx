@@ -1,10 +1,15 @@
-import React from "react";
+
+import React, { useState } from "react";
+import HomePageComponent from "../components/HomePageComponent";
+
 
 const HomePage = () => {
+
+   
     return (
-        <div>
-            Homepage
-        </div>
+        
+        <HomePageComponent></HomePageComponent>
+       
     );
 }
 
