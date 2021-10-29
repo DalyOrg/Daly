@@ -5,7 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
-axios.default.baseUrl = process.env.BACKEND_URL;
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 ReactDOM.render(
   <React.StrictMode>

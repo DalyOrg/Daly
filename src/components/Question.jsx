@@ -1,23 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-
 import Answer from './Answer'
 
-const Question = ({question, incrementSelectedQuestion, setSelectedAnswer, db, selectedQuizId}) => {  
-  const [answers, setAnswers] = useState([]);
+const Question = ({question}) => {  
 
-  const getAnswers = useCallback(async function() {
-    const answersCol = collection(db, `/quizzes/${selectedQuizId}/questions/${question.id}/answers`);
-    const answersSnapshot = await getDocs(answersCol);
-    const answersList = answersSnapshot.docs.map((answer) => {
-      return {...answer.data(), id: answer.id};
-    });
-    setAnswers(answersList);
-  }, [question, selectedQuizId, db])
+  function setSelectedAnswer(){
 
-  useEffect(() => {
-    getAnswers()
-  }, [getAnswers]);
+  }
 
   return (
       <div className='d-flex flex-column gap-3'>
@@ -31,9 +18,9 @@ const Question = ({question, incrementSelectedQuestion, setSelectedAnswer, db, s
               alt={question.questionText}
             />
           }
-          <div className='d-flex flex-column gap-3'>
+          <div className='d-flex flex-column gap-3 mx-auto'>
               {
-                  answers.map((answer) =>
+                  question.answers.map((answer) =>
                     <Answer
                       answer={answer}
                       questionId={question.id}
@@ -41,22 +28,6 @@ const Question = ({question, incrementSelectedQuestion, setSelectedAnswer, db, s
                     />
                   )
               }
-          </div>
-          <div className='d-flex mx-auto'>
-            <button className='btn btn-secondary me-3'
-              onClick={
-                () => incrementSelectedQuestion(-1)
-              }
-            >
-              Prev
-            </button>
-            <button className='btn btn-secondary'
-              onClick={
-                () => incrementSelectedQuestion(1)
-              }
-            >
-              Next
-            </button>
           </div>
       </div>
   )
