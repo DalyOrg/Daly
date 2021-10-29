@@ -33,19 +33,23 @@ export default class TopBar extends Component {
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" style={{marginBottom: "0.5rem"}}>
-                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Collection color="white" size={20}/> Platform</MDBBtn>
+                        <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Collection color="white" size={20}/> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{marginBottom: "0.5rem"}}>
-                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Cart color="white" size={20}/> Shop</MDBBtn>
+                        <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Cart color="white" size={20}/> Shop</MDBBtn>
                     </li>
                     <li class="nav-item" style={{marginBottom: "0.5rem"}}>
-                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Person color="white" size={20}/> Profile</MDBBtn>
+                        <Link to="/user/placeholder">
+                            <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Person color="white" size={20}/> Profile</MDBBtn>
+                        </Link>
                     </li>
                     <li class="nav-item" style={{marginBottom: "0.5rem"}}>
-                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Gear color="white" size={20}/> Settings</MDBBtn>
+                        <Link to="/settings">
+                            <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Gear color="white" size={20}/> Settings</MDBBtn>
+                        </Link>
                     </li>
                     <li class="nav-item" style={{marginBottom: "0.5rem"}}>
-                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B", color: "red"}}><PersonX color="white" size={20}/> Logout</MDBBtn>
+                        <MDBBtn  href="#" style={{backgroundColor: "#8B008B", color: "red"}}><PersonX color="white" size={20}/> Logout</MDBBtn>
                     </li>
                 </ul>
                 </div>
