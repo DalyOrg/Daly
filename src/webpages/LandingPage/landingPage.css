@@ -1,6 +1,6 @@
 .landing-page-image
 {
-  background-image: url("~/src/webpages/LandingPage/quiz_time.png");
+  background-image: url("./quiz_time.png");
   background-color: black;
   height: 400px;
   background-position: center;
