@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import Carousel from 'react-elastic-carousel';
 import ItemCarousel from "../components/ItemCarousel";
+import { MDBBtn } from 'mdb-react-ui-kit';
 
   let breakPoints = [
         { width: 1, itemsToShow: 1 },
