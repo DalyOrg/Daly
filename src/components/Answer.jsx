@@ -1,12 +1,11 @@
-const Answer = ({answer, setSelectedAnswer, questionId}) => {
+const Answer = ({answer, isSelectedAnswer, setSelectedAnswer}) => {
     return (
-        <div>
-            <input type="radio" className="btn-check" name={questionId} id={`answer${answer.id}`} autoComplete="off"
-                onClick={() => setSelectedAnswer(answer)}/>
-            <label className="btn btn-outline-primary" htmlFor={`answer${answer.id}`}>
-                {answer.answerText}
-            </label>
-        </div>
+        <button className={`btn p-3 rounded mx-auto`}
+            style={{color: '#FFFFFF', backgroundColor: `${isSelectedAnswer ? '#8B008B' : ''}`, borderColor: '#8B008B'}}
+            onClick={() => setSelectedAnswer(answer)}
+        >
+            {answer.answerText}
+        </button>
     )
 }
 

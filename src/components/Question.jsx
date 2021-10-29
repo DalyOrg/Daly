@@ -1,9 +1,9 @@
 import Answer from './Answer'
 
-const Question = ({question}) => {  
+const Question = ({question, setQuestion}) => {  
 
-  function setSelectedAnswer(){
-
+  function setSelectedAnswer(answer){
+    setQuestion({...question, selectedAnswer: answer});
   }
 
   return (
@@ -23,7 +23,7 @@ const Question = ({question}) => {
                   question.answers.map((answer) =>
                     <Answer
                       answer={answer}
-                      questionId={question.id}
+                      isSelectedAnswer={question.selectedAnswer === answer}
                       setSelectedAnswer={setSelectedAnswer}
                     />
                   )
