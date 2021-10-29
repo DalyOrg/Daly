@@ -16,7 +16,12 @@ import NotFoundPage from "./webpages/404";
 import LandingPage from "./webpages/LandingPage/LandingPage";
 import LoginPage from "./webpages/Login";
 import HomePage from "./webpages/HomePage";
+import SettingsPage from "./webpages/SettingsPage";
 import QuizPage from "./webpages/QuizPage";
+import UserProfilePage from "./webpages/UserProfilePage/UserProfilePage";
+import QuizSummaryPage from "./webpages/QuizSummaryPage";
+
+//components
 import TopBar from "./components/TopBar";
 
 class App extends Component {
@@ -27,8 +32,11 @@ class App extends Component {
                 <Route exact path="/" component={LandingPage}></Route>
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/home" component={HomePage}/>
+                <Route exact path="/settings" component={SettingsPage}/>
+                <Route exact path="/quiz/:quizId" component={QuizSummaryPage}/>
                 <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
-                
+                <Route exact path="/user/:userId" component={UserProfilePage}/>
+
                 <Route exact path="/404" component={NotFoundPage}/>
                 <Redirect to="/404"></Redirect>
             </Switch>
