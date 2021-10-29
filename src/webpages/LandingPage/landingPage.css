@@ -9,11 +9,16 @@
   position: relative;
 }
 
+main{
+    min-height: calc(100vh - 60px- 60px);
+}
+
 .bottom-bar
 {
     background-color: #8B008B;
     width:100%;
     height:60px;
+    bottom: 0;
 }
 
 .message-one
@@ -54,7 +59,7 @@
 {
     color: white;
     font-size: 15px;
-    position: absolute;
-    top: 95%;
     font-family: Quando;
+    position: relative;
+    top: 60%;
 }
