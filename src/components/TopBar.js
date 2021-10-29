@@ -7,6 +7,8 @@ import { Person } from 'react-bootstrap-icons';
 import { Gear } from 'react-bootstrap-icons';
 import { Justify } from 'react-bootstrap-icons';
 import { PersonX } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
+
 export default class TopBar extends Component {
     render() {
         return (
@@ -34,7 +36,7 @@ export default class TopBar extends Component {
                     <a class="nav-link active" href="#"> <Cart color="white" size={20}/> Shop</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link active" href="#"><Person color="white" size={20}/> Profile</a>
+                    <Link class="nav-link active" to="/user/placeholder"><Person color="white" size={20}/> Profile</Link>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link active" href="#"><Gear color="white" size={20}/> Settings</a>
