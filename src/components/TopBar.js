@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import "../App.css";
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { MDBInput } from 'mdb-react-ui-kit';
 import { Nav, Navbar, NavbarBrand, NavDropdown } from "react-bootstrap";
 import { Cart } from 'react-bootstrap-icons';
 import { Collection } from 'react-bootstrap-icons';
@@ -7,6 +9,7 @@ import { Person } from 'react-bootstrap-icons';
 import { Gear } from 'react-bootstrap-icons';
 import { Justify } from 'react-bootstrap-icons';
 import { PersonX } from 'react-bootstrap-icons';
+import { Search } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
 export default class TopBar extends Component {
@@ -18,8 +21,8 @@ export default class TopBar extends Component {
 
 
                 <form class="d-flex">
-            <input class="form-control me-2 rounded" type="search" placeholder="Search" aria-label="Search"></input>
-            <button style={{backgroundColor: "#00B5FF", color: "white"}} type="submit" class="rounded">Search</button>
+                <MDBInput label='Search Quiz' id='typeText' type='text' style={{color: "white"}}/>
+            <MDBBtn style={{color: "white", backgroundColor: "#00B5FF", marginLeft: '1rem'}} rounded ><Search color="white" size={20}/></MDBBtn>
     
             </form>
 
@@ -29,20 +32,20 @@ export default class TopBar extends Component {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                    <a class="nav-link active" href="#"><Collection color="white" size={20}/> Platform</a>
+                    <li class="nav-item" style={{marginBottom: "0.5rem"}}>
+                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Collection color="white" size={20}/> Platform</MDBBtn>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link active" href="#"> <Cart color="white" size={20}/> Shop</a>
+                    <li class="nav-item" style={{marginBottom: "0.5rem"}}>
+                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Cart color="white" size={20}/> Shop</MDBBtn>
                     </li>
-                    <li class="nav-item">
-                    <Link class="nav-link active" to="/user/placeholder"><Person color="white" size={20}/> Profile</Link>
+                    <li class="nav-item" style={{marginBottom: "0.5rem"}}>
+                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Person color="white" size={20}/> Profile</MDBBtn>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link active" href="#"><Gear color="white" size={20}/> Settings</a>
+                    <li class="nav-item" style={{marginBottom: "0.5rem"}}>
+                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B"}}><Gear color="white" size={20}/> Settings</MDBBtn>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link active" style={{color: "red"}} href="#"><PersonX color="white" size={20}/> Logout</a>
+                    <li class="nav-item" style={{marginBottom: "0.5rem"}}>
+                    <MDBBtn  href="#" style={{backgroundColor: "#8B008B", color: "red"}}><PersonX color="white" size={20}/> Logout</MDBBtn>
                     </li>
                 </ul>
                 </div>
