@@ -33,8 +33,8 @@ class App extends Component {
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/home" component={HomePage}/>
                 <Route exact path="/settings" component={SettingsPage}/>
-                <Route exact path="/quiz/:quizId" component={QuizPage}/>
-                <Route exact path="/quizsummary" component={QuizSummaryPage}/>
+                <Route exact path="/quiz/:quizId" component={QuizSummaryPage}/>
+                <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
                 <Route exact path="/user/:userId" component={UserProfilePage}/>
 
                 <Route exact path="/404" component={NotFoundPage}/>
