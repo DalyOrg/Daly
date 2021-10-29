@@ -19,9 +19,11 @@ const LandingPage = () => {
                 <p class="message-two">We at Daly want people to come together to solve life’s greatest questions. Quizzing is a great<br/>way for communities to get together and share everyone’s knowledge.</p>
                 <br/>
             </main>
-            <div class="bottom-bar">
-                <p class="copyright-text">@2021 Daly Inc.</p>
-            </div>
+            <nav class="navbar sticky-bottom navbar-expand-lg navbar-dark bg-dark">
+                <div class="bottom-bar">
+                    <p class="copyright-text">@2021 Daly Inc.</p>
+                </div>
+            </nav>
         </div>
     );
 }
