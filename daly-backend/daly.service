@@ -12,7 +12,7 @@ After=network.target
 [Service]
 Environment=PATH=/home/user/bin:/home/user/.nvm/versions/node/v14.18.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 User=user
-WorkingDirectory=/home/user/daly-server
+WorkingDirectory=/home/user/Daly/daly-backend
 ExecStart=/home/user/.nvm/versions/node/v14.18.1/bin/npm start
 
 [Install]
