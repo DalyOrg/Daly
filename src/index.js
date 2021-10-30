@@ -5,13 +5,26 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
+import useGlobalStore from './store/useGlobalState'
+import GlobalStoreContext from './store/GlobalStoreContext'
+
+const AppWrapper = () => {
+  const store = useGlobalStore();
+  return (
+    <GlobalStoreContext.Provider value={store}>
+      <App/>
+    </GlobalStoreContext.Provider>
+  )
+}
+
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <App /> */}
+    <AppWrapper />
   </React.StrictMode>,
   document.getElementById('root')
 );

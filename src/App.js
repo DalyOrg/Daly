@@ -22,7 +22,7 @@ import UserProfilePage from "./webpages/UserProfilePage/UserProfilePage";
 import QuizSummaryPage from "./webpages/QuizSummaryPage";
 
 //components
-import TopBar from "./components/TopBar";
+import TopBar from "./components/TopBar.jsx";
 
 class App extends Component {
     render() {
