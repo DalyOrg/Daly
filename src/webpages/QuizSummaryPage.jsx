@@ -1,5 +1,5 @@
 import React from "react";
-import toy from './toystory.jpg'
+
 import * as mdb from 'mdb-ui-kit'; // lib
 import { Input } from 'mdb-ui-kit'; // module
 import { MDBFooter } from 'mdb-react-ui-kit';
@@ -28,7 +28,7 @@ const QuizSummaryPage = () => {
     return (
         <>
         {quiz !== undefined ?
-        <div className='bg-image' style={{backgroundImage: 'url('+toy+')',
+        <div className='bg-image' style={{backgroundImage: 'url(https://nypost.com/wp-content/uploads/sites/2/2021/10/lightyear-6.jpg?quality=90&strip=all)',
         backgroundSize: "cover",
         height: "100vh",
         color: "#f5f5f5" }}>
