@@ -17,8 +17,9 @@ export default class TopBar extends Component {
         return (
             <nav class="navbar navbar-dark" style={{backgroundColor: "#8B008B"}}>
             <div class="container-fluid">
-                <a class="navbar-brand" href="#" >Daly</a>
-
+                <Link to="/">
+                    <a class="navbar-brand" href="#" >Daly</a>
+                </Link>
 
                 <form class="d-flex">
                 <MDBInput label='Search Quiz' id='typeText' type='text' style={{color: "white"}}/>
