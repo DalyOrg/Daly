@@ -20,7 +20,11 @@ signInWithPopup(auth, provider)
 const LoginPage = () => {
     return (
         <div>
-            <button className="signinButton" onClick={signInWithGoogle}>Sign in with Google</button>
+            <a href={`${process.env.REACT_APP_BACKEND_URL}/auth/google`}>
+              <button className="signinButton">
+                Sign in with Google
+              </button>
+            </a>
         </div>
     );
 }

@@ -45,7 +45,13 @@ const QuizPage = () => {
         quiz !== undefined && showResults ?
         <QuizResult score={calculateScore()} />
         : quiz !== undefined ?
-        <div className='d-flex flex-column gap-3'> 
+        <div className='d-flex flex-column gap-3'
+            style={{
+                backgroundImage: quiz.backgroundImage ? `url(${quiz.backgroundImage})` : '',
+                backgroundSize: 'cover',
+                height: '100vh'
+            }}
+        > 
             <h1 className='mx-auto' style={{color: '#FFFFFF'}}>
                 {quiz.name}
             </h1>

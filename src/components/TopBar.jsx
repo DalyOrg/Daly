@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 //global store
 import React, { Component, useContext } from 'react';
-import GlobalStoreContext from '../store/GlobalStoreContext';
+import { useGlobalStore } from "../store/useGlobalStore";
 
 //let loggedIn = false;
 
@@ -21,7 +21,7 @@ import GlobalStoreContext from '../store/GlobalStoreContext';
 //export default class TopBar extends Component {
 const TopBar =() =>{
 
-    const {store} = useContext(GlobalStoreContext);
+    const [store] = useGlobalStore();
 
     //render() {
         return (
@@ -36,8 +36,9 @@ const TopBar =() =>{
     
             </form>
 
-            {store.userInfo.username == 'Qiting' ?
-                <><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            {store.userInfo ?
+                <>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <Justify color="white" size={30} />
                         </button><div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
