@@ -13,6 +13,12 @@ const GlobalStoreWrapper = () => {
                     userInfo: action.payload
                 });
                 break;
+            case 'logout':
+                setStore({
+                    ...store,
+                    userInfo: undefined
+                });
+                break;
             default:
                 throw new Error();
         }

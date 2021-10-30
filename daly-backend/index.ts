@@ -79,6 +79,14 @@ app.get('/auth/google/callback',
     res.redirect(`${process.env.FRONTEND_URL}/home`);
 });
 
+app.get('/auth/logout',
+  function(req, res){
+    req.session.destroy(function(err){
+      console.log(err);
+    });
+    res.status(200);
+});
+
 app.get('/user',
   (req, res) => {
     console.log(req.user)
