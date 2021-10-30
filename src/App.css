@@ -1,4 +1,4 @@
-@import '~mdb-ui-kit/css/mdb.min.css';
+@import 'https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.9.0/mdb.min.css';
 
 .myMagenta{
   background-color: #8B008B;
