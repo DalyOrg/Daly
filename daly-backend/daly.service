@@ -1,0 +1,19 @@
+# copy to /etc/systemd/system/daly
+# sudo systemctl enable daly
+# ^ creates symlink to auto-run on start
+# after deploying new version, simply run:
+# sudo systemctl restart daly
+# ^ this runs the new file
+
+[Unit]
+Description=Runs Daly Express Backend
+After=network.target
+
+[Service]
+Environment=PATH=/home/user/bin:/home/user/.nvm/versions/node/v14.18.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+User=user
+WorkingDirectory=/home/user/daly-server
+ExecStart=/home/user/.nvm/versions/node/v14.18.1/bin/npm start
+
+[Install]
+WantedBy=multi-user.target
