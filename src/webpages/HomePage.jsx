@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router';
 import { getUser } from '../adapters/user';
-import { useGlobalStore } from '../store/useGlobalStore';
+import { GlobalStoreContext } from '../store/useGlobalStore';
 
 
 let breakPoints = [
@@ -19,7 +19,7 @@ let breakPoints = [
 
 const HomePage = () => {
   const {quizId} = useParams();
-  const [store, dispatch] = useGlobalStore();
+  const [store, dispatch] = useContext(GlobalStoreContext);
   const history = useHistory();
   
   const linkTo = () => {
@@ -41,7 +41,6 @@ const HomePage = () => {
   
   return (
     <div style={{backgroundColor: "#360118"}}>
-      <h1> {store.userinfo !== undefined ? store.userInfo.username : 'hello'} </h1>
     
     <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>Trending</h1>

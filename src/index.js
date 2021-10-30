@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
-import {GlobalStoreWrapper} from './store/useGlobalStore'
+import GlobalStoreWrapper from './store/GlobalStoreWrapper'
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -13,9 +12,7 @@ axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStoreWrapper>
-      <App />
-    </GlobalStoreWrapper>
+    <GlobalStoreWrapper />
   </React.StrictMode>,
   document.getElementById('root')
 );
