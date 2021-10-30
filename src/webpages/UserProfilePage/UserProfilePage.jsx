@@ -1,27 +1,32 @@
-import React from "react";
+import React, {useContext} from "react";
 import "./userProfilePage.css";
+import { GlobalStoreContext } from '../../store/useGlobalStore';
 
 //TODO: implement get profile banner, profile picture, user name,
 //get collection
 
-function getProfileBanner(){
-    return ``;
-}
 
-function getProfilePic(){
-    return ``;
-}
-
-function getUsername(){
-    return `User`;
-}
-
-function getBadges(){
-    return `0`;
-}
 
 //TODO: if this page is reached without logging in, redirect to login page
 const UserProfilePage = () => {
+    const [store] = useContext(GlobalStoreContext);
+
+    function getProfileBanner(){
+        return ``;
+    }
+    
+    function getProfilePic(){
+        return ``;
+    }
+    
+    function getUsername(){
+        return store.userInfo.username;
+    }
+    
+    function getBadges(){
+        return store.userInfo.badges;
+    }
+
     return (
         <div>
             <div class="profile-banner" >
