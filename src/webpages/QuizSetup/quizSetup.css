@@ -1,0 +1,36 @@
+.quiz-setup-title{
+    color: white;
+    font-size: 50px;
+    font-family: Montserrat;
+    position: relative;
+    top: 20%;
+    text-align: center;
+}
+
+.form-inputs{
+    margin-left: 26%;
+    margin-top:1%;
+    position: relative;
+    min-height: 90vh;
+}
+
+label{
+    color:white !important;
+}
+
+input[type=text]{
+    width: 65%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 40px;
+}
+
+.categories{
+    width: 58%!important;
+}
+
+.add-background{
+    color: white !important;
+    font-family: Montserrat;
+}
