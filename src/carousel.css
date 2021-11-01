@@ -1,0 +1,15 @@
+
+
+
+.rec.rec-dot {
+  background: #656d70;
+  border: 2px rgb(0, 0, 0) solid;
+  border-radius: 30;
+}
+.rec.rec-dot_active {
+  background: #ffffff;
+}
+.rec.rec-carousel-wrapper .rec-carousel button {
+    background: #360118;
+    color: #fff;
+  }
