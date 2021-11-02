@@ -1,0 +1,28 @@
+.platformBanner{
+
+    background-color: grey;
+    height: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    border-radius: 0px 0px 80px 80px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    display: flex;
+
+}
+
+.changeBannerButton{
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 250px;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 3em;
+    border-radius: 25px;
+
+}
