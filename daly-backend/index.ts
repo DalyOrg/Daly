@@ -8,6 +8,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
+import { GetPlatform } from './controllers/PlatformController';
 
 const app = express();
 const port = 8080;
@@ -26,6 +27,7 @@ app.get('/', toHttp(HelloWorld));
 app.get('/quiz/:quizId', toHttp(GetQuiz));
 app.post('/quiz', toHttp(CreateQuiz));
 
+app.get('/platform/:platformId', toHttp(GetPlatform));
 
 app.use(passport.initialize());
 app.use(passport.session());
