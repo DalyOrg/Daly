@@ -1,3 +1,18 @@
+.background{
+    width: 50%;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-button {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
 .quiz-setup-title{
     color: white;
     font-size: 50px;
@@ -14,7 +29,7 @@
     min-height: 90vh;
 }
 
-label{
+.reg-label{
     color:white !important;
 }
 
