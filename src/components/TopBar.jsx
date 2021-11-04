@@ -10,11 +10,14 @@ import { Justify } from 'react-bootstrap-icons';
 import { PersonX } from 'react-bootstrap-icons';
 import { Search } from 'react-bootstrap-icons';
 import { Link, useHistory } from 'react-router-dom';
-
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import { getPlatform } from '../adapters/platform';
 //global store
 import React, { Component, useContext } from 'react';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getLogout } from "../adapters/user";
+import { useCallback } from 'react';
 
 //let loggedIn = false;
 
@@ -24,6 +27,17 @@ const TopBar =() =>{
     
     const [store, dispatch] = useGlobalStore();
     const history = useHistory();
+    const [platform, setPlatform] = useState();
+    const {platformId} = useParams();
+
+    const initPlatform = useCallback(async function(){
+        let platformObj = await getPlatform(platformId);
+        setPlatform(platformObj); 
+    }, [platformId])
+
+    useEffect(() => {
+        initPlatform();
+    }, [initPlatform]);
     
     //render() {
     return (
@@ -46,7 +60,9 @@ const TopBar =() =>{
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn href="#" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
+                        <MDBBtn onClick={() => {
+                                history.push('/' +store.userInfo.id+'/platformpicker');
+                            }}href="#" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <MDBBtn href="#" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>

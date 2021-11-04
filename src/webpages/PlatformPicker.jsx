@@ -3,6 +3,8 @@ import ItemCarousel from "../components/PlatformPickerCarousel";
 import Carousel from 'react-elastic-carousel';
 import { useEffect, useState } from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import "../carousel.css";
 
 const PlatformPicker = () => {
@@ -26,6 +28,11 @@ const PlatformPicker = () => {
          
     }
 
+    const history = useHistory();
+  
+    const linkTo = () => {
+      history.push(`/platform/56hs460NfmSBiqE1jx8n`);
+    }
 
 
     return (
@@ -37,7 +44,8 @@ const PlatformPicker = () => {
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel>
                 {someVar.map((pic) => (
-                     <ItemCarousel style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${pic})`}}> <span>Disney</span></ItemCarousel>
+                    
+                     <ItemCarousel onClick={linkTo} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${pic})`}}> <span>Disney</span></ItemCarousel>
                   ))}
                 </Carousel>
             </div>
