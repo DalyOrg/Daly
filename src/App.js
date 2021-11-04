@@ -39,8 +39,8 @@ class App extends Component {
                 <Route exact path="/quiz/:quizId" component={QuizSummaryPage}/>
                 <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
                 <Route exact path="/user/:userId" component={UserProfilePage}/>
-                <Route exact path="/platformpicker" component={PlatformPicker}/>
-                <Route exact path="/platformpage" component={PlatformPage}/>
+                <Route exact path="/:userId/platformpicker" component={PlatformPicker}/>
+                <Route exact path="/platform/:platformId" component={PlatformPage}/>
 
                 <Route exact path="/404" component={NotFoundPage}/>
                 <Redirect to="/404"></Redirect>

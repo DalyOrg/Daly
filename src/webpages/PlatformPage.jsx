@@ -32,21 +32,28 @@ const PlatformPage = () => {
 
 
             <div class="container">
+
                     <div class="row">
-                    <div class="col" style={{color: "white"}}>
-                          <span style={{fontSize: "25px", marginRight: '1rem'}}>Marvel Platform</span>
-                          <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
-                     </div>
-                     <div class="col" style={{marginTop: '0.5rem'}}>
+            
+                    <div  style={{marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(https://i.etsystatic.com/13260891/r/il/b4ff68/2708215129/il_570xN.2708215129_c0k6.jpg)`, height:"200px", width:"200px"}}>
+                    <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
+                        </div>
+                       
+                     <div class="col" style={{marginTop: '4rem'}}>
                          <span style={{fontSize: "20px", color: "white" , marginLeft: '6rem'}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold", marginLeft: '6rem'}}>25K</span></span>
                     </div>
-                     <div class="col" style={{marginTop: '0.5rem'}}>
+                     <div class="col" style={{marginTop: '4rem'}}>
                      <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>20</span></span>
                     </div>
-                    <div class="col" style={{marginTop: '0.5rem'}}>
+                    <div class="col" style={{marginTop: '4rem'}}>
                     <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
                     </div>
                  </div>
+
+                        <div class="col" style={{color: "white"}}>
+                          <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>Marvel Platform</span>
+                          <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
+                     </div>
             </div>
 
 
