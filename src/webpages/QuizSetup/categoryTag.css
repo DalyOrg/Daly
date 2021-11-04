@@ -1,0 +1,19 @@
+.outer-padding{
+    padding-right: 9px;
+    padding-bottom: 9px;
+}
+
+.tag-frame{
+    padding: 5px;
+    color: white;
+    background-color: darkmagenta;
+    display: inline-block;
+}
+
+button{
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}

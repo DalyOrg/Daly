@@ -1,11 +1,11 @@
 import "./quizSetup.css";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
+import CategoryTag from "./CategoryTag";
 
 
 const QuizSetup = () => {
 
-    //TODO: there can only be 10 tags for a quiz
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState('');
@@ -15,13 +15,18 @@ const QuizSetup = () => {
     //TODO: set background image object to URL?
     const [background, setBackground] = useState();
 
-    function displayCategoryTags(){
-        return ``;
+    function addCategory(){
+        if(category && category.length <= 20){
+            let temp = [...categories];
+            temp.push(category);
+            setCategories(temp);
+        }else{
+            alert("Category must be 1-20 characters!");
+        }
     }
 
     function updateBackground(event){
         setBackground(event.target.files[0]);
-        return '';
     }
 
     function categoryStyle(){
@@ -33,6 +38,12 @@ const QuizSetup = () => {
             return 'white';
         }
             
+    }
+
+    function deleteCategory(index){
+        let temp = [...categories];
+        temp.splice(index,1);
+        setCategories(temp);
     }
 
     return (
@@ -64,10 +75,25 @@ const QuizSetup = () => {
                         e=>setCategory(e.target.value)
                     }
                     ></input>
-                    <MDBBtn style={{color: "white", backgroundColor: "#CB12CB", marginLeft: '1rem', marginBottom: '1rem'}} rounded>+</MDBBtn>
+                    <MDBBtn style={{color: "white", backgroundColor: "#CB12CB", marginLeft: '1rem', marginBottom: '1rem'}} rounded 
+                    onClick={
+                        e=>addCategory()
+                    }
+                    >+</MDBBtn>
                     <br/>
-                    {displayCategoryTags()}
-    
+                        <div>
+                            <fieldset class="category-tags">
+                                {
+                                    categories.map((tag, index)=>
+                                        <CategoryTag
+                                            categoryNum = {index}
+                                            category = {tag}
+                                            deleteCategory = {deleteCategory}
+                                        />
+                                    )
+                                }
+                            </fieldset>
+                        </div>
                     <br/>
 
                     <table class="background">
