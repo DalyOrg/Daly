@@ -4,10 +4,10 @@ import { wrapErrorHandling } from './common';
 async function getPlatformAdapter(platformId){
     console.log(platformId);
     let res = await axios.get(
-        `/user/${platformId}`
+        `/platform/${platformId}`
     );
     console.log(res)
-    return res.data; // Quiz Object
+    return res.data; 
 }
 
 export const getPlatform = wrapErrorHandling(getPlatformAdapter)

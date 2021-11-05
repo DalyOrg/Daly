@@ -61,7 +61,7 @@ const TopBar =() =>{
                 <ul class="navbar-nav">
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <MDBBtn onClick={() => {
-                                history.push('/' +store.userInfo.id+'/platformpicker');
+                                history.push('/'+store.userInfo.id+'/platformpicker');
                             }}href="#" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
