@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 console.log(__dirname)
 
 // in /dist/common when compiled
-const serviceAccount = require(`../../${process.env.SERVICE_KEY_PATH}`);
+const serviceAccount = require(`../../dalyorg-afce8-firebase-adminsdk-aq9ci-d2272d8f98.json`);
 
 const firebaseConfig = {
   credential: cert(serviceAccount),
