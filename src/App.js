@@ -21,6 +21,7 @@ import QuizPage from "./webpages/QuizPage";
 import UserProfilePage from "./webpages/UserProfilePage/UserProfilePage";
 import QuizSummaryPage from "./webpages/QuizSummaryPage";
 import QuizSetup from "./webpages/QuizSetup/QuizSetup";
+import QuizEdit from "./webpages/QuizEdit";
 import PlatformPicker from "./webpages/PlatformPicker";
 import PlatformPage from "./webpages/PlatformPage";
 //components
@@ -38,6 +39,7 @@ class App extends Component {
                 <Route exact path="/quiz/setup" component={QuizSetup}/>
                 <Route exact path="/quiz/:quizId" component={QuizSummaryPage}/>
                 <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
+                <Route exact path="/quiz/:quizId/edit" component={QuizEdit}/>
                 <Route exact path="/user/:userId" component={UserProfilePage}/>
                 <Route exact path="/:userId/platformpicker" component={PlatformPicker}/>
                 <Route exact path="/platform/:platformId" component={PlatformPage}/>
