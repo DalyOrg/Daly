@@ -13,11 +13,12 @@ async function getQuizAdapter(quizId){
 
 async function postQuizAdapter(quizObject){
     console.log(quizObject);
+    let body = { newQuiz: quizObject };
     let res = await axios.post(
-        `/quiz`, quizObject
+        `/quiz`, body
     );
     console.log(res);
-    return res.data.id;
+    return res.data;
 }
 
 export const getQuiz = wrapErrorHandling(getQuizAdapter);

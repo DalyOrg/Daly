@@ -3,9 +3,12 @@ import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
 import CategoryTag from "./CategoryTag";
 import { postQuiz } from "../../adapters/quiz";
+import { Redirect } from "react-router";
 
 
 const QuizSetup = () => {
+
+    const [quizId, setquizId] = useState();
 
     const [categories, setCategories] = useState([]);
 
@@ -13,7 +16,6 @@ const QuizSetup = () => {
     const [time, setTime] = useState();
     const [category, setCategory] = useState('');
     //TODO: set background to new quiz summary page. 
-    //TODO: set background image object to URL?
     const [background, setBackground] = useState();
 
     function addCategory(cat){
@@ -67,9 +69,10 @@ const QuizSetup = () => {
             backgroundImage: background,
             cssSettings: undefined
         };   
-        var quizId = await postQuiz(newQuiz);
-        if(quizId){
-            console.log("hello",quizId.id);
+        var quiz = await postQuiz(newQuiz);
+        if(quiz){
+            console.log(quiz);
+            setquizId(quiz);
         }
     }
 
@@ -135,15 +138,17 @@ const QuizSetup = () => {
                     
                     <br/><br/>
                     
-                        {/*TODO: uploads initial quiz data and redirects to quiz edit page when clicked*/
-                         //turn this back into a submit button
-                        }
-                        <MDBBtn type="button" class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "28%"}} rounded 
+                        <MDBBtn type="Button" class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "28%"}} rounded 
                             onClick={
                                 ()=>publishQuiz()
                             }
                         >Publish</MDBBtn>
                     </div>
+
+                    {
+                        quizId ? <Redirect to={`/quiz/${quizId}/edit`}/>
+                        : ""
+                    }
             </form>
         </div>
     );

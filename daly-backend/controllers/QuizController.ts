@@ -23,9 +23,9 @@ export async function CreateQuiz({newQuiz}: CreateQuizParams){
   console.log(newQuiz);
   const res = await db.collection(`quizzes`).add(newQuiz);
 
-  console.log(res)
+  //console.log(res.id)
   // check if res is fine then send a confirmation message
-  return { message: 'Quiz Created' };
+  return res.id;
 }
 
 interface UpdateQuizParams{
