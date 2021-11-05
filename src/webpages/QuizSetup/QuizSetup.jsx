@@ -2,6 +2,7 @@ import "./quizSetup.css";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
 import CategoryTag from "./CategoryTag";
+import { postQuiz } from "../../adapters/quiz";
 
 
 const QuizSetup = () => {
@@ -15,7 +16,7 @@ const QuizSetup = () => {
     //TODO: set background image object to URL?
     const [background, setBackground] = useState();
 
-    function addCategory(){
+    function addCategory(cat){
         if(category && category.length <= 20){
             let temp = [...categories];
             temp.push(category);
@@ -26,7 +27,13 @@ const QuizSetup = () => {
     }
 
     function updateBackground(event){
-        setBackground(event.target.files[0]);
+        var file=event.target.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            setBackground(reader.result);
+        }
+        reader.readAsDataURL(file);
     }
 
     function categoryStyle(){
@@ -44,6 +51,26 @@ const QuizSetup = () => {
         let temp = [...categories];
         temp.splice(index,1);
         setCategories(temp);
+    }
+
+    async function publishQuiz(){ 
+        var newQuiz = {
+            name: name,
+            questions: [],
+            likes: 0,
+            timestamp: new Date(),
+            timeLimitSeconds: (time * 60),
+            categories: categories,
+            creator: "depKY160RzEuITdU1fij", //TODO: change this to current platformID, and add quizid to platform
+            leaderboardId: undefined, //TODO: create leaderboard for this quiz
+            commentsId: undefined, 
+            backgroundImage: background,
+            cssSettings: undefined
+        };   
+        var quizId = await postQuiz(newQuiz);
+        if(quizId){
+            console.log("hello",quizId.id);
+        }
     }
 
     return (
@@ -75,9 +102,9 @@ const QuizSetup = () => {
                         e=>setCategory(e.target.value)
                     }
                     ></input>
-                    <MDBBtn style={{color: "white", backgroundColor: "#CB12CB", marginLeft: '1rem', marginBottom: '1rem'}} rounded 
+                    <MDBBtn type="button" style={{color: "white", backgroundColor: "#CB12CB", marginLeft: '1rem', marginBottom: '1rem'}} rounded 
                     onClick={
-                        e=>addCategory()
+                        e=>addCategory(e.target.value)
                     }
                     >+</MDBBtn>
                     <br/>
@@ -108,10 +135,12 @@ const QuizSetup = () => {
                     
                     <br/><br/>
                     
-                        {/*TODO: uploads initial quiz data and redirects to quiz edit page when clicked*/}
-                        <MDBBtn class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "28%"}} rounded 
+                        {/*TODO: uploads initial quiz data and redirects to quiz edit page when clicked*/
+                         //turn this back into a submit button
+                        }
+                        <MDBBtn type="button" class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "28%"}} rounded 
                             onClick={
-                                console.log(name, time, category, categories, background)
+                                ()=>publishQuiz()
                             }
                         >Publish</MDBBtn>
                     </div>

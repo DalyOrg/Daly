@@ -6,7 +6,7 @@ const CategoryTag = ({categoryNum, category, deleteCategory}) => {
         <span class="outer-padding">
             <span class="tag-frame">
                 {category}
-                <button onClick={()=>deleteCategory(categoryNum)}><GrFormClose/></button>
+                <button type="button" onClick={()=>deleteCategory(categoryNum)}><GrFormClose/></button>
             </span>
         </span>
     )
