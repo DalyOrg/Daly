@@ -5,12 +5,17 @@ import { useEffect, useState } from 'react';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router';
+import { useGlobalStore } from "../store/useGlobalStore";
+import { getPlatform } from '../adapters/platform';
+import { useCallback } from 'react';
 import "../carousel.css";
 
 const PlatformPicker = () => {
 
-    
+    const [store, dispatch] = useGlobalStore();
+    const [platformList, setPlatformList] = useState([]);
 
+    
     const pictures = ["https://i.insider.com/5f5768c47ed0ee001e25dd6b?width=1000&format=jpeg&auto=webp",
      "https://www.thetruecolors.org/wp-content/uploads/2021/02/marvel-logo-header-1.jpg", 
      "https://res.cloudinary.com/jerrick/image/upload/f_jpg,fl_progressive,q_auto,w_1024/wv9zgmvj9rpbtqi2a8l0.jpg",
@@ -24,7 +29,6 @@ const PlatformPicker = () => {
         const updatedCarsArray = [...pictures, "https://image.api.playstation.com/vulcan/img/rnd/202103/0201/CNpDMjM6nvuIfDLOYum77kGA.png"];
         setSomeVar(updatedCarsArray);
         console.log(someVar);
-        
          
     }
 
@@ -35,6 +39,19 @@ const PlatformPicker = () => {
     }
 
 
+    async function initPlatform(platformId){
+        let platformObj = await getPlatform(platformId);
+        setPlatformList([...platformList, platformObj])
+    }
+
+    useEffect(() => {
+        if(store.userInfo !== undefined){
+            store.userInfo.platformsOwned.forEach(platform => initPlatform(platform))
+        }
+    },[]);
+
+
+
     return (
         <div>
             <h1 className='d-flex justify-content-center' style={{color: '#FFFFFF', marginTop: '2rem'}}>Platforms</h1>
@@ -43,9 +60,9 @@ const PlatformPicker = () => {
                
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel>
-                {someVar.map((pic) => (
+                {platformList.map((platform) => (
                     
-                     <ItemCarousel onClick={linkTo} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${pic})`}}> <span>Disney</span></ItemCarousel>
+                     <ItemCarousel onClick={linkTo} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
             </div>
