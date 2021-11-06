@@ -12,8 +12,10 @@ interface GetQuizParams{
 export async function GetQuiz({quizId}: GetQuizParams){
   console.log(quizId)
   const quizDoc = await db.collection(`quizzes`).doc(quizId).get();
+  let ret = quizDoc.data()
+  ret.id = quizDoc.id
 
-  return quizDoc.data();
+  return ret;
 }
 
 interface CreateQuizParams{
