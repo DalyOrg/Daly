@@ -38,13 +38,16 @@ const TopBar =() =>{
     useEffect(() => {
         initPlatform();
     }, [initPlatform]);
-    
+
     //render() {
     return (
-        <nav class="navbar navbar-dark" style={{backgroundColor: "#8B008B"}}>
-        <div class="container-fluid">
-        <a class="navbar-brand" href="#" >Daly</a>
         
+        <nav class="navbar navbar-dark" style={{backgroundColor: "#8B008B"}}>
+            
+        <div class="container-fluid">
+        <Link to="/home">
+        <a class="navbar-brand" >Daly</a>
+        </Link>
         
         <form class="d-flex">
         <MDBInput label='Search Quiz' id='typeText' type='text' style={{color: "white"}}/>
@@ -60,25 +63,25 @@ const TopBar =() =>{
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn onClick={() => {
+                        <MDBBtn  onClick={() => {
                                 history.push('/'+store.userInfo.id+'/platformpicker');
-                            }}href="#" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
+                            }}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn href="#" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>
+                        <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
-                            <MDBBtn href="#" style={{ backgroundColor: "#8B008B" }}><Person color="white" size={20} /> Profile</MDBBtn>
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Person color="white" size={20} /> Profile</MDBBtn>
                         </Link>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/settings">
-                            <MDBBtn href="#" style={{ backgroundColor: "#8B008B" }}><Gear color="white" size={20} /> Settings</MDBBtn>
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Gear color="white" size={20} /> Settings</MDBBtn>
                         </Link>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn href="#" style={{ backgroundColor: "#8B008B", color: "red" }}
+                        <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B", color: "red" }}
                             onClick={() => {
                                 getLogout();
                                 dispatch({type: 'logout'});
