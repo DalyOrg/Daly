@@ -5,7 +5,6 @@ import { MDBCardBody, MDBBtn } from 'mdb-react-ui-kit';
 import { PencilFill, TrashFill } from 'react-bootstrap-icons';
 import { purple } from "@mui/material/colors";
 import axios from "axios";
-import useModal from '../hooks/useModal';
 
 const QuizEdit = () => {
     const [question, setQuestion] = useState();
