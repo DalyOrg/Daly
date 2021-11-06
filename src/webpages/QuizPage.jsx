@@ -20,15 +20,6 @@ const QuizPage = () => {
         initQuiz();
     }, [initQuiz]);
 
-    function calculateScore(){
-        let sum = quiz.questions.reduce((currentSum, currentQuestion) => { 
-            return currentSum +
-                (currentQuestion.selectedAnswer && currentQuestion.selectedAnswer.correctAnswer ?
-                    1 : 0);
-        }, 0);
-        return (sum * 1.0 / quiz.questions.length) * 100;
-    }
-
     function incrementSelectedQuestion(step){
         setSelectedQuestion(selectedQuestion + step);
     }
@@ -43,7 +34,10 @@ const QuizPage = () => {
         <>
         {
         quiz !== undefined && showResults ?
-        <QuizResult score={calculateScore()} />
+        <QuizResult
+            quiz={quiz}
+            setQuiz={setQuiz}
+        />
         : quiz !== undefined ?
         <div className='d-flex flex-column gap-3'
             style={{
