@@ -147,17 +147,17 @@ const QuizEdit = () => {
                                 
                                 <div className='d-flex'>
                                     <span className='me-auto'>
-                                        {question.questionText}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <button
+                                        {question.questionText}
+                                    </span>
+                                    <button
                                         type="button"
                                         class="btn btn-primary"
                                         data-mdb-toggle="modal"
                                         data-mdb-target="#editModal"
                                         id="button"
                                         style={{display: 'none'}}
-                                        >
-                                        </button>
-                                    </span>
+                                    >
+                                    </button>
                                     <TrashFill color="red" size={20}
                                         onClick={(ev) => {
                                             ev.stopPropagation();
@@ -205,6 +205,7 @@ const QuizEdit = () => {
             <p>Which pixar movie has a character named Mr. Potato Head?</p>
           </div>
           <div className="answers">
+
               <ul style={{listStyleType: 'none', textAlign: 'left'}}>
                   <li style={{backgroundColor: 'purple', borderRadius: '20px'}} className="px-3 my-2 py-2">Toy Story</li>
                   <li style={{backgroundColor: 'purple', borderRadius: '20px'}} className="px-3 my-2 py-2">Monsters Inc.</li>
