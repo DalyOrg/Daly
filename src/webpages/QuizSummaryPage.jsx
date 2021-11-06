@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import { getQuiz } from '../adapters/quiz';
+import LikeButton from "../components/LikeButton";
 
 const QuizSummaryPage = () => {
     const {quizId} = useParams();
@@ -56,6 +57,14 @@ const QuizSummaryPage = () => {
                 <Link to={`/quiz/${quizId}/take`}>
                 <MDBBtn rounded style={{color: "white", backgroundColor: "#00B5FF"}}>Take Quiz</MDBBtn>
                 </Link>
+                </div>
+                <div
+                  className='d-flex justify-content-center mt-3'
+                >
+                  <LikeButton
+                    quiz={quiz}
+                    setQuiz={setQuiz}
+                  />
                 </div>
                 
                 

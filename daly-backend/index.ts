@@ -3,12 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import admin from 'firebase-admin'
 import { toHttp } from './common/toHttp';
-import { CreateQuiz, GetQuiz, HelloWorld, UpdateQuiz } from './controllers/QuizController';
+import { CreateQuiz, GetQuiz, GetQuizLiked, HelloWorld, UpdateQuiz, UpdateQuizLiked } from './controllers/QuizController';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform } from './controllers/PlatformController';
+import { GetUser } from './controllers/UserController';
 
 const app = express();
 const port = 8080;
@@ -21,14 +22,6 @@ app.use(cors({
 app.use(session({
   secret: 'keyboard cat',
 }));
-
-app.get('/', toHttp(HelloWorld));
-
-app.get('/quiz/:quizId', toHttp(GetQuiz));
-app.post('/quiz', toHttp(CreateQuiz));
-app.put('/quiz/:quizId', toHttp(UpdateQuiz));
-
-app.get('/platform/:platformId', toHttp(GetPlatform));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -45,18 +38,29 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
       if(userQuery.docs.length > 0){ // found one
         return done(null, {...userQuery.docs[0].data(), id: userQuery.docs[0].id});
       }
-      else{ // create new user
+      else{ 
+        // create likes object
+        let newLikes = {
+          likes: []
+        }
+        const likesRes = await db.collection(`likes`).add(newLikes);
+        let likeId = (await likesRes.get()).id;
+
+        // create new user
         let newUser = {
           googleId: profile.id,
           accountCreated: admin.firestore.Timestamp.now(),
           badges: 0,
+          platformsOwned: [],
           profileBanner: 'https://coolbackgrounds.io/images/backgrounds/white/pure-white-background-85a2a7fd.jpg', // white image
           profilePicture: 'https://freesvg.org/img/abstract-user-flat-4.png', // Creative Common default user icon
-          username: profile.displayName
+          username: profile.displayName,
+          likeId: likeId,
         }
 
         const res = await db.collection(`users`).add(newUser);
         let id = (await res.get()).id;
+
         return done(null, {...newUser, id: id});
       }
     } catch(err){
@@ -90,16 +94,19 @@ app.get('/auth/logout',
     res.status(200);
 });
 
-app.get('/user',
-  (req, res) => {
-    console.log(req.user)
-    if(!req.user){
-      res.status(401).json({message: 'Not logged in!'})
-    }
-    else{
-      res.json(req.user)
-    }
-});
+app.get('/', toHttp(HelloWorld));
+
+app.post('/quiz', toHttp(CreateQuiz));
+
+app.get('/quiz/:quizId', toHttp(GetQuiz));
+app.put('/quiz/:quizId', toHttp(UpdateQuiz));
+
+app.get('/quiz/:quizId/liked', toHttp(GetQuizLiked));
+app.put('/quiz/:quizId/liked', toHttp(UpdateQuizLiked));
+
+app.get('/platform/:platformId', toHttp(GetPlatform));
+
+app.get('/user', toHttp(GetUser));
 
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);

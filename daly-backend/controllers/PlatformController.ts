@@ -10,8 +10,8 @@ interface GetPlatformParams{
 export async function GetPlatform({platformId}: GetPlatformParams){
   console.log(platformId)
   const platformDoc = await db.collection(`platforms`).doc(platformId).get();
-  let ret = platformDoc.data()
-  ret.id = platformDoc.id
+  let ret = platformDoc.data();
+  ret.id = platformDoc.id;
 
   return ret;
 }

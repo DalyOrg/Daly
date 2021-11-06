@@ -27,17 +27,6 @@ const TopBar =() =>{
     
     const [store, dispatch] = useGlobalStore();
     const history = useHistory();
-    const [platform, setPlatform] = useState();
-    const {platformId} = useParams();
-
-    const initPlatform = useCallback(async function(){
-        let platformObj = await getPlatform(platformId);
-        setPlatform(platformObj); 
-    }, [platformId])
-
-    useEffect(() => {
-        initPlatform();
-    }, [initPlatform]);
 
     //render() {
     return (

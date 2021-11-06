@@ -1,6 +1,7 @@
 import { db } from "../common/firestore";
 import { Quiz } from "../interfaces/quiz";
 import { User } from "../interfaces/user";
+import { GetUserLikes, UpdateUserLikes } from "./UserController";
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -12,8 +13,8 @@ interface GetQuizParams{
 export async function GetQuiz({quizId}: GetQuizParams){
   console.log(quizId)
   const quizDoc = await db.collection(`quizzes`).doc(quizId).get();
-  let ret = quizDoc.data()
-  ret.id = quizDoc.id
+  let ret = quizDoc.data();
+  ret.id = quizDoc.id;
 
   return ret;
 }
@@ -43,11 +44,30 @@ export async function UpdateQuiz({quizId, newQuiz}: UpdateQuizParams){
   return { message: 'Quiz Updated' };
 }
 
-interface LikeQuizParams{
-  likeId: string
+interface GetQuizLikedParams{
+  quizId: string
   user: User
 }
-export async function LikeQuiz({likeId, user}: LikeQuizParams){
-  const res = await db.collection(`likes`);
-  
+export async function GetQuizLiked({quizId, user}: GetQuizLikedParams){
+  let likeObj: any = await GetUserLikes({user});
+  console.log(likeObj)
+  if(likeObj.likes){
+    return {isLiked: likeObj.likes.includes(quizId)}
+  }
+}
+
+interface UpdateQuizLikedParams{
+  quizId: string
+  add: boolean
+  user: User
+}
+export async function UpdateQuizLiked({quizId, add, user}: UpdateQuizLikedParams){
+  // How do we solve race condition?
+  await UpdateUserLikes({quizId, add, user});
+  let quizData = await GetQuiz({quizId});
+  let newLikes = add ? quizData.likes + 1 : quizData.likes - 1;
+  const res = await db.collection(`quizzes`).doc(quizId).update({
+    likes: newLikes
+  });
+  return {message: 'Likes Updated', newLikes: newLikes }
 }
