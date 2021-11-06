@@ -21,7 +21,7 @@ const LoginPage = () => {
     return (
         <div>
             <a href={`${process.env.REACT_APP_BACKEND_URL}/auth/google`}>
-              <button className="signinButton">
+              <button className="signinButton" style={{color: 'red', backgroundColor: 'black'}}>
                 Sign in with Google
               </button>
             </a>
