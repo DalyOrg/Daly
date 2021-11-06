@@ -48,13 +48,13 @@ const PlatformPicker = () => {
     }
 
     useEffect(() => {
-        if(store.userInfo !== undefined){
+        if(store !== undefined && store.userInfo !== undefined){
             if((store.userInfo.platformsOwned !==undefined)){
                 store.userInfo.platformsOwned.forEach(platform => initPlatform(platform));
             }
             
         }
-    },[]);
+    },[store]);
 
 
 
