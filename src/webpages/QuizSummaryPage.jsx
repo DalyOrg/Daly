@@ -38,7 +38,11 @@ const QuizSummaryPage = () => {
               
             <MDBCardBody>
             <div class="btn-group-horizontal" >
+            
+            <Link to={`/quiz/${quizId}/edit`}>
             <MDBBtn rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#00B5FF"}}>Edit Quiz</MDBBtn>
+            </Link>
+
             <MDBBtn rounded style={{marginLeft: "1rem",color: "white", backgroundColor: "#00B5FF"}}>Leader Board</MDBBtn>
             </div>
             

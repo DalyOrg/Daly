@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 import "../carousel.css";
 
 const PlatformPicker = () => {
-
+    let selectedItem = "";
     const [store, dispatch] = useGlobalStore();
     const [platformList, setPlatformList] = useState([]);
 
@@ -32,16 +32,19 @@ const PlatformPicker = () => {
          
     }
 
+
     const history = useHistory();
   
-    const linkTo = () => {
-      history.push(`/platform/56hs460NfmSBiqE1jx8n`);
+    const linkTo = (platformId) => {
+
+      history.push(`/platform/` + platformId);
     }
 
 
     async function initPlatform(platformId){
         let platformObj = await getPlatform(platformId);
         setPlatformList([...platformList, platformObj])
+        console.log(platformObj);
     }
 
     useEffect(() => {
@@ -61,8 +64,7 @@ const PlatformPicker = () => {
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel>
                 {platformList.map((platform) => (
-                    
-                     <ItemCarousel onClick={linkTo} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
+                     <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
             </div>

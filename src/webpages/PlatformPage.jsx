@@ -11,6 +11,8 @@ import { useParams } from 'react-router';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getQuiz } from '../adapters/quiz';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 let breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -22,8 +24,19 @@ const PlatformPage = () => {
     const [store, dispatch] = useGlobalStore();
     const [quizList, setQuizList] = useState([]);
     
-    var platformOwner = false;
 
+
+    const history = useHistory();
+  
+    const linkTo = (quizId) => {
+
+      history.push(`/quiz/` + quizId);
+    }
+
+
+
+
+    var platformOwner = false;
 
       const [platform, setPlatform] = useState();
       const {platformId} = useParams();
@@ -88,7 +101,10 @@ const PlatformPage = () => {
                     </div>
                     <div className="col" style={{marginTop: '4rem'}}>
                     {platformOwner !== false ? 
-                    <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
+                    <Link to="/quiz/setup">
+                        <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
+                    </Link>
+                    
                     : <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Subscribe</MDBBtn>}  
                     </div>
                  </div>
@@ -105,8 +121,8 @@ const PlatformPage = () => {
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel breakPoints={breakPoints}>
                 
-                {quizList.map((pic) => (
-                     <ItemCarousel style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${pic.backgroundImage})`}}></ItemCarousel>
+                {quizList.map((quiz) => (
+                     <ItemCarousel onClick={()=>linkTo(quiz.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${quiz.backgroundImage})`}}></ItemCarousel>
                   ))}
                 </Carousel>
             </div>
