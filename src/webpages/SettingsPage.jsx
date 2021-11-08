@@ -1,8 +1,63 @@
 import React, {useContext} from "react";
+import { useEffect, useState } from 'react';
 import { ButtonGroup } from "react-bootstrap";
 import { GlobalStoreContext } from '../store/useGlobalStore';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 
 const SettingsPage = () => {
+    const [profilepic, setProfilePic] = useState();
+    const [profilebanner, setProfileBanner] = useState();
+    const [name, setName] = useState();
+
+    //TODO
+    function deleteAccount(){
+        console.log('delete account');
+        //called by delete account button in modal
+    }
+
+    //TODO
+    function changeUsername(){
+        console.log('change Username');
+        console.log("here " + name);
+    }
+
+    //TODO
+    function changeProfilePic(){
+        console.log('change Username');
+        console.log("here " + name);
+    }         
+
+
+    function changeProfileBanner(){
+        console.log('change Username');
+        console.log("here " + name);
+    }  
+
+
+    function updateProfilePic(event){
+        var file=event.target.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            setProfilePic(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+
+    function updateProfileBanner(event){
+        var file=event.target.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = function() {
+            setProfileBanner(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+
+
+
     const [store] = useContext(GlobalStoreContext);
 
     function getUsername(){
@@ -10,14 +65,119 @@ const SettingsPage = () => {
     }
 
     return (
-        <div class="btn-group-vertical" >
+        <>
+        {store !== undefined && store.userInfo !== undefined ?
+        <div>
+        <div className="btn-group-vertical" >
             <p style={{margin: "0.5rem", color: "white", fontSize: 30, fontWeight: 'bold'}}>Settings</p>
             <p style={{margin: "0.5rem", color: "white", fontSize: 20, }}>Your username is {getUsername()}</p>
-            <button style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Picture</button>
-            <button style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Banner</button>
-            <button style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Username</button>
-            <button style={{margin: "0.5rem",color: "red", backgroundColor: '#360118', padding: 0, border: 0}}>Delete Account</button>
+            <button data-bs-toggle="modal" data-bs-target="#profilePictureModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Picture</button>
+            <button data-bs-toggle="modal" data-bs-target="#profileBannerModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Banner</button>
+            <button data-bs-toggle="modal" data-bs-target="#usernameModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Username</button>
+            <button data-bs-toggle="modal" data-bs-target="#deleteAccountModal" style={{margin: "0.5rem",color: "red", backgroundColor: '#360118', padding: 0, border: 0}}>Delete Account</button>
         </div>
+
+<div id="deleteAccountModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Delete Account</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <p>We are really sorry that you are leaving. Are you sure that you want to continue deleting your account ?</p>
+      </div>
+      <div className="modal-footer">
+      <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Close</MDBBtn>
+        
+        <button type="button" onClick={deleteAccount} class="btn btn-danger">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="usernameModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Username</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <input type="text" class="form-control" required placeholder="New Username" value={name ? name : ''} 
+                    onChange={
+                        e=>setName(e.target.value)
+                    }
+    ></input>
+
+      </div>
+
+      <div className="modal-footer">
+        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}} type="button" onClick={changeUsername} class="btn btn-danger">Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="profilePictureModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Profile Picture</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+                                <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfilePic(e)}></input>
+                                Upload Image</label>
+                                
+      </div>
+      
+      <div className="modal-footer">
+      
+        <MDBBtn rounded type="button" onClick={changeProfilePic} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="profileBannerModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Profile Banner Picture</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+                                <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfileBanner(e)}></input>
+                                Upload Image</label>
+                                
+      </div>
+      
+      <div className="modal-footer">
+      
+        <MDBBtn rounded type="button" onClick={changeProfileBanner} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+        </div>
+        :<span> Loading... </span>}</>
     );
 }
 
