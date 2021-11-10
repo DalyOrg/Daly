@@ -146,11 +146,11 @@ const QuizSetup = () => {
                     
                     <br/><br/>
                     
-                        <MDBBtn type="Button" class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "28%"}} rounded 
+                        <MDBBtn type="Button" class="btn btn-primary" style={{color: "white", backgroundColor: "#00B5FF", position: "relative", left: "27%"}} rounded 
                             onClick={
                                 ()=>publishQuiz()
                             }
-                        >Publish</MDBBtn>
+                        >Create Quiz</MDBBtn>
                     </div>
 
                     {
