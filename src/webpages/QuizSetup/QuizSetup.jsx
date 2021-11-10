@@ -4,9 +4,13 @@ import { useState } from "react";
 import CategoryTag from "./CategoryTag";
 import { postQuiz } from "../../adapters/quiz";
 import { Redirect } from "react-router";
+import { GlobalStoreContext } from '../../store/useGlobalStore';
+import React, {useContext} from "react";
 
 
 const QuizSetup = () => {
+    //TODO: make sure user is logged in
+    const [store] = useContext(GlobalStoreContext);
 
     const [quizId, setquizId] = useState();
 
@@ -15,7 +19,6 @@ const QuizSetup = () => {
     const [name, setName] = useState('');
     const [time, setTime] = useState();
     const [category, setCategory] = useState('');
-    //TODO: set background to new quiz summary page. 
     const [background, setBackground] = useState();
 
     function addCategory(cat){
@@ -56,23 +59,28 @@ const QuizSetup = () => {
     }
 
     async function publishQuiz(){ 
-        var newQuiz = {
-            name: name,
-            questions: [],
-            likes: 0,
-            timestamp: new Date(),
-            timeLimitSeconds: (time * 60),
-            categories: categories,
-            creator: "depKY160RzEuITdU1fij", //TODO: change this to current platformID, and add quizid to platform
-            leaderboardId: undefined, //TODO: create leaderboard for this quiz
-            commentsId: undefined, 
-            backgroundImage: background,
-            cssSettings: undefined
-        };   
-        var quiz = await postQuiz(newQuiz);
-        if(quiz){
-            console.log(quiz);
-            setquizId(quiz);
+        if(store.platformId){
+            console.log(store.platformId);
+            var newQuiz = {
+                name: name,
+                questions: [],
+                likes: 0,
+                timestamp: new Date(),
+                timeLimitSeconds: (time * 60),
+                categories: categories,
+                creator: store.platformId, //TODO: change this to current platformID, and add quizid to platform
+                leaderboardId: undefined, //TODO: create leaderboard for this quiz
+                commentsId: undefined, 
+                backgroundImage: background,
+                cssSettings: undefined
+            };   
+            var quiz = await postQuiz(newQuiz);
+            if(quiz){
+                console.log(quiz);
+                setquizId(quiz);
+            }
+        }else{
+            console.log("error, platform id does not exist.");
         }
     }
 

@@ -19,6 +19,13 @@ const GlobalStoreWrapper = () => {
                     userInfo: undefined
                 });
                 break;
+            case 'enter-platform': //will change everytime user enters a platform..
+                setStore({
+                    ...store,
+                    platformId: action.payload
+                });
+                break;
+            //TODO: do we need exist platform?
             default:
                 throw new Error();
         }
