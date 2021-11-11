@@ -11,7 +11,6 @@ import { getQuiz } from '../adapters/quiz';
 import LikeButton from "../components/LikeButton";
 import { ChatTextFill } from "react-bootstrap-icons";
 import { FlagFill } from "react-bootstrap-icons";
-import { HashLink } from 'react-router-hash-link';
 import { Link as Link2 } from 'react-scroll';
 import { Link as Link } from 'react-router-dom';
 
@@ -97,25 +96,21 @@ const QuizSummaryPage = () => {
          <div id="comments"className="container-sm" style={{maxHeight: "40vh", overflowY: "scroll", marginTop: "20px"}}>
 
        
-
+          
       <div className="card" style={{backgroundColor: "#8B008B", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll"}}>
           <div className="row row-cols-3">
           
-          <div className="col">
+            <div className="col">
 
-          <div className="col"><img width="100" style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}} height="100" src="https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8="></img></div>
-          <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre Ban</div>
-          <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
-          </div>
+             <div className="col"><img width="100" style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}} height="100" src="https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8="></img></div>
+             <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre Ban</div>
+             <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
+            </div>
         
          
-          <div className="col my-auto"  style={{color: "white"}}> I really liked it</div>
+           <div className="col my-auto"  style={{color: "white"}}> I really liked it</div>
           
-          <div className="col" style={{color: "grey"}}>posted on 10/11/2021 at 10:59PM</div>
-          
-          
-          
-          
+           <div className="col" style={{color: "grey"}}>posted on 10/11/2021 at 10:59PM</div>
           
         </div>
       </div>
