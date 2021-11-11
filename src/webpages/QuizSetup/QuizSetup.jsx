@@ -59,6 +59,12 @@ const QuizSetup = () => {
     }
 
     async function publishQuiz(){ 
+        //TODO: redirect user to login page
+        if(store.userInfo === undefined){
+            alert("You must log in to create a quiz.");
+            return;
+        }
+
         if(store.platformId){
             console.log(store.platformId);
             var newQuiz = {
@@ -68,9 +74,9 @@ const QuizSetup = () => {
                 timestamp: new Date(),
                 timeLimitSeconds: (time * 60),
                 categories: categories,
-                creator: store.platformId, //TODO: change this to current platformID, and add quizid to platform
-                leaderboardId: undefined, //TODO: create leaderboard for this quiz
-                commentsId: undefined, 
+                creator: store.platformId, 
+                leaderboardId: undefined, //create leaderboard when the first person takes the quiz
+                commentsId: undefined, //create comment when the first person comments
                 backgroundImage: background,
                 cssSettings: undefined
             };   
@@ -138,7 +144,7 @@ const QuizSetup = () => {
                         <tr>
                             <th><h2 class="add-background">Add Background</h2></th>
                             <th><label class="reg-label" class="upload-button">
-                                <input type="file" name="backgroundImage" accept=".jpg,.png,.img" onChange={e=>updateBackground(e)}></input>
+                                <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
                                 Upload Image</label>
                             </th>
                         </tr>
