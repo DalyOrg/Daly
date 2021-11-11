@@ -8,6 +8,7 @@ export interface Quiz{
             answerText: string
             correctAnswer: boolean
         }
+        imageUrl: string
     }[]
     likes: number
     timestamp: Timestamp
