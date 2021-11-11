@@ -14,7 +14,6 @@ import { getQuiz } from '../adapters/quiz';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
-
 let breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2 },
@@ -45,10 +44,6 @@ const PlatformPage = () => {
       const initPlatform = useCallback(async function(){
           let platformObj = await getPlatform(platformId);
           setPlatform(platformObj); 
-          console.log(platform);
-
-          //TODO: adds id to global store
-          dispatch({type: 'enter-platform', payload: platformId});
       }, [platformId])
 
     useEffect(() => {

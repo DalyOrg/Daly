@@ -1,4 +1,5 @@
 import { db } from "../common/firestore";
+import { Platform } from "../interfaces/platform";
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -14,4 +15,18 @@ export async function GetPlatform({platformId}: GetPlatformParams){
   ret.id = platformDoc.id;
 
   return ret;
+}
+
+
+
+interface CreatePlatformParams{
+  newPlatform: Platform
+}
+export async function CreatePlatform({newPlatform}: CreatePlatformParams){
+  console.log(newPlatform);
+  const res = await db.collection(`platforms`).add(newPlatform);
+
+  //console.log(res.id)
+  // check if res is fine then send a confirmation message
+  return res.id;
 }

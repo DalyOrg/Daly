@@ -7,30 +7,21 @@ import { useParams } from 'react-router';
 import { useHistory } from 'react-router';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getPlatform } from '../adapters/platform';
+import { postPlatform } from "../adapters/platform";
 import { useCallback } from 'react';
+import { Redirect } from "react-router";
+import { getUser } from '../adapters/user';
 import "../carousel.css";
 
 const PlatformPicker = () => {
     let selectedItem = "";
     const [store, dispatch] = useGlobalStore();
     const [platformList, setPlatformList] = useState([]);
+    const [name, setName] = useState();
+    const [platformId, setPlatformId] = useState();
 
     
-    const pictures = ["https://i.insider.com/5f5768c47ed0ee001e25dd6b?width=1000&format=jpeg&auto=webp",
-     "https://www.thetruecolors.org/wp-content/uploads/2021/02/marvel-logo-header-1.jpg", 
-     "https://res.cloudinary.com/jerrick/image/upload/f_jpg,fl_progressive,q_auto,w_1024/wv9zgmvj9rpbtqi2a8l0.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/1388px-Star_Wars_Logo.svg.png", 
-      "https://thumbs.dreamstime.com/b/set-justice-league-dc-comics-black-logos-kiev-ukraine-november-set-justice-league-dc-comics-black-logos-printed-paper-125514598.jpg"];
-
-      const [someVar, setSomeVar] = useState(pictures);
-
-
-    function incrementSelectedQuestion(){
-        const updatedCarsArray = [...pictures, "https://image.api.playstation.com/vulcan/img/rnd/202103/0201/CNpDMjM6nvuIfDLOYum77kGA.png"];
-        setSomeVar(updatedCarsArray);
-        console.log(someVar);
-         
-    }
+  
 
 
     const history = useHistory();
@@ -49,6 +40,8 @@ const PlatformPicker = () => {
 
     useEffect(() => {
         if(store !== undefined && store.userInfo !== undefined){
+            console.log(store.userInfo.platformsOwned);
+            console.log(store.userInfo.id);
             if((store.userInfo.platformsOwned !==undefined)){
                 store.userInfo.platformsOwned.forEach(platform => initPlatform(platform));
             }
@@ -58,11 +51,47 @@ const PlatformPicker = () => {
 
 
 
+    async function newPlatform(){
+        console.log('change Username');
+        console.log("here " + name);
+        console.log(store.userInfo.id);
+
+        if(store.userInfo === undefined){
+            alert("You must log in to create a quiz.");
+            return;
+        }
+            var newPlatform = {
+                ownerId: store.userInfo.id,
+                name: name,
+                quizzes: [],
+                platformPicture: undefined,
+                platformBanner: undefined,
+                subscribersId: undefined,
+                subscriberCount: 0,
+                chatId: undefined
+            };   
+            console.log("before post");
+            var platform = await postPlatform(newPlatform);
+            if(platform){
+                console.log(platform);
+                
+                setPlatformId(platform);
+                getUser();
+            }
+    }
+
+
+
+
+
+
+
+
     return (
         <div>
             <h1 className='d-flex justify-content-center' style={{color: '#FFFFFF', marginTop: '2rem'}}>Platforms</h1>
 
-                <MDBBtn onClick={ () => incrementSelectedQuestion()} style={{marginLeft: "1rem" , marginBottom: '1rem',color: "white", backgroundColor: "#00B5FF"}}>Add a Platform</MDBBtn>
+                <MDBBtn data-bs-toggle="modal" data-bs-target="#nameModal"  style={{marginLeft: "1rem" , marginBottom: '1rem',color: "white", backgroundColor: "#00B5FF"}}>Add a Platform</MDBBtn>
                
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel>
@@ -71,6 +100,41 @@ const PlatformPicker = () => {
                   ))}
                 </Carousel>
             </div>
+
+
+
+
+
+            <div id="nameModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">New Platform Name</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <input type="text" class="form-control" required placeholder="New Platform Name" value={name ? name : ''} 
+                    onChange={
+                        e=>setName(e.target.value)
+                    }
+    ></input>
+
+      </div>
+
+      <div className="modal-footer">
+        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}} type="button" onClick={newPlatform} class="btn btn-danger">Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+                    {
+                        platformId ? <Redirect to={`/platform/${platformId}`}/>
+                        : ""
+                    }
+
         </div>
     );
 }

@@ -8,7 +8,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
-import { GetPlatform } from './controllers/PlatformController';
+import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
 import { GetUser } from './controllers/UserController';
 
 const app = express();
@@ -105,6 +105,7 @@ app.get('/quiz/:quizId/liked', toHttp(GetQuizLiked));
 app.put('/quiz/:quizId/liked', toHttp(UpdateQuizLiked));
 
 app.get('/platform/:platformId', toHttp(GetPlatform));
+app.post('/platform', toHttp(CreatePlatform));
 
 app.get('/user', toHttp(GetUser));
 

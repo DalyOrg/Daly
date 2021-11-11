@@ -97,7 +97,7 @@ const QuizSummaryPage = () => {
 
        
           
-      <div className="card" style={{backgroundColor: "#8B008B", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll"}}>
+      <div className="card" style={{backgroundColor: "#8B008B", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
           <div className="row row-cols-3">
           
             <div className="col">
