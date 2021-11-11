@@ -4,14 +4,19 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import { Input } from 'mdb-ui-kit'; // module
 import { MDBFooter } from 'mdb-react-ui-kit';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
-import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useCallback } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getQuiz } from '../adapters/quiz';
 import LikeButton from "../components/LikeButton";
+import { ChatTextFill } from "react-bootstrap-icons";
+import { FlagFill } from "react-bootstrap-icons";
+import { HashLink } from 'react-router-hash-link';
+import { Link as Link2 } from 'react-scroll';
+import { Link as Link } from 'react-router-dom';
 
 const QuizSummaryPage = () => {
+    const myRef = useRef(null)
     const {quizId} = useParams();
     const [quiz, setQuiz] = useState();
 
@@ -29,6 +34,7 @@ const QuizSummaryPage = () => {
     return (
         <>
         {quiz !== undefined ?
+        <>
         <div className='bg-image' style={{backgroundImage: 'url(https://nypost.com/wp-content/uploads/sites/2/2021/10/lightyear-6.jpg?quality=90&strip=all)',
         backgroundSize: "cover",
         height: "100vh",
@@ -72,7 +78,55 @@ const QuizSummaryPage = () => {
         </MDBCard>
           </div>
         </div>
+        
       </div>
+      <div>
+      <Link2 activeClass="active" to="comments" spy={true} smooth={true}>
+         <button className="btn-block" data-bs-target="#collapseTarget" data-bs-toggle="collapse" style={{backgroundColor: "#8B008B", height: "8vh"}}>
+         <ChatTextFill style={{color:"white"}}size={30}></ChatTextFill>
+             <span style={{fontSize: '15px', marginLeft: '10px', color: "white"}}>Comments</span>
+         </button>
+         </Link2>
+         <div className="collapse" id="collapseTarget">
+         <input style={{ marginLeft:"60px", marginTop: "20px", marginBottom: "15px"}} type="text" class="form-control" required placeholder="Comment" 
+     
+    ></input>
+
+    <MDBBtn rounded style={{color: "white", backgroundColor: "#00B5FF", marginLeft:"60px", marginBottom: "10px"}}>Submit</MDBBtn>
+
+         <div id="comments"className="container-sm" style={{maxHeight: "40vh", overflowY: "scroll", marginTop: "20px"}}>
+
+       
+
+      <div className="card" style={{backgroundColor: "#8B008B", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll"}}>
+          <div className="row row-cols-3">
+          
+          <div className="col">
+
+          <div className="col"><img width="100" style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}} height="100" src="https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8="></img></div>
+          <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre Ban</div>
+          <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
+          </div>
+        
+         
+          <div className="col my-auto"  style={{color: "white"}}> I really liked it</div>
+          
+          <div className="col" style={{color: "grey"}}>posted on 10/11/2021 at 10:59PM</div>
+          
+          
+          
+          
+          
+        </div>
+      </div>
+
+         </div>
+         
+         
+         </div>
+   
+     </div>
+     </>
       :<span> Loading... </span>}</>
         
     );

@@ -43,7 +43,7 @@ const PlatformPicker = () => {
 
     async function initPlatform(platformId){
         let platformObj = await getPlatform(platformId);
-        setPlatformList([...platformList, platformObj])
+        setPlatformList((platformList) => [...platformList, platformObj])
         console.log(platformObj);
     }
 
