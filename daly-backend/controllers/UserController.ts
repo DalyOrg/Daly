@@ -11,7 +11,10 @@ export async function GetUser({user}: GetUserParams){
         return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
     }
     else{
-        return(user) // TODO clean up the data
+        const userQuery = await db.collection(`users`).where('googleId', '==', user.id).get();
+        if(userQuery.docs.length > 0){ // found one
+          return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
+        }
     }
 }
 
