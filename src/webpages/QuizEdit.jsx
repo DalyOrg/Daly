@@ -6,6 +6,7 @@ import { PencilFill, TrashFill } from 'react-bootstrap-icons';
 import { purple } from "@mui/material/colors";
 import axios from "axios";
 import { ConstructionOutlined } from "@mui/icons-material";
+import { useHistory } from 'react-router-dom';
 
 const QuizEdit = () => {
     const { quizId } = useParams();
@@ -21,7 +22,7 @@ const QuizEdit = () => {
     const [answerText, setAnswerText] = useState([]); //changes based on user input
     const [correctAnswer, setCorrectAnswer] = useState([]); //changes based on user input
     const [imageUrl, setImageUrl] =useState(""); //changes based on user input
-
+    const history = useHistory();
 
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
@@ -192,6 +193,7 @@ const QuizEdit = () => {
         // hint: use PUT /quiz/:quizId
         console.log(quiz);
         let res = await axios.put(`/quiz/${quiz.id}`, {newQuiz: quiz})
+        history.push(`/quiz/` + quizId);
     }
 
     async function deleteQuiz(){
