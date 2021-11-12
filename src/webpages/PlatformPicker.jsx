@@ -49,8 +49,10 @@ const PlatformPicker = () => {
         }
     },[store]);
 
+ 
+  
 
-
+    
     async function newPlatform(){
         console.log('change Username');
         console.log("here " + name);
@@ -72,11 +74,12 @@ const PlatformPicker = () => {
             };   
             console.log("before post");
             var platform = await postPlatform(newPlatform);
+            
             if(platform){
                 console.log(platform);
                 
                 setPlatformId(platform);
-                getUser();
+                
             }
     }
 
@@ -127,14 +130,10 @@ const PlatformPicker = () => {
     </div>
   </div>
 </div>
-
-
-
                     {
                         platformId ? <Redirect to={`/platform/${platformId}`}/>
                         : ""
                     }
-
         </div>
     );
 }

@@ -55,3 +55,16 @@ export async function UpdateUserLikes({quizId, add, user}: UpdateUserLikesParams
     }
 }
 
+interface UpdateUserParams{
+    userId: string
+    newUser: User
+  }
+  export async function UpdateUser({userId, newUser}: UpdateUserParams){
+    console.log(newUser);
+    const res = await db.collection(`users`).doc(userId).set(newUser);
+  
+    console.log(res)
+    // check if res is fine then send a confirmation message
+    return { message: 'User Updated' };
+  }
+  

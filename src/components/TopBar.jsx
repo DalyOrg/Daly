@@ -57,7 +57,9 @@ const TopBar =() =>{
                             }}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>
+                    
+                        <MDBBtn onClick={()=> { history.push('/shop');}}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>
+                        
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
@@ -77,9 +79,7 @@ const TopBar =() =>{
                                 history.push('/home');
                             }}
                         >
-                            <PersonX color="white" size={20}/>
-                            Logout
-                        </MDBBtn>
+                            <PersonX style={{marginRight: "10px"}}color="white" size={20}/><span >Logout</span></MDBBtn>
                     </li>
                 </ul>
             </div></>

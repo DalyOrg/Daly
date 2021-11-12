@@ -1,5 +1,7 @@
 import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
+import { User } from "../interfaces/user";
+import { UpdateUser, GetUser } from "./UserController";
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -21,11 +23,12 @@ export async function GetPlatform({platformId}: GetPlatformParams){
 
 interface CreatePlatformParams{
   newPlatform: Platform
+  user: User
 }
-export async function CreatePlatform({newPlatform}: CreatePlatformParams){
+export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
   console.log(newPlatform);
   const res = await db.collection(`platforms`).add(newPlatform);
-
+  //UpdateUser((platformsOwned:[user.platformsOwned, res.id]));
   //console.log(res.id)
   // check if res is fine then send a confirmation message
   return res.id;
