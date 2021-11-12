@@ -21,6 +21,19 @@ export async function GetUser({user}: GetUserParams){
     }
 }
 
+interface UpdateUserParams{
+    userId: string
+    newUser: User
+  }
+  export async function UpdateUser({userId, newUser}: UpdateUserParams){
+    console.log(newUser);
+    const res = await db.collection(`users`).doc(userId).set(newUser);
+  
+    console.log(res)
+    // check if res is fine then send a confirmation message
+    return { message: 'User Updated' };
+  }
+
 interface GetUserLikesParams{
     user: User
 }
@@ -91,7 +104,7 @@ interface GetUserSubscriptionFeedParams{
   platformId: string
   user: User
 }
-export async function GetUserSubscriptionFeed({platformId, user}: GetUserSubscriptionParams){
+export async function GetUserSubscriptionFeed({platformId, user}: GetUserSubscriptionFeedParams){
   let platformData = await GetPlatform({platformId}) as Platform;
   let subscriberData = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
   await updateData('subscriptions', platformData.subscribersId, subscriberData);

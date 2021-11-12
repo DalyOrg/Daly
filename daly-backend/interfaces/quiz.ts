@@ -14,7 +14,7 @@ export interface Quiz{
     timestamp: Timestamp
     timeLimitSeconds: number
     categories: string[]
-    creator: string
+    platformId: string
     leaderboardId: string
     commentsId: string
     backgroundImage: string // url

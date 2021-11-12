@@ -24,6 +24,7 @@ import QuizSetup from "./webpages/QuizSetup/QuizSetup";
 import QuizEdit from "./webpages/QuizEdit";
 import PlatformPicker from "./webpages/PlatformPicker";
 import PlatformPage from "./webpages/PlatformPage";
+import ShopPage from "./webpages/ShopPage";
 //components
 import TopBar from "./components/TopBar.jsx";
 
@@ -43,7 +44,7 @@ class App extends Component {
                 <Route exact path="/user/:userId" component={UserProfilePage}/>
                 <Route exact path="/:userId/platformpicker" component={PlatformPicker}/>
                 <Route exact path="/platform/:platformId" component={PlatformPage}/>
-
+                <Route exact path="/shop" component={ShopPage}/>
                 <Route exact path="/404" component={NotFoundPage}/>
                 <Redirect to="/404"></Redirect>
             </Switch>
