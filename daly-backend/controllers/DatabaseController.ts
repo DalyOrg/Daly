@@ -1,7 +1,7 @@
 import { CollectionReference, Query } from "firebase-admin/firestore";
 import { db } from "../common/firestore";
 
-export async function getData(route: string, query: string | Object){
+export async function getData(route: string, query: string | Object): Promise<any>{
     const collection = db.collection(route);
 
     if(typeof query === 'string'){
