@@ -164,6 +164,15 @@ const QuizEdit = () => {
 
     async function deleteQuestion(indx){
         // indx = index of question in quiz.questions
+        let tempQuestions = [...quiz.questions];
+        tempQuestions.splice(indx, 1);
+        console.log(tempQuestions);
+        var tempQuiz = {
+            ...quiz,
+            questions: tempQuestions
+        };
+        setQuiz(tempQuiz);
+
     }
 
     async function publishQuiz(quiz){
