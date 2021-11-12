@@ -188,9 +188,10 @@ const QuizEdit = () => {
 
     }
 
-    async function publishQuiz(quiz){
+    async function publishQuiz(){
         // hint: use PUT /quiz/:quizId
-        let res = await axios.put(`/quiz/${quiz.id}`, {quiz: quiz})
+        console.log(quiz);
+        let res = await axios.put(`/quiz/${quiz.id}`, {newQuiz: quiz})
     }
 
     async function deleteQuiz(){
