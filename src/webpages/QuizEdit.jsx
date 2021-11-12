@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback } from "react"
 import { useParams } from "react-router"
-import { getQuiz } from "../adapters/quiz"
+import { getQuiz, putQuizLiked } from "../adapters/quiz"
 import { MDBCardBody, MDBBtn } from 'mdb-react-ui-kit';
 import { PencilFill, TrashFill } from 'react-bootstrap-icons';
 import { purple } from "@mui/material/colors";
 import axios from "axios";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { useHistory } from 'react-router-dom';
+import { putQuiz } from "../adapters/quiz";
 
 const QuizEdit = () => {
     const { quizId } = useParams();
@@ -192,7 +193,7 @@ const QuizEdit = () => {
     async function publishQuiz(){
         // hint: use PUT /quiz/:quizId
         console.log(quiz);
-        let res = await axios.put(`/quiz/${quiz.id}`, {newQuiz: quiz})
+        putQuiz(quiz);
         history.push(`/quiz/` + quizId);
     }
 

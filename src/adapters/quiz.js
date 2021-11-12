@@ -20,6 +20,14 @@ async function postQuizAdapter(quizObject){
     return res.data;
 }
 
+async function putQuizAdapter(quiz){
+    console.log(quiz);
+    let body = { newQuiz: quiz };
+    let res = await axios.put(`/quiz/${quiz.id}`, body)
+    console.log(res);
+    return res.data;
+}
+
 async function getQuizLikedAdapter(quizId){
     console.log(quizId);
     let res = await axios.get(
@@ -45,5 +53,6 @@ async function putQuizLikedAdapter(quizId, add){
 
 export const getQuiz = wrapErrorHandling(getQuizAdapter);
 export const postQuiz = wrapErrorHandling(postQuizAdapter);
+export const putQuiz = wrapErrorHandling(putQuizAdapter);
 export const getQuizLiked = wrapErrorHandling(getQuizLikedAdapter);
 export const putQuizLiked = wrapErrorHandling(putQuizLikedAdapter);
