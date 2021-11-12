@@ -89,6 +89,19 @@ const QuizEdit = () => {
         console.log(correctAnswer);
     }
 
+    function deleteAnswer(idx){
+        let newAnswers = question.answers;
+        newAnswers.splice(idx, 1);
+        var tempQuestion = {
+            ...question,
+            answers: newAnswers
+        };
+        setQuestion(tempQuestion);
+        var tempAns = [...answerText];
+        tempAns.splice(idx, 1);
+        setAnswerText(tempAns);
+    }
+
     //edit question
     function changeQuestionImage(e){
         var file=e.target.files[0];
@@ -334,7 +347,13 @@ const QuizEdit = () => {
                   {question ? question.answers.map((answer, idx)  =>
                   <div>
                       <span key={question.answers[idx].correctAnswer.toString()}><input type="checkbox" onClick={()=>{updateCorrectAnswer(idx)}} defaultChecked={question.answers[idx].correctAnswer}></input></span>
-                      <span key={question.answers[idx].answerText}><input className="px-2 mx-1 my-2 py-1" onChange={(e)=>{updateAnswer(idx, e)}} style={{borderRadius: '20px', width: '90%'}} defaultValue={question.answers[idx].answerText}></input></span>
+                      <span key={question.answers[idx].answerText}><input className="px-2 mx-1 my-2 py-1" onChange={(e)=>{updateAnswer(idx, e)}} style={{borderRadius: '20px', width: '90%'}} defaultValue={question.answers[idx].answerText}></input>
+                      <TrashFill style={{cursor: 'pointer'}} color="red" size={20}
+                                        onClick={(ev) => {
+                                            ev.stopPropagation();
+                                            deleteAnswer(idx);
+                                        }}
+                                    /></span>
                   </div>
                   ) : "Sample Answer"}
           </div>
