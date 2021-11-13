@@ -50,7 +50,15 @@ const PlatformPicker = () => {
     },[store]);
 
  
-  
+    const updateUser = useCallback(async function(){
+        if(store !== undefined){
+            let userInfo = await getUser();
+            if(userInfo.id){
+              dispatch({type: 'login', payload: userInfo})
+            }
+
+        }
+      }, [store, dispatch]);
 
     
     async function newPlatform(){
@@ -77,7 +85,7 @@ const PlatformPicker = () => {
             
             if(platform){
                 console.log(platform);
-                
+                updateUser()
                 setPlatformId(platform);
                 
             }
