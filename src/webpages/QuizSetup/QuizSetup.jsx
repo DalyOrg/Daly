@@ -20,7 +20,7 @@ const QuizSetup = () => {
     const [name, setName] = useState('');
     const [time, setTime] = useState();
     const [category, setCategory] = useState('');
-    const [background, setBackground] = useState();
+    const [background, setBackground] = useState('https://cdn.discordapp.com/attachments/880269941146792009/908928075083960320/Screen_Shot_2021-11-12_at_10.55.37_PM.png');
 
     function addCategory(cat){
         if(category && category.length <= 20){

@@ -8,6 +8,7 @@ import { useHistory } from 'react-router';
 import { getSubscriptionFeed, getUser } from '../adapters/user';
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import { getQuiz } from '../adapters/quiz';
+import { getTrendingFeed } from '../adapters/recommendations';
 
 
 let breakPoints = [
@@ -22,11 +23,8 @@ const HomePage = () => {
   const [store, dispatch] = useContext(GlobalStoreContext);
   const history = useHistory();
   const [subFeed, setSubFeed] = useState([]);
+  const [trendingFeed, setTrendingFeed] = useState([]);
   
-  const linkTo = () => {
-    history.push(`/quiz/DqEulgCMYOtWQLCD3sgo`);
-  }
-
   const initUser = useCallback(async function(){
     if(store.userInfo === undefined){
       let userInfo = await getUser();
@@ -55,6 +53,16 @@ const HomePage = () => {
   useEffect(() => {
     initSubFeed()
   }, [initSubFeed])
+
+  const initTrendingFeed = useCallback(async function(){
+    let trendingFeedRes = await getTrendingFeed();
+    console.log(trendingFeedRes)
+    setTrendingFeed(trendingFeedRes.feed);
+  }, []);
+
+  useEffect(() => {
+    initTrendingFeed()
+  }, [initTrendingFeed])
   
   return (
     <div style={{backgroundColor: "#360118"}}>
@@ -62,20 +70,20 @@ const HomePage = () => {
     <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>Trending</h1>
       <Carousel breakPoints={breakPoints}>
-        <ItemCarousel onClick={linkTo} 
-          style={{
-            backgroundSize: 'cover',
-            backgroundImage:`url(https://www.themoviedb.org/t/p/w780/3Rfvhy1Nl6sSGJwyjb0QiZzZYlB.jpg)`
-          }}
-        />
-    
-        <ItemCarousel>Two</ItemCarousel>
-        <ItemCarousel>Three</ItemCarousel>
-        <ItemCarousel>Four</ItemCarousel>
-        <ItemCarousel>Five</ItemCarousel>
-        <ItemCarousel>Six</ItemCarousel>
-        <ItemCarousel>Seven</ItemCarousel>
-        <ItemCarousel>Eight</ItemCarousel>
+        {
+          trendingFeed.map((quiz) => 
+            <ItemCarousel
+              style={{
+                backgroundSize: 'cover',
+                backgroundImage: `url(${quiz.backgroundImage})`
+              }}
+              onClick={() => {
+                history.push(`/quiz/${quiz.id}`);
+              }}
+            >
+            </ItemCarousel>
+          )
+        }
       </Carousel>
     </div>
     { store && store.userInfo &&

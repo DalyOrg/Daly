@@ -10,6 +10,7 @@ import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
 import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription } from './controllers/UserController';
+import { GetTrendingFeed } from './controllers/RecommendationController';
 
 const app = express();
 const port = 8080;
@@ -120,6 +121,8 @@ app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 
 app.get('/user', toHttp(GetUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
+
+app.get('/recommendations/trending', toHttp(GetTrendingFeed));
 
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
