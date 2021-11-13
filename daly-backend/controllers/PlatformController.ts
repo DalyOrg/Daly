@@ -26,9 +26,23 @@ interface CreatePlatformParams{
   user: User
 }
 export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
-  console.log(newPlatform);
+  let userData = await GetUser({user}) as User;
+
+  const newSubscriptions = {
+    subscriptions: []
+  }
+  const subRes = await db.collection(`subscriptions`).add(newSubscriptions);
+  let subId = (await subRes.get()).id;
+
+  newPlatform.subscribersId = subId;
+
   const res = await db.collection(`platforms`).add(newPlatform);
-  //UpdateUser((platformsOwned:[user.platformsOwned, res.id]));
+  
+  UpdateUser({userId: userData.id, newUser: {
+    ...userData,
+    platformsOwned: [...user.platformsOwned, res.id]
+  }});
+
   //console.log(res.id)
   // check if res is fine then send a confirmation message
   return res.id;

@@ -1,6 +1,6 @@
 import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
-import { Subscriptions } from "../interfaces/subscriptions";
+import { SubscriptionFeed, Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user"
 import { getData, updateData } from "./DatabaseController";
 import { GetPlatform } from "./PlatformController";
@@ -77,7 +77,9 @@ interface GetUserSubscriptionParams{
 }
 export async function GetUserSubscription({platformId, user}: GetUserSubscriptionParams){
   let platformData = await GetPlatform({platformId}) as Platform;
+  console.log(platformData);
   let subscriberData = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
+  console.log(subscriberData);
   await updateData('subscriptions', platformData.subscribersId, subscriberData);
   return({isSubscribed: subscriberData.subscriptions.includes(user.id)});
 }
@@ -101,13 +103,30 @@ export async function UpdateUserSubscription({platformId, add, user}: UpdateUser
 }
 
 interface GetUserSubscriptionFeedParams{
-  platformId: string
   user: User
 }
-export async function GetUserSubscriptionFeed({platformId, user}: GetUserSubscriptionFeedParams){
-  let platformData = await GetPlatform({platformId}) as Platform;
-  let subscriberData = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
-  await updateData('subscriptions', platformData.subscribersId, subscriberData);
-  return({isSubscribed: subscriberData.subscriptions.includes(user.id)});
+export async function GetUserSubscriptionFeed({user}: GetUserSubscriptionFeedParams){
+  let userData = await GetUser({user}) as User;
+  let subscriberData = await getData('subscriptionFeeds', userData.subscriptionFeedId) as SubscriptionFeed;
+  return(subscriberData);
+}
+
+interface UpdateUserSubscriptionFeedParams{
+  newQuizId: string
+  add: boolean
+  user: User
+}
+export async function UpdateUserSubscriptionFeed({newQuizId, add, user}: UpdateUserSubscriptionFeedParams){
+  let userData = await GetUser({user}) as User;
+  let subscriptionFeed = await GetUserSubscriptionFeed({user}) as SubscriptionFeed;
+  let newFeed;
+  if(add){
+    newFeed = [...subscriptionFeed.feed, newQuizId];
+  }
+  else{
+    newFeed = subscriptionFeed.feed.filter((quizId) => quizId !== newQuizId);
+  }
+  let res = await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed});
+  return({message: 'Feed Updated'});
 }
 

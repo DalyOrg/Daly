@@ -4,7 +4,7 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import { Input } from 'mdb-ui-kit'; // module
 import { MDBFooter } from 'mdb-react-ui-kit';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { getQuiz } from '../adapters/quiz';
@@ -18,6 +18,7 @@ const QuizSummaryPage = () => {
     const myRef = useRef(null)
     const {quizId} = useParams();
     const [quiz, setQuiz] = useState();
+    const history = useHistory();
 
     const initQuiz = useCallback(async function(){
         let quizObj = await getQuiz(quizId);
@@ -66,6 +67,14 @@ const QuizSummaryPage = () => {
                 <div
                   className='d-flex justify-content-center mt-3'
                 >
+                  <MDBBtn className='me-3'
+                    style={{color: "white", backgroundColor: "#00B5FF"}}
+                    onClick={() => {
+                      history.push(`/platform/${quiz.platformId}`)
+                    }}
+                  >
+                    Platform
+                  </MDBBtn>
                   <LikeButton
                     quiz={quiz}
                     setQuiz={setQuiz}

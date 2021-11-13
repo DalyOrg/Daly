@@ -9,7 +9,7 @@ import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
-import { GetUser } from './controllers/UserController';
+import { GetUser, GetUserSubscription, UpdateUserSubscription } from './controllers/UserController';
 
 const app = express();
 const port = 8080;
@@ -46,6 +46,13 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
         const likesRes = await db.collection(`likes`).add(newLikes);
         let likeId = (await likesRes.get()).id;
 
+        // create subscription feed object
+        let newFeed = {
+          feed: []
+        }
+        const feedRes = await db.collection(`subscriptionFeeds`).add(newFeed);
+        let feedId = (await feedRes.get()).id;
+
         // create new user
         let newUser = {
           googleId: profile.id,
@@ -56,6 +63,7 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
           profilePicture: 'https://freesvg.org/img/abstract-user-flat-4.png', // Creative Common default user icon
           username: profile.displayName,
           likeId: likeId,
+          subscriptionFeedId: feedId
         }
 
         const res = await db.collection(`users`).add(newUser);
@@ -106,6 +114,9 @@ app.put('/quiz/:quizId/liked', toHttp(UpdateQuizLiked));
 
 app.get('/platform/:platformId', toHttp(GetPlatform));
 app.post('/platform', toHttp(CreatePlatform));
+
+app.get('/platform/:platformId/subscribed', toHttp(GetUserSubscription));
+app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 
 app.get('/user', toHttp(GetUser));
 

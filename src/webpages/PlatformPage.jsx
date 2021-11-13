@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { getQuiz } from '../adapters/quiz';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import SubscribeButton from "../components/SubscribeButton";
 
 let breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -105,7 +106,7 @@ const PlatformPage = () => {
                         <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
                     </Link>
                     
-                    : <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Subscribe</MDBBtn>}  
+                    : <SubscribeButton platformId={platformId} /> }
                     </div>
                  </div>
 

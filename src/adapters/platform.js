@@ -22,7 +22,29 @@ async function postPlatformAdapter(platformObject){
     return res.data;
 }
 
+async function getPlatformSubscribedAdapter(platformId){
+    let res = await axios.get(
+        `/platform/${platformId}/subscribed`
+    );
+    console.log(res)
+    return res.data; // {isSubscribed: true/false}
+}
+
+async function putPlatformSubscribedAdapter(platformId, add){
+    let body = {
+        quizId: platformId,
+        add: add
+    }
+    let res = await axios.put(
+        `/platform/${platformId}/subscribed`,
+        body
+    );
+    console.log(res)
+    return res.data;
+}
 
 
 export const postPlatform = wrapErrorHandling(postPlatformAdapter);
 export const getPlatform = wrapErrorHandling(getPlatformAdapter)
+export const getPlatformSubscribed = wrapErrorHandling(getPlatformSubscribedAdapter);
+export const putPlatformSubscribed = wrapErrorHandling(putPlatformSubscribedAdapter)

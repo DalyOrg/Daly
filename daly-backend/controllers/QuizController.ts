@@ -1,7 +1,11 @@
 import { db } from "../common/firestore";
+import { Platform } from "../interfaces/platform";
 import { Quiz } from "../interfaces/quiz";
+import { Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user";
-import { GetUserLikes, UpdateUserLikes } from "./UserController";
+import { getData } from "./DatabaseController";
+import { GetPlatform } from "./PlatformController";
+import { GetUserLikes, UpdateUserLikes, UpdateUserSubscriptionFeed } from "./UserController";
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -25,6 +29,17 @@ interface CreateQuizParams{
 export async function CreateQuiz({newQuiz}: CreateQuizParams){
   console.log(newQuiz);
   const res = await db.collection(`quizzes`).add(newQuiz);
+
+  // push the quiz to the subscription feed
+  let platformData = await GetPlatform({platformId: newQuiz.platformId}) as Platform;
+  let subscriptions = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
+  for(let subscription of subscriptions.subscriptions){
+    UpdateUserSubscriptionFeed({ // don't await
+      newQuizId: res.id,
+      add: true,
+      user: {id: subscription} as User
+    })
+  }
 
   //console.log(res.id)
   // check if res is fine then send a confirmation message
