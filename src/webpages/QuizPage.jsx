@@ -39,6 +39,9 @@ const QuizPage = () => {
             setQuiz={setQuiz}
         />
         : quiz !== undefined ?
+        quiz.questions.length === 0 ?
+            <span>No Questions Yet!</span>
+        :
         <div className='d-flex flex-column gap-3'
             style={{
                 backgroundImage: quiz.backgroundImage ? `url(${quiz.backgroundImage})` : '',

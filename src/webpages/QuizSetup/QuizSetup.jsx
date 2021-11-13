@@ -3,7 +3,7 @@ import { MDBBtn } from 'mdb-react-ui-kit';
 import { useState } from "react";
 import CategoryTag from "./CategoryTag";
 import { postQuiz } from "../../adapters/quiz";
-import { Redirect } from "react-router";
+import { Redirect, useParams } from "react-router";
 import { GlobalStoreContext } from '../../store/useGlobalStore';
 import React, {useContext} from "react";
 
@@ -11,6 +11,7 @@ import React, {useContext} from "react";
 const QuizSetup = () => {
     //TODO: make sure user is logged in
     const [store] = useContext(GlobalStoreContext);
+    const {platformId} = useParams();
 
     const [quizId, setquizId] = useState();
 
@@ -65,28 +66,24 @@ const QuizSetup = () => {
             return;
         }
 
-        if(store.platformId){
-            console.log(store.platformId);
-            var newQuiz = {
-                name: name,
-                questions: [],
-                likes: 0,
-                timestamp: new Date(),
-                timeLimitSeconds: (time * 60),
-                categories: categories,
-                creator: store.platformId, 
-                leaderboardId: undefined, //create leaderboard when the first person takes the quiz
-                commentsId: undefined, //create comment when the first person comments
-                backgroundImage: background,
-                cssSettings: undefined
-            };   
-            var quiz = await postQuiz(newQuiz);
-            if(quiz){
-                console.log(quiz);
-                setquizId(quiz);
-            }
-        }else{
-            console.log("error, platform id does not exist.");
+        console.log(store.platformId);
+        var newQuiz = {
+            name: name,
+            questions: [],
+            likes: 0,
+            timestamp: new Date(),
+            timeLimitSeconds: (time * 60),
+            categories: categories,
+            platformId: platformId, 
+            leaderboardId: undefined, //create leaderboard when the first person takes the quiz
+            commentsId: undefined, //create comment when the first person comments
+            backgroundImage: background,
+            cssSettings: undefined
+        };   
+        var quiz = await postQuiz(newQuiz);
+        if(quiz){
+            console.log(quiz);
+            setquizId(quiz);
         }
     }
 

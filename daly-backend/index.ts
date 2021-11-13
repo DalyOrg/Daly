@@ -9,7 +9,7 @@ import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
-import { GetUser, GetUserSubscription, UpdateUserSubscription } from './controllers/UserController';
+import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription } from './controllers/UserController';
 
 const app = express();
 const port = 8080;
@@ -119,6 +119,7 @@ app.get('/platform/:platformId/subscribed', toHttp(GetUserSubscription));
 app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 
 app.get('/user', toHttp(GetUser));
+app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
 
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);

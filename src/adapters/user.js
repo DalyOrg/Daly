@@ -24,5 +24,14 @@ async function getLogoutAdapter(){
     }
 }
 
+async function getSubscriptionFeedAdapter(){
+    let res = await axios.get(
+        `/user/feed`
+    );
+    console.log(res);
+    return res.data;
+}
+
 export const getUser = wrapErrorHandling(getUserAdapter)
 export const getLogout = wrapErrorHandling(getLogoutAdapter)
+export const getSubscriptionFeed = wrapErrorHandling(getSubscriptionFeedAdapter)

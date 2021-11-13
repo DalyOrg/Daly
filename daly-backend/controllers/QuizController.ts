@@ -33,6 +33,7 @@ export async function CreateQuiz({newQuiz}: CreateQuizParams){
   // push the quiz to the subscription feed
   let platformData = await GetPlatform({platformId: newQuiz.platformId}) as Platform;
   let subscriptions = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
+  console.log(subscriptions)
   for(let subscription of subscriptions.subscriptions){
     UpdateUserSubscriptionFeed({ // don't await
       newQuizId: res.id,

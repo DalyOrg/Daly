@@ -35,7 +35,7 @@ const QuizSummaryPage = () => {
         <>
         {quiz !== undefined ?
         <>
-        <div className='bg-image' style={{backgroundImage: 'url(https://nypost.com/wp-content/uploads/sites/2/2021/10/lightyear-6.jpg?quality=90&strip=all)',
+        <div className='bg-image' style={{backgroundImage: `url(${quiz.backgroundImage})`,
         backgroundSize: "cover",
         height: "100vh",
         color: "#f5f5f5" }}>
@@ -65,9 +65,9 @@ const QuizSummaryPage = () => {
                 </Link>
                 </div>
                 <div
-                  className='d-flex justify-content-center mt-3'
+                  className='d-flex justify-content-center mt-3 gap-3'
                 >
-                  <MDBBtn className='me-3'
+                  <MDBBtn
                     style={{color: "white", backgroundColor: "#00B5FF"}}
                     onClick={() => {
                       history.push(`/platform/${quiz.platformId}`)

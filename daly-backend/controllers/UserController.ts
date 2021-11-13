@@ -14,9 +14,16 @@ export async function GetUser({user}: GetUserParams){
         return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
     }
     else{
-        const userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
-        if(userQuery.docs.length > 0){ // found one
-          return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
+        let userQuery;
+        if(user.id){
+          userQuery = await db.collection(`users`).doc(user.id).get();
+          return {...userQuery.data(), id: userQuery.id};
+        }
+        else{
+          userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
+          if(userQuery.docs.length > 0){ // found one
+            return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
+          }
         }
     }
 }
@@ -121,7 +128,7 @@ export async function UpdateUserSubscriptionFeed({newQuizId, add, user}: UpdateU
   let subscriptionFeed = await GetUserSubscriptionFeed({user}) as SubscriptionFeed;
   let newFeed;
   if(add){
-    newFeed = [...subscriptionFeed.feed, newQuizId];
+    newFeed = [newQuizId, ...subscriptionFeed.feed];
   }
   else{
     newFeed = subscriptionFeed.feed.filter((quizId) => quizId !== newQuizId);

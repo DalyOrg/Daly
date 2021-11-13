@@ -102,7 +102,7 @@ const PlatformPage = () => {
                     </div>
                     <div className="col" style={{marginTop: '4rem'}}>
                     {platformOwner !== false ? 
-                    <Link to="/quiz/setup">
+                    <Link to={`/platform/${platformId}/create`}>
                         <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
                     </Link>
                     
