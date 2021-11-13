@@ -31,7 +31,7 @@ const TopBar =() =>{
     //render() {
     return (
         
-        <nav class="navbar navbar-dark" style={{backgroundColor: "#8B008B"}}>
+        <nav class="navbar navbar-dark navbar-fixed-top sticky-top" style={{backgroundColor: "#8B008B"}}>
             
         <div class="container-fluid">
         <Link to="/home">
