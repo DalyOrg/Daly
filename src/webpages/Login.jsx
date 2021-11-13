@@ -1,5 +1,6 @@
 import React from "react";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 const provider = new GoogleAuthProvider();
 
@@ -19,13 +20,24 @@ signInWithPopup(auth, provider)
 
 const LoginPage = () => {
     return (
-        <div>
-            <a href={`${process.env.REACT_APP_BACKEND_URL}/auth/google`}>
-              <button className="signinButton" style={{color: 'red', backgroundColor: 'black'}}>
+      <div className='container mt-auto'
+        style={{
+          paddingTop: '40vh'
+        }}
+      >
+          <div className='d-flex flex-column'>
+            <a 
+              className='mx-auto'
+              href={`${process.env.REACT_APP_BACKEND_URL}/auth/google`
+            }>
+              <MDBBtn
+                rounded size='sm'
+                style={{backgroundColor: "#00B5FF"}}>
                 Sign in with Google
-              </button>
+              </MDBBtn>
             </a>
-        </div>
+          </div>
+      </div>
     );
 }
 
