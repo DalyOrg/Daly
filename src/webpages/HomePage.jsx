@@ -14,8 +14,7 @@ import { getTrendingFeed } from '../adapters/recommendations';
 let breakPoints = [
   { width: 1, itemsToShow: 1 },
   { width: 550, itemsToShow: 2 },
-  { width: 768, itemsToShow: 3 },
-  { width: 1200, itemsToShow: 4 },
+  { width: 1200, itemsToShow: 3},
 ];
 
 
@@ -74,7 +73,12 @@ const HomePage = () => {
           trendingFeed.map((quiz) => 
             <ItemCarousel
               style={{
-                backgroundSize: 'cover',
+                backgroundRepeat: "no-repeat",
+                backgroundPositionX: "center",
+                backgroundPositionY: "center",
+                backgroundSize: "cover",
+                
+                
                 backgroundImage: `url(${quiz.backgroundImage})`
               }}
               onClick={() => {
@@ -95,6 +99,8 @@ const HomePage = () => {
               <ItemCarousel
                 style={{
                   backgroundSize: 'cover',
+                  backgroundPositionX: "center",
+                  backgroundPositionY: "center",
                   backgroundImage: `url(${quiz.backgroundImage})`
                 }}
                 onClick={() => {

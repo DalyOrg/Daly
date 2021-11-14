@@ -9,7 +9,7 @@ import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
-import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription } from './controllers/UserController';
+import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser } from './controllers/UserController';
 import { GetTrendingFeed } from './controllers/RecommendationController';
 
 const app = express();
@@ -118,6 +118,7 @@ app.post('/platform', toHttp(CreatePlatform));
 
 app.get('/platform/:platformId/subscribed', toHttp(GetUserSubscription));
 app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
+app.put('/user/:userId', toHttp(UpdateUser));
 
 app.get('/user', toHttp(GetUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));

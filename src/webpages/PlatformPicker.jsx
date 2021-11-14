@@ -11,6 +11,7 @@ import { postPlatform } from "../adapters/platform";
 import { useCallback } from 'react';
 import { Redirect } from "react-router";
 import { getUser } from '../adapters/user';
+import { putUser } from "../adapters/user";
 import "../carousel.css";
 
 const PlatformPicker = () => {
@@ -20,7 +21,7 @@ const PlatformPicker = () => {
     const [name, setName] = useState();
     const [platformId, setPlatformId] = useState();
 
-    
+    const [user, setUser] = useState();
   
 
 
@@ -53,6 +54,8 @@ const PlatformPicker = () => {
     const updateUser = useCallback(async function(){
         if(store !== undefined){
             let userInfo = await getUser();
+            userInfo.platformsOwned.push(platformId);
+            putUser(userInfo);
             if(userInfo.id){
               dispatch({type: 'login', payload: userInfo})
             }
@@ -60,12 +63,10 @@ const PlatformPicker = () => {
         }
       }, [store, dispatch]);
 
-    
-    async function newPlatform(){
-        console.log('change Username');
-        console.log("here " + name);
-        console.log(store.userInfo.id);
 
+
+    async function newPlatform(){
+        
         if(store.userInfo === undefined){
             alert("You must log in to create a quiz.");
             return;
@@ -82,11 +83,11 @@ const PlatformPicker = () => {
             };   
             console.log("before post");
             var platform = await postPlatform(newPlatform);
-            
             if(platform){
-                console.log(platform);
+                setPlatformId(platform);    
+                
                 updateUser()
-                setPlatformId(platform);
+                
                 
             }
     }
