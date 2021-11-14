@@ -85,10 +85,7 @@ const PlatformPicker = () => {
             var platform = await postPlatform(newPlatform);
             if(platform){
                 setPlatformId(platform);    
-                
                 updateUser()
-                
-                
             }
     }
 

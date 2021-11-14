@@ -35,7 +35,7 @@ async function getSubscriptionFeedAdapter(){
 async function putUserAdapter(user){
     console.log(user);
     let body = { newUser: user };
-    let res = await axios.put(`/quiz/${user.id}`, body)
+    let res = await axios.put(`/user/${user.id}`, body)
     console.log(res);
     return res.data;
 }
