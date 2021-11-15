@@ -40,7 +40,7 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
   
   UpdateUser({userId: userData.id, newUser: {
     ...userData,
-    platformsOwned: [...user.platformsOwned, res.id]
+    platformsOwned: [...userData.platformsOwned, res.id]
   }});
 
   //console.log(res.id)
