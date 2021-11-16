@@ -50,7 +50,9 @@ const QuizSummaryPage = () => {
             <MDBBtn rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#00B5FF"}}>Edit Quiz</MDBBtn>
             </Link>
 
+            <Link to={`/quiz/${quizId}/leaderboard`}>
             <MDBBtn rounded style={{marginLeft: "1rem",color: "white", backgroundColor: "#00B5FF"}}>Leader Board</MDBBtn>
+            </Link>
             </div>
             
             
