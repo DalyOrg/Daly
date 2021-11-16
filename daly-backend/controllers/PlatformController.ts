@@ -39,7 +39,6 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
   const res = await db.collection(`platforms`).add(newPlatform);
   
   UpdateUser({userId: userData.id, newUser: {
-    ...userData,
     platformsOwned: [...userData.platformsOwned, res.id]
   }});
 

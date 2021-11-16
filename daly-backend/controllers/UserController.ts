@@ -30,11 +30,11 @@ export async function GetUser({user}: GetUserParams){
 
 interface UpdateUserParams{
     userId: string
-    newUser: User
+    newUser: Object // subset of user to update
   }
   export async function UpdateUser({userId, newUser}: UpdateUserParams){
     console.log(newUser);
-    const res = await db.collection(`users`).doc(userId).set(newUser);
+    const res = await db.collection(`users`).doc(userId).update(newUser);
   
     console.log(res)
     // check if res is fine then send a confirmation message
