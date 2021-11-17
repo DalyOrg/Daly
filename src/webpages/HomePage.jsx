@@ -67,7 +67,7 @@ const HomePage = () => {
     <div style={{backgroundColor: "#360118"}}>
     
     <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
-      <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>Trending</h1>
+      <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "25px", marginBottom: "2rem"}}>Trending</h1>
       <Carousel breakPoints={breakPoints}>
         {
           trendingFeed.map((quiz) => 
@@ -92,7 +92,7 @@ const HomePage = () => {
     </div>
     { store && store.userInfo &&
       <div>
-        <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>From Your Subscriptions</h1>
+        <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "25px", marginBottom: "2rem" }}>From Your Subscriptions</h1>
         <Carousel breakPoints={breakPoints}>
           {
             subFeed.map((quiz) => 

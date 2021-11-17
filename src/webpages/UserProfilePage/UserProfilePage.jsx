@@ -1,15 +1,35 @@
 import React, {useContext} from "react";
 import "./userProfilePage.css";
 import { GlobalStoreContext } from '../../store/useGlobalStore';
+import Carousel from 'react-elastic-carousel';
+import ItemCarousel from "../../components/ItemCarousel";
 
 //TODO: implement get profile banner, profile picture, user name,
 //get collection
 
 
+let breakPointsSubscriptions = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 2 },
+    { width: 1200, itemsToShow: 3},
+  ];
 
+  let breakPointsCollection = [
+    { width: 1, itemsToShow: 2 },
+    { width: 550, itemsToShow: 3 },
+    { width: 768, itemsToShow: 4 },
+    { width: 1200, itemsToShow: 5 },
+  ];
 //TODO: if this page is reached without logging in, redirect to login page
 const UserProfilePage = () => {
     const [store] = useContext(GlobalStoreContext);
+
+    const pictures = ["https://i.insider.com/5f5768c47ed0ee001e25dd6b?width=1000&format=jpeg&auto=webp",
+      "https://www.thetruecolors.org/wp-content/uploads/2021/02/marvel-logo-header-1.jpg", 
+      "https://res.cloudinary.com/jerrick/image/upload/f_jpg,fl_progressive,q_auto,w_1024/wv9zgmvj9rpbtqi2a8l0.jpg",
+       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/1388px-Star_Wars_Logo.svg.png", 
+       "https://thumbs.dreamstime.com/b/set-justice-league-dc-comics-black-logos-kiev-ukraine-november-set-justice-league-dc-comics-black-logos-printed-paper-125514598.jpg"];
+
 
     function getProfileBanner(){
         return ``;
@@ -34,12 +54,58 @@ const UserProfilePage = () => {
             </div>
             <br/><br/><br/><br/><br/>
             <p class="username">{getUsername()}</p>
-            <table class="badges">
-                <tr>
-                    <th class="badge-label">Badges: </th>
-                    <th class="badge-num"><b>{getBadges()}</b></th>
-                </tr>
-            </table>
+            
+
+            <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
+      <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "30px"}}>Collection</h1>
+      <Carousel breakPoints={breakPointsCollection}>
+        {
+          pictures.map((quiz) => 
+            <ItemCarousel
+              style={{
+                backgroundRepeat: "no-repeat",
+                backgroundPositionX: "center",
+                backgroundPositionY: "center",
+                backgroundSize: "cover",
+                
+                
+                backgroundImage: `url(${quiz})`
+              }}
+              onClick={() => {
+                //history.push(`/quiz/${quiz.id}`);
+              }}
+            >
+            </ItemCarousel>
+          )
+        }
+      </Carousel>
+    </div>
+    { store && store.userInfo &&
+      <div style={{marginTop: "2rem"}}>
+        <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Subscribed Platforms</h1>
+        <Carousel breakPoints={breakPointsSubscriptions}>
+          {
+            pictures.map((quiz) => 
+              <ItemCarousel
+                style={{
+                  backgroundSize: 'cover',
+                  backgroundPositionX: "center",
+                  backgroundPositionY: "center",
+                  backgroundImage: `url(${quiz})`
+                }}
+                onClick={() => {
+                 // history.push(`/quiz/${quiz.id}`);
+                }}
+              >
+              </ItemCarousel>
+            )
+          }
+        </Carousel>
+      </div>
+}
+
+
+
         </div>
     );
 }

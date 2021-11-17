@@ -77,7 +77,7 @@ const PlatformPage = () => {
         <>
         {platform !== undefined ?
         <div>
-            <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
+            <div className="platformBanner" style={{backgroundColor:"grey",backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
                 {platformOwner !== false ?
                 <span className="changeBannerButton"><MDBBtn style={{backgroundColor: "#00B5FF"}}>Edit Banner Picture</MDBBtn></span>
                 : <></>}
@@ -88,7 +88,7 @@ const PlatformPage = () => {
 
                     <div className="row">
             
-                    <div  style={{marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
+                    <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
                     <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
                     : <></>}   
@@ -111,7 +111,7 @@ const PlatformPage = () => {
                  </div>
 
                         <div className="col" style={{color: "white"}}>
-                          <p style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</p>
+                          <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</span>
                           {platformOwner !== false ?
                           <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
                           : <></>}  
