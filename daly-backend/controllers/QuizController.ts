@@ -1,11 +1,11 @@
 import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
-import { Quiz } from "../interfaces/quiz";
+import { Quiz, Attempt, Leaderboard } from "../interfaces/quiz";
 import { Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user";
-import { getData } from "./DatabaseController";
+import { getData, postData, updateData } from "./DatabaseController";
 import { GetPlatform } from "./PlatformController";
-import { GetUserLikes, UpdateUserLikes, UpdateUserSubscriptionFeed } from "./UserController";
+import { GetUser, GetUserLikes, UpdateUserLikes, UpdateUserSubscriptionFeed } from "./UserController";
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -28,6 +28,14 @@ interface CreateQuizParams{
 }
 export async function CreateQuiz({newQuiz}: CreateQuizParams){
   console.log(newQuiz);
+
+  // create new leaderboard
+  let newLeaderboard = {
+    rankings: []
+  }
+  let leaderboardId = await postData('leaderboards', newLeaderboard);
+  newQuiz.leaderboardId = leaderboardId;
+
   const res = await db.collection(`quizzes`).add(newQuiz);
 
   // push the quiz to the subscription feed
@@ -87,3 +95,66 @@ export async function UpdateQuizLiked({quizId, add, user}: UpdateQuizLikedParams
   });
   return {message: 'Likes Updated', newLikes: newLikes }
 }
+
+interface GetLeaderboardParams{
+  quizId: string
+}
+export async function GetLeaderboard({quizId}: GetLeaderboardParams){
+  let quizData = await GetQuiz({quizId}) as Quiz;
+  let leaderboard = await getData('leaderboards', quizData.leaderboardId) as Leaderboard;
+  return leaderboard;
+}
+
+interface SubmitAttemptParams{
+  quizId: string
+  newAttempt: Attempt
+  user: User
+}
+export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptParams){
+  let userData = await GetUser({user}) as User;
+  newAttempt.userId = userData.id;
+  let quizData = await GetQuiz({quizId}) as Quiz;
+
+  let leaderboard = await getData('leaderboards', quizData.leaderboardId) as Leaderboard;
+  let prevAttempt = leaderboard.rankings.find((attempt) => attempt.userId == user.id);
+  if(prevAttempt){
+    if(newAttempt.score > prevAttempt.score
+        || (newAttempt.score == prevAttempt.score
+          && newAttempt.time < prevAttempt.time)){
+      // update rankings
+      let newRankings = leaderboard.rankings.filter((attempt) => attempt.userId != user.id);
+      newRankings.push(newAttempt);
+      newRankings.sort((a, b) => {
+        if(a.score > b.score)
+          return 1;
+        if(b.score > a.score)
+          return -1;
+        if(a.time < b.score)
+          return 1;
+        if(b.time < a.time)
+          return -1;
+        return 0;
+      }); // could be faster with insertion sort
+      updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings});
+    }
+  }
+  else{
+    // insert new attempt
+    let newRankings = leaderboard.rankings;
+    newRankings.push(newAttempt);
+    newRankings.sort((a, b) => {
+      if(a.score > b.score)
+        return 1;
+      if(b.score > a.score)
+        return -1;
+      if(a.time < b.score)
+        return 1;
+      if(b.time < a.time)
+        return -1;
+      return 0;
+    }); // could be faster with insertion sort
+    updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings});
+  }
+  return {message: 'Attempt received'}
+}
+

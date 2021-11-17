@@ -24,3 +24,24 @@ export interface Quiz{
         color: string
     }
 }
+
+export interface Attempt{
+    userId: string
+    timestamp: Timestamp
+    time: number
+    score: number
+}
+
+export interface Leaderboard{
+    rankings: Attempt[]
+}
+
+export interface Comment{
+    userId: string
+    commentText: string
+    timestamp: Timestamp
+}
+
+export interface QuizComments{
+    comments: Comment[]
+}
