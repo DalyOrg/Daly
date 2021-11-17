@@ -111,7 +111,7 @@ const PlatformPage = () => {
                  </div>
 
                         <div className="col" style={{color: "white"}}>
-                          <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</span>
+                          <p style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</p>
                           {platformOwner !== false ?
                           <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
                           : <></>}  

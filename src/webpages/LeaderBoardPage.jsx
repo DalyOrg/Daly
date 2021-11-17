@@ -41,7 +41,7 @@ const LeaderBoardPage = () => {
 
             </div>
 
-            <table class="table" style={{marginTop:"2rem"}}>
+            <table class="table" style={{marginTop:"2rem", backgroundColor: "#F7E7CE"}}>
   <thead>
     <tr style={{backgroundColor: "#8B008B", color: "white"}}>
       <th scope="col">Position</th>
@@ -50,7 +50,7 @@ const LeaderBoardPage = () => {
       <th scope="col">% of Correct Answers</th>
     </tr>
   </thead>
-  <tbody style={{color: "white"}}>
+  <tbody style={{color: "black"}}>
     <tr>
       <th scope="row">1</th>
       <td>Sonic</td>

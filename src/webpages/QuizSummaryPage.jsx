@@ -114,7 +114,7 @@ const QuizSummaryPage = () => {
             <div className="col">
 
              <div className="col"><img width="100" style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}} height="100" src="https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8="></img></div>
-             <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre Ban</div>
+             <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre BAN </div>
              <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
             </div>
         
