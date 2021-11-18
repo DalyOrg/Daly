@@ -22,11 +22,13 @@ const QuizResult = ({quiz, setQuiz}) => {
     }
 
     return (
+        
         <div className='d-flex flex-column gap-3'
             style={{
-                backgroundImage: quiz.backgroundImage ? `url(${quiz.backgroundImage})` : '',
-                backgroundSize: 'cover',
-                height: '100vh'
+                marginTop: "15rem",
+                textAlign: "center",
+                height: "80vh"
+
             }}
         > 
             <h1 className='mx-auto'
@@ -48,6 +50,7 @@ const QuizResult = ({quiz, setQuiz}) => {
                 />
             </div>
         </div>
+        
     )
 }
 

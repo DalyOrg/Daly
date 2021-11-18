@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getQuiz } from '../adapters/quiz';
 import { useCallback } from 'react';
 import QuizResult from './QuizResult';
+import { Opacity } from '@mui/icons-material';
 
 const QuizPage = () => {
     const {quizId} = useParams();
@@ -44,11 +45,14 @@ const QuizPage = () => {
         :
         <div className='d-flex flex-column gap-3'
             style={{
-                backgroundImage: quiz.backgroundImage ? `url(${quiz.backgroundImage})` : '',
+                backgroundColor: "rgba(18, 5, 77, .5)",
                 backgroundSize: 'cover',
                 height: '100vh'
             }}
         > 
+        <div>
+            
+        </div>
             <h1 className='mx-auto' style={{color: '#FFFFFF'}}>
                 {quiz.name}
             </h1>
@@ -60,7 +64,7 @@ const QuizPage = () => {
             </div>
             <div className='d-flex mx-auto'>
                 <button className='btn btn-secondary me-3'
-                    style={{color: '#FFFFFF', backgroundColor: '#00B5FF'}}
+                    style={{color: '#FFFFFF', backgroundColor: '#640979', width: "10rem"}}
                     disabled={selectedQuestion <= 0 ? true : false}
                     onClick={
                       () => incrementSelectedQuestion(-1)
@@ -69,7 +73,7 @@ const QuizPage = () => {
                     Prev
                 </button>
                 <button className='btn btn-secondary'
-                    style={{color: '#FFFFFF', backgroundColor: '#00B5FF'}}
+                    style={{color: '#FFFFFF', backgroundColor: '#640979', width: "10rem"}}
                     disabled={selectedQuestion >= quiz.questions.length - 1 ? true : false}
                     onClick={
                       () => incrementSelectedQuestion(1)
@@ -79,12 +83,13 @@ const QuizPage = () => {
                 </button>
             </div>
             <button className='btn btn-primary mx-auto'
-                style={{color: '#FFFFFF', backgroundColor: '#00B5FF'}}
+                style={{color: '#FFFFFF', backgroundColor: '#1C7947', width: "21rem"}}
                 onClick={ () => {/* Do Attempt Logic */ setShowResults(true);} }
             >
                 Submit
             </button>
         </div>
+        
         :<span> Loading... </span>}
         </>
     );

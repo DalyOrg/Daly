@@ -32,7 +32,7 @@ const TopBar =() =>{
     //render() {
     return (
         
-        <nav class="navbar navbar-dark navbar-fixed-top sticky-top" style={topbarstyle}>
+        <nav class="navbar navbar-dark navbar-fixed-top" style={topbarstyle}>
             
         <div class="container-fluid">
         <Link to="/home">
@@ -112,5 +112,5 @@ export default TopBar;
 
 
 const topbarstyle = {
-    backgroundColor: "rgba(18, 5, 77, .8)"
+    backgroundColor: "rgba(18, 5, 77, .5)"
  }

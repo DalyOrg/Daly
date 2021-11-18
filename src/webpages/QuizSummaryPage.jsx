@@ -41,7 +41,7 @@ const QuizSummaryPage = () => {
         color: "#f5f5f5" }}>
         <div className='mask'>
           <div className='d-flex justify-content-center align-items-center h-100'>
-          <MDBCard style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', maxWidth: '33rem' }}>
+          <MDBCard style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', maxWidth: '33rem' }}>
               
             <MDBCardBody>
             <div class="btn-group-horizontal" >
