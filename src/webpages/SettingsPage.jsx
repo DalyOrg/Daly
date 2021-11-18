@@ -71,10 +71,10 @@ const SettingsPage = () => {
         <div className="btn-group-vertical" >
             <p style={{margin: "0.5rem", color: "white", fontSize: 30, fontWeight: 'bold'}}>Settings</p>
             <p style={{margin: "0.5rem", color: "white", fontSize: 20, }}>Your username is {getUsername()}</p>
-            <button data-bs-toggle="modal" data-bs-target="#profilePictureModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Picture</button>
-            <button data-bs-toggle="modal" data-bs-target="#profileBannerModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Profile Banner</button>
-            <button data-bs-toggle="modal" data-bs-target="#usernameModal" style={{margin: "0.5rem",color: "grey", backgroundColor: '#360118', padding: 0, border: 0}}>Change Username</button>
-            <button data-bs-toggle="modal" data-bs-target="#deleteAccountModal" style={{margin: "0.5rem",color: "red", backgroundColor: '#360118', padding: 0, border: 0}}>Delete Account</button>
+            <button data-bs-toggle="modal" data-bs-target="#profilePictureModal" style={{margin: "0.5rem",color: "grey", backgroundColor: 'transparent', padding: 0, border: 0}}>Change Profile Picture</button>
+            <button data-bs-toggle="modal" data-bs-target="#profileBannerModal" style={{margin: "0.5rem",color: "grey", backgroundColor: 'transparent', padding: 0, border: 0}}>Change Profile Banner</button>
+            <button data-bs-toggle="modal" data-bs-target="#usernameModal" style={{margin: "0.5rem",color: "grey", backgroundColor: 'transparent', padding: 0, border: 0}}>Change Username</button>
+            <button data-bs-toggle="modal" data-bs-target="#deleteAccountModal" style={{margin: "0.5rem",color: "red", backgroundColor: 'transparent', padding: 0, border: 0}}>Delete Account</button>
         </div>
 
 <div id="deleteAccountModal" className="modal fade" tabindex="-1">

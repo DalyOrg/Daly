@@ -60,6 +60,7 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
           accountCreated: admin.firestore.Timestamp.now(),
           badges: 0,
           platformsOwned: [],
+          subscribedPlatforms: [],
           profileBanner: 'https://coolbackgrounds.io/images/backgrounds/white/pure-white-background-85a2a7fd.jpg', // white image
           profilePicture: 'https://freesvg.org/img/abstract-user-flat-4.png', // Creative Common default user icon
           username: profile.displayName,

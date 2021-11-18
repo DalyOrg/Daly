@@ -100,7 +100,7 @@ const PlatformPicker = () => {
         <div>
             <h1 className='d-flex justify-content-center' style={{color: '#FFFFFF', marginTop: '2rem'}}>Platforms</h1>
 
-                <MDBBtn data-bs-toggle="modal" data-bs-target="#nameModal"  style={{marginLeft: "1rem" , marginBottom: '1rem',color: "white", backgroundColor: "#00B5FF"}}>Add a Platform</MDBBtn>
+                <MDBBtn data-bs-toggle="modal" data-bs-target="#nameModal"  style={{marginLeft: "1rem" , marginBottom: '1rem',color: "white", backgroundColor: "#640979"}}>Add a Platform</MDBBtn>
                
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 <Carousel>
@@ -131,7 +131,7 @@ const PlatformPicker = () => {
       </div>
 
       <div className="modal-footer">
-        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}} type="button" onClick={newPlatform} class="btn btn-danger">Submit</MDBBtn>
+        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#640979"}} type="button" onClick={newPlatform} class="btn btn-danger">Submit</MDBBtn>
       </div>
     </div>
   </div>

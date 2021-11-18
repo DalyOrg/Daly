@@ -64,7 +64,7 @@ const HomePage = () => {
   }, [initTrendingFeed])
   
   return (
-    <div style={{backgroundColor: "#360118"}}>
+    <div style={mystyle}>
     
     <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "25px", marginBottom: "2rem"}}>Trending</h1>
@@ -119,3 +119,7 @@ const HomePage = () => {
   }
   
   export default HomePage;
+
+  const mystyle = {
+    background: 'linear-gradient(90deg, rgba(15,0,36,1) 15%, rgba(100,9,121,1) 50%, rgba(44,0,255,1) 100%)'
+ }

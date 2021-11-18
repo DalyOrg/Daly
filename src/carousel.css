@@ -1,12 +1,14 @@
 
 /* square buttons */
 .rec.rec-arrow {
-  border-radius: 0;
+  
+  font-size: 30px;
   color: aliceblue;
 }
 /* round buttons on hover */
 .rec.rec-arrow:hover {
-  border-radius: 50%;
+  
+  font-size: 50px;
 }
 /* hide disabled buttons */
 .rec.rec-arrow:disabled {
@@ -24,6 +26,6 @@
 }
 
 .rec.rec-carousel-wrapper .rec-carousel button {
-  background: #8B008B;
+  background: transparent;
   color: #fff;
 }

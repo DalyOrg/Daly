@@ -8,6 +8,7 @@ export interface User{
     badges: number
     interestsId: string
     platformsOwned: string[]
+    subscribedPlatforms: string[]
     subscriptionsId: string
     subscriptionFeedId: string
     likesId: string

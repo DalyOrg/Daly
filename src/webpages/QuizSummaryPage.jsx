@@ -47,11 +47,11 @@ const QuizSummaryPage = () => {
             <div class="btn-group-horizontal" >
             
             <Link to={`/quiz/${quizId}/edit`}>
-            <MDBBtn rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#00B5FF"}}>Edit Quiz</MDBBtn>
+            <MDBBtn rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#640979"}}>Edit Quiz</MDBBtn>
             </Link>
 
             <Link to={`/quiz/${quizId}/leaderboard`}>
-            <MDBBtn rounded style={{marginLeft: "1rem",color: "white", backgroundColor: "#00B5FF"}}>Leader Board</MDBBtn>
+            <MDBBtn rounded style={{marginLeft: "1rem",color: "white", backgroundColor: "#640979"}}>Leader Board</MDBBtn>
             </Link>
             </div>
             
@@ -63,14 +63,14 @@ const QuizSummaryPage = () => {
                 <p className='d-flex justify-content-center'>Attempt: </p>
                 <div className='d-flex justify-content-center'>
                 <Link to={`/quiz/${quizId}/take`}>
-                <MDBBtn rounded style={{color: "white", backgroundColor: "#00B5FF"}}>Take Quiz</MDBBtn>
+                <MDBBtn rounded style={{color: "white", backgroundColor: "#640979"}}>Take Quiz</MDBBtn>
                 </Link>
                 </div>
                 <div
                   className='d-flex justify-content-center mt-3 gap-3'
                 >
                   <MDBBtn
-                    style={{color: "white", backgroundColor: "#00B5FF"}}
+                    style={{color: "white", backgroundColor: "#640979"}}
                     onClick={() => {
                       history.push(`/platform/${quiz.platformId}`)
                     }}
@@ -92,7 +92,7 @@ const QuizSummaryPage = () => {
       </div>
       <div>
       <Link2 activeClass="active" to="comments" spy={true} smooth={true}>
-         <button className="btn-block" data-bs-target="#collapseTarget" data-bs-toggle="collapse" style={{backgroundColor: "#8B008B", height: "8vh"}}>
+         <button className="btn-block" data-bs-target="#collapseTarget" data-bs-toggle="collapse" style={{backgroundColor: "#640979", height: "8vh"}}>
          <ChatTextFill style={{color:"white"}}size={30}></ChatTextFill>
              <span style={{fontSize: '15px', marginLeft: '10px', color: "white"}}>Comments</span>
          </button>
@@ -102,13 +102,13 @@ const QuizSummaryPage = () => {
      
     ></input>
 
-    <MDBBtn rounded style={{color: "white", backgroundColor: "#00B5FF", marginLeft:"60px", marginBottom: "10px"}}>Submit</MDBBtn>
+    <MDBBtn rounded style={{color: "white", backgroundColor: "#640979", marginLeft:"60px", marginBottom: "10px"}}>Submit</MDBBtn>
 
          <div id="comments"className="container-sm" style={{maxHeight: "40vh", overflowY: "scroll", marginTop: "20px"}}>
 
        
           
-      <div className="card" style={{backgroundColor: "#8B008B", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
+      <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
           <div className="row row-cols-3">
           
             <div className="col">

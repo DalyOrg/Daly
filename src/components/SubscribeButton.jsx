@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
 import { getPlatformSubscribed, putPlatformSubscribed } from "../adapters/platform"
 import { useGlobalStore } from "../store/useGlobalStore";
+import { putUser } from "../adapters/user";
+import { useCallback } from 'react';
+import { getUser } from '../adapters/user';
 
 const SubscribeButton = ({platformId}) => {
-    const [store] = useGlobalStore()
+    const [store, dispatch] = useGlobalStore()
     const [isSubscribed, setIsSubscribed] = useState(false)
     const [isReady, setIsReady] = useState(false)
+    
 
     useEffect(() => {
         getPlatformSubscribed(platformId).then((res) => {
@@ -15,11 +19,46 @@ const SubscribeButton = ({platformId}) => {
         })
     }, [platformId]);
 
+    const addPlatformToUser = useCallback(async function(){
+        if(store !== undefined){
+            let userInfo = await getUser();
+            userInfo.subscribedPlatforms.push(platformId);
+            putUser(userInfo);
+            if(userInfo.id){
+              dispatch({type: 'login', payload: userInfo})
+            }
+
+        }
+      }, [store, dispatch]);
+
+
+      const removePlatformFromUser = useCallback(async function(){
+        if(store !== undefined){
+            let userInfo = await getUser();
+            const index = userInfo.subscribedPlatforms.indexOf(platformId);
+            if (index > -1) {
+                userInfo.subscribedPlatforms.splice(index, 1);
+            }
+            putUser(userInfo);
+            if(userInfo.id){
+              dispatch({type: 'login', payload: userInfo})
+            }
+
+        }
+      }, [store, dispatch]);
+
     async function handleClick(){
+        if(!isSubscribed){
+            addPlatformToUser();
+        }else{
+            removePlatformFromUser();
+        }
         setIsReady(false)
         await putPlatformSubscribed(platformId, !isSubscribed);
         setIsSubscribed(!isSubscribed);
         setIsReady(true);
+
+        
     };
 
     return (
@@ -37,10 +76,12 @@ const SubscribeButton = ({platformId}) => {
                     isSubscribed ?
                         <span>
                             Subscribed
+                            
                         </span>
                     :
                         <span>
                             Subscribe
+                            
                         </span>
                 }
             </button>

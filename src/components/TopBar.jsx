@@ -19,6 +19,7 @@ import { useGlobalStore } from "../store/useGlobalStore";
 import { getLogout } from "../adapters/user";
 import { useCallback } from 'react';
 
+
 //let loggedIn = false;
 
 
@@ -31,7 +32,7 @@ const TopBar =() =>{
     //render() {
     return (
         
-        <nav class="navbar navbar-dark navbar-fixed-top sticky-top" style={{backgroundColor: "#8B008B"}}>
+        <nav class="navbar navbar-dark navbar-fixed-top sticky-top" style={topbarstyle}>
             
         <div class="container-fluid">
         <Link to="/home">
@@ -39,8 +40,8 @@ const TopBar =() =>{
         </Link>
         
         <form class="d-flex">
-        <MDBInput label='Search Quiz' id='typeText' type='text' style={{color: "white"}}/>
-        <MDBBtn style={{color: "white", backgroundColor: "#00B5FF", marginLeft: '1rem'}} rounded ><Search color="white" size={20}/></MDBBtn>
+        <MDBInput id='typeText' type='text' style={{color: "white"}}/>
+        <MDBBtn style={{color: "white", backgroundColor: "#640979", marginLeft: '1rem'}} rounded ><Search color="white" size={20}/></MDBBtn>
         
         </form>
         
@@ -54,25 +55,25 @@ const TopBar =() =>{
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <MDBBtn  onClick={() => {
                                 history.push('/'+store.userInfo.id+'/platformpicker');
-                            }}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Collection color="white" size={20} /> Platform</MDBBtn>
+                            }}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                     
-                        <MDBBtn onClick={()=> { history.push('/shop');}}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Cart color="white" size={20} /> Shop</MDBBtn>
+                        <MDBBtn onClick={()=> { history.push('/shop');}}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Cart color="white" size={20} /> Shop</MDBBtn>
                         
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
-                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Person color="white" size={20} /> Profile</MDBBtn>
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Person color="white" size={20} /> Profile</MDBBtn>
                         </Link>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/settings">
-                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B" }}><Gear color="white" size={20} /> Settings</MDBBtn>
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Gear color="white" size={20} /> Settings</MDBBtn>
                         </Link>
                     </li>
                     <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "#8B008B", color: "red" }}
+                        <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent", color: "red" }}
                             onClick={() => {
                                 getLogout();
                                 dispatch({type: 'logout'});
@@ -86,7 +87,7 @@ const TopBar =() =>{
             :
             <Link to="/login">
             <button style={
-                {   backgroundColor: "#00B5FF", 
+                {   backgroundColor: "#640979", 
                 color: "white", 
                 border: "none",
                 padding: "6px 15px",
@@ -108,3 +109,8 @@ const TopBar =() =>{
 }
 
 export default TopBar;
+
+
+const topbarstyle = {
+    backgroundColor: "rgba(18, 5, 77, .8)"
+ }

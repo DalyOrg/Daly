@@ -79,7 +79,7 @@ const PlatformPage = () => {
         <div>
             <div className="platformBanner" style={{backgroundColor:"grey",backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
                 {platformOwner !== false ?
-                <span className="changeBannerButton"><MDBBtn style={{backgroundColor: "#00B5FF"}}>Edit Banner Picture</MDBBtn></span>
+                <span className="changeBannerButton"><MDBBtn style={{backgroundColor: "#640979"}}>Edit Banner Picture</MDBBtn></span>
                 : <></>}
             </div>
 
@@ -90,7 +90,7 @@ const PlatformPage = () => {
             
                     <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
-                    <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
+                    <MDBBtn rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
                     : <></>}   
                     </div>
                        
@@ -103,7 +103,7 @@ const PlatformPage = () => {
                     <div className="col" style={{marginTop: '4rem'}}>
                     {platformOwner !== false ? 
                     <Link to={`/platform/${platformId}/create`}>
-                        <MDBBtn rounded size='lg' style={{backgroundColor: "#00B5FF"}}>Create</MDBBtn>
+                        <MDBBtn rounded size='lg' style={{backgroundColor: "#640979"}}>Create</MDBBtn>
                     </Link>
                     
                     : <SubscribeButton platformId={platformId} /> }
@@ -113,7 +113,7 @@ const PlatformPage = () => {
                         <div className="col" style={{color: "white"}}>
                           <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</span>
                           {platformOwner !== false ?
-                          <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}><PencilFill color="white" size={20}/></MDBBtn>
+                          <MDBBtn rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
                           : <></>}  
                           </div>
             </div>

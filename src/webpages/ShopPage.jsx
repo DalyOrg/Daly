@@ -31,7 +31,7 @@ const ShopPage = () => {
     return ( 
         <>
         {store !== undefined && store.userInfo !== undefined ?
-        <div style={{backgroundColor: "#360118"}}>
+        <div style={mystyle}>
             
         <div class="d-flex justify-content-between">
       <div>
@@ -99,3 +99,7 @@ const ShopPage = () => {
 }
 
 export default ShopPage;
+
+const mystyle = {
+  background: 'linear-gradient(90deg, rgba(15,0,36,1) 15%, rgba(100,9,121,1) 50%, rgba(44,0,255,1) 100%)'
+}
