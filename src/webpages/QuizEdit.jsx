@@ -25,6 +25,10 @@ const QuizEdit = () => {
     const [imageUrl, setImageUrl] =useState(""); //changes based on user input
     const history = useHistory();
 
+    const [timeLimitSeconds,setTimeLimitSeconds] = useState();
+    const [minutes, setMinutes] = useState();
+    const [seconds, setSeconds] = useState();
+
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
         setQuiz(quizData)
@@ -55,6 +59,34 @@ const QuizEdit = () => {
         setImageUrl("");
         setAnswerText([]);
         setCorrectAnswer([]);
+    }
+
+    function initTime(){
+        console.log(quiz);
+        var minute = parseInt(quiz.timeLimitSeconds/60,10);
+        var second = quiz.timeLimitSeconds%60;
+        setMinutes(minute);
+        setSeconds(second);
+        setTimeLimitSeconds(quiz.timeLimitSeconds.toString());
+        console.log(quiz.timeLimitSeconds);
+        console.log(minutes, "min", seconds, "sec");
+    }
+
+    function handleCloseTimeModal(){
+        setTimeLimitSeconds();
+        setMinutes();
+        setSeconds(); 
+        console.log(minutes, "min", seconds, "sec");
+    }
+
+    function updateTimer(){
+        var time = ((minutes * 60) + seconds);
+        var tempQuiz = {
+            ...quiz,
+            timeLimitSeconds: time
+        }
+        setQuiz(tempQuiz);
+        console.log(quiz.timeLimitSeconds);
     }
 
     function initQuestion(question, indx){
@@ -232,12 +264,14 @@ const QuizEdit = () => {
                                 className="me-3"
                                 style={{fontSize: "25px", color:'yellow'}}
                             >
-                                Time Limit: {`${quiz.timeLimitSeconds / 60}:${(quiz.timeLimitSeconds % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
+                                Time Limit: {`${parseInt((quiz.timeLimitSeconds / 60), 10)}:${(quiz.timeLimitSeconds % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
                             </span>
                             <MDBBtn 
                                 className='me-auto'
                                 rounded size='sm' style={{backgroundColor: "#00B5FF"}}
-                                onClick={editTimeLimit}
+                                data-mdb-toggle="modal"
+                                data-mdb-target="#timerModal"
+                                onClick={()=>initTime()}
                             >
                                 <PencilFill color="white" size={20}/>
                             </MDBBtn>
@@ -325,6 +359,7 @@ const QuizEdit = () => {
                     </MDBBtn>
                 </div>
 
+{/* modal for question edit */}
 <div class="modal hide fade in" style={{pointerEvents: 'none'}} id="editModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" style={{pointerEvents: 'all'}}>
     <div class="modal-content">
@@ -367,6 +402,49 @@ const QuizEdit = () => {
       </div>
     </div>
   </div>
+</div>
+
+{/* modal for time change */}
+<div class="modal hide fade in" style={{pointerEvents: 'none'}} id="timerModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" style={{pointerEvents: 'all'}}>
+    <div class="modal-content">
+      <div class="modal-header" style={{backgroundColor: 'purple'}}>
+        <h5 class="modal-title" id="editModalLabel">Time Limit Change</h5>
+        <button type="button" onClick={()=>handleCloseTimeModal()} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-0" style={{maxHeight: '460px', overflowY:'auto'}}>
+          <span>
+              <table style={{color:"black", position:"relative", right: "4%"}}>
+                  <tr>
+                      <th>
+                        <span key={timeLimitSeconds}>
+                            <input type="text" id="timeMinutes" name="timeMinutes" defaultValue={timeLimitSeconds ? parseInt(parseInt(timeLimitSeconds,10)/60,10) : ''} required 
+                            onChange={
+                            e=>setMinutes(parseInt(e.target.value.replace(/\D/,''),10))
+                            }
+                        ></input></span>
+                      </th>
+                      <th>Min</th>
+                      <th>
+                      <span key={timeLimitSeconds}>
+                        <input type="text" id="timeSeconds" name="timeSeconds" defaultValue={timeLimitSeconds ? parseInt(timeLimitSeconds,10)%60 : ''} required 
+                            onChange={
+                                e=>setSeconds(parseInt(e.target.value.replace(/\D/,''),10))
+                            }
+                        ></input></span>
+                      </th>
+                      <th>Sec</th>
+                  </tr>
+              </table>
+          </span>
+          <div class="row col-4 offset-4 my-2 mb-3">
+            <button type="button" onClick={()=>updateTimer()} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
+                Save
+            </button>
+      </div>
+      </div>
+    </div>
+   </div>
 </div>
 
             </div>
