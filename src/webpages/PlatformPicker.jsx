@@ -82,7 +82,9 @@ const PlatformPicker = () => {
                 chatId: undefined
             };   
             console.log("before post");
+            console.log("new platform object: "+newPlatform)
             var platform = await postPlatform(newPlatform);
+            console.log("result from await" + platform)
             if(platform){
                 setPlatformId(platform);    
                 updateUser()
