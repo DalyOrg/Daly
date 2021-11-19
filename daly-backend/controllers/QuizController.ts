@@ -1,6 +1,6 @@
 import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
-import { Quiz, Attempt, Leaderboard } from "../interfaces/quiz";
+import { Quiz, Attempt, Leaderboard, QuizComments, Comment } from "../interfaces/quiz";
 import { Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user";
 import { getData, postData, updateData } from "./DatabaseController";
@@ -35,6 +35,13 @@ export async function CreateQuiz({newQuiz}: CreateQuizParams){
   }
   let leaderboardId = await postData('leaderboards', newLeaderboard);
   newQuiz.leaderboardId = leaderboardId;
+
+  // create new comments
+  let newComments = {
+    comments: []
+  }
+  let commentsId = await postData('comments', newComments);
+  newQuiz.commentsId = commentsId;
 
   const res = await db.collection(`quizzes`).add(newQuiz);
 
@@ -158,3 +165,26 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
   return {message: 'Attempt received'}
 }
 
+interface GetCommentsParams{
+  quizId: string
+}
+export async function GetComments({quizId}: GetCommentsParams){
+  let quizData = await GetQuiz({quizId}) as Quiz;
+  let commentsData = await getData('comments', quizData.commentsId) as QuizComments;
+  return commentsData;
+}
+
+interface PostCommentParams{
+  quizId: string
+  newComment: Comment
+  user: User
+}
+export async function PostComment({quizId, newComment, user}: PostCommentParams){
+  newComment.userId = user.id;
+  let quizData = await GetQuiz({quizId}) as Quiz;
+  let commentsData = await getData('comments', quizData.commentsId) as QuizComments;
+  await updateData('comments', quizData.commentsId, {
+    comments: [newComment, ...commentsData.comments]
+  })
+  return {message: 'Comment Created'}
+}
