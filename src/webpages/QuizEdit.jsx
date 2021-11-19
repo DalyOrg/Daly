@@ -16,10 +16,10 @@ const QuizEdit = () => {
 
     //current question properties
     const [question, setQuestion] = useState(); //This will only change when user clicks on a new question, stays constant otherwise
-    const [questionNum, setQuestionNum] = useState(); //This will only change when user clicks on a new question
+    const [questionNum, setQuestionNum] = useState(0); //This will only change when user clicks on a new question
     
     //combine these into a question object and update quiz state when question is submitted
-    const [questionText, setQuestionText] = useState(); //changes based on user input
+    const [questionText, setQuestionText] = useState(""); //changes based on user input
     const [answerText, setAnswerText] = useState([]); //changes based on user input
     const [correctAnswer, setCorrectAnswer] = useState([]); //changes based on user input
     const [imageUrl, setImageUrl] =useState(""); //changes based on user input
@@ -41,9 +41,17 @@ const QuizEdit = () => {
 
     function handleCloseModal(){
         //clears all input data
-        setQuestion();
-        setQuestionNum();
-        setQuestionText();
+        var tempQuestion = {
+            questionText: "",
+            answers: [{
+                answerText: "",
+                correctAnswer: false
+            }],
+            imageUrl: ""
+        };
+        setQuestion(tempQuestion);
+        setQuestionNum(0);
+        setQuestionText("");
         setImageUrl("");
         setAnswerText([]);
         setCorrectAnswer([]);
@@ -64,12 +72,6 @@ const QuizEdit = () => {
         }
         setAnswerText(tempAns);
         setCorrectAnswer(tempCor);
-
-        console.log(questionNum);
-        console.log(questionText);
-        console.log(imageUrl);
-        console.log(answerText);
-        console.log(correctAnswer);
     }
 
     function addAnswer(){
@@ -85,10 +87,6 @@ const QuizEdit = () => {
 
         setCorrectAnswer([...correctAnswer, false]);
         setAnswerText([...answerText, '']);
-
-        console.log(question);
-        console.log(answerText);
-        console.log(correctAnswer);
     }
 
     function deleteAnswer(idx){
@@ -110,30 +108,24 @@ const QuizEdit = () => {
         let reader = new FileReader();
         reader.onloadend = function() {
             setImageUrl(reader.result);
-            console.log(imageUrl);
-            console.log(question);
         }
         reader.readAsDataURL(file);
     }
 
     function changeQuestionText(e){
         setQuestionText(e.target.value);
-        console.log(questionText);
-        console.log(question);
     }
 
     function updateCorrectAnswer(idx){
         var tempCor = [...correctAnswer];
         tempCor[idx] = !tempCor[idx];
         setCorrectAnswer(tempCor);
-        console.log(correctAnswer);
     }
 
     function updateAnswer(idx, e){
         var tempAns = [...answerText];
         tempAns[idx] = e.target.value;
         setAnswerText(tempAns);
-        console.log(answerText);
     }
 
     function submitQuestion(){
@@ -158,7 +150,6 @@ const QuizEdit = () => {
             questions : tempQuestions
         };
         setQuiz(tempQuiz);
-        console.log(quiz);
     }
 
     // Popup Hooks
@@ -272,7 +263,9 @@ const QuizEdit = () => {
                     <MDBBtn 
                         className='me-auto'
                         rounded size='sm' style={{backgroundColor: "#00B5FF"}}
-                        onClick={addQuestion}
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#editModal"
+                        onClick = {()=>handleCloseModal()}
                     >
                         Add New Question
                     </MDBBtn>
