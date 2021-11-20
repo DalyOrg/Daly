@@ -82,6 +82,21 @@ async function postQuizCommentAdapter(quizId, commentText){
     return res.data; // Quiz Object
 }
 
+async function submitQuizAttemptAdapter(quizId, timeLeft, score){
+    let body = {
+        newAttempt: {
+            time: timeLeft,
+            score: score
+        }
+    }
+    let res = await axios.post(
+        `/quiz/${quizId}/leaderboard/attempt`,
+        body
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
+
 export const getQuiz = wrapErrorHandling(getQuizAdapter);
 export const postQuiz = wrapErrorHandling(postQuizAdapter);
 export const putQuiz = wrapErrorHandling(putQuizAdapter);
@@ -90,3 +105,4 @@ export const putQuizLiked = wrapErrorHandling(putQuizLikedAdapter);
 export const getQuizComments = wrapErrorHandling(getQuizCommentsAdapter);
 export const postQuizComment = wrapErrorHandling(postQuizCommentAdapter);
 export const getLeaderboard = wrapErrorHandling(getLeaderBoardAdapter);
+export const submitQuizAttempt = wrapErrorHandling(submitQuizAttemptAdapter);

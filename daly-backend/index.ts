@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import admin from 'firebase-admin'
 import { toHttp } from './common/toHttp';
-import { CreateQuiz, GetQuiz, GetQuizLiked, HelloWorld, UpdateQuiz, UpdateQuizLiked, GetComments, PostComment, GetLeaderboard } from './controllers/QuizController';
+import { CreateQuiz, GetQuiz, GetQuizLiked, HelloWorld, UpdateQuiz, UpdateQuizLiked, GetComments, PostComment, GetLeaderboard, SubmitAttempt } from './controllers/QuizController';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
@@ -119,6 +119,7 @@ app.get('/quiz/:quizId/comments', toHttp(GetComments));
 app.post('/quiz/:quizId/comments', toHttp(PostComment));
 
 app.get('/quiz/:quizId/leaderboard', toHttp(GetLeaderboard));
+app.post('/quiz/:quizId/leaderboard/attempt', toHttp(SubmitAttempt))
 
 app.get('/platform/:platformId', toHttp(GetPlatform));
 app.post('/platform', toHttp(CreatePlatform));
