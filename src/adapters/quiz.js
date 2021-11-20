@@ -58,6 +58,14 @@ async function getQuizCommentsAdapter(quizId){
     console.log(res)
     return res.data; // Quiz Object
 }
+async function getLeaderBoardAdapter(quizId){
+    console.log(quizId);
+    let res = await axios.get(
+        `/quiz/${quizId}/leaderboard`
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
 
 async function postQuizCommentAdapter(quizId, commentText){
     let body = {
@@ -81,3 +89,4 @@ export const getQuizLiked = wrapErrorHandling(getQuizLikedAdapter);
 export const putQuizLiked = wrapErrorHandling(putQuizLikedAdapter);
 export const getQuizComments = wrapErrorHandling(getQuizCommentsAdapter);
 export const postQuizComment = wrapErrorHandling(postQuizCommentAdapter);
+export const getLeaderboard = wrapErrorHandling(getLeaderBoardAdapter);
