@@ -138,7 +138,7 @@ const SettingsPage = () => {
 
 
 
-<div id="profilePictureModal" className="modal fade" tabindex="-1">
+<div id="profilePictureModal" className="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
@@ -154,8 +154,7 @@ const SettingsPage = () => {
       </div>
       </div>
       <div className="modal-footer">
-      
-        <button type="button" class="btn btn-primary" data-mdb-dismiss="modal" onClick={()=>changeProfilePic()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
+        <button type="button" class="btn btn-primary" onClick={()=>changeProfilePic()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
       </div>
     </div>
   </div>
