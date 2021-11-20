@@ -41,7 +41,11 @@ const TopBar =() =>{
         </Link>
         
         <form class="d-flex">
-        <MDBInput id='typeText' type='text' value={input} onInput={e => setInput(e.target.value)} style={{color: "white"}}/>
+        <MDBInput id='typeText' type='text' onKeyPress={e => {
+                if (e.key === 'Enter') {
+                    history.push('/search/'+input);
+                }
+              }} value={input} onInput={e => setInput(e.target.value)} style={{color: "white"}}/>
         <MDBBtn style={{color: "white", backgroundColor: "#640979", marginLeft: '1rem'}} rounded ><Search color="white" size={20} onClick={()=>{
             history.push('/search/'+input);
         }}/></MDBBtn>
