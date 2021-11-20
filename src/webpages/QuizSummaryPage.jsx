@@ -7,17 +7,23 @@ import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-rea
 import { useHistory, useParams } from 'react-router';
 import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { getQuiz } from '../adapters/quiz';
+import { getQuiz, getQuizComments, postQuizComment } from '../adapters/quiz';
+import { getOtherUser } from '../adapters/user';
 import LikeButton from "../components/LikeButton";
 import { ChatTextFill } from "react-bootstrap-icons";
 import { FlagFill } from "react-bootstrap-icons";
 import { Link as Link2 } from 'react-scroll';
 import { Link as Link } from 'react-router-dom';
+import { useGlobalStore } from "../store/useGlobalStore";
 
 const QuizSummaryPage = () => {
     const myRef = useRef(null)
     const {quizId} = useParams();
     const [quiz, setQuiz] = useState();
+    const [comments, setComments] = useState([]);
+    const [commentInput, setCommentInput] = useState('');
+    const [isCommentButtonReady, setIsCommentButtonReady] = useState(true);
+    const [store] = useGlobalStore();
     const history = useHistory();
 
     const initQuiz = useCallback(async function(){
@@ -25,11 +31,33 @@ const QuizSummaryPage = () => {
         setQuiz(quizObj); 
     }, [quizId])
 
-
     useEffect(() => {
         initQuiz();
     }, [initQuiz]);
 
+    const initComments = useCallback(async function(){
+        let commentsObj = await getQuizComments(quizId);
+        setComments(commentsObj.comments);
+        commentsObj.comments.forEach(async (comment, indx) => {
+          let userData = await getOtherUser(comment.userId);
+          setComments((prevState) => {
+            let newComments = [...prevState];
+            newComments[indx] = {...newComments[indx], ...userData};
+            setComments(newComments)
+          })
+        })
+    }, [quizId])
+
+    useEffect(() => {
+        initComments();
+    }, [initComments]);
+
+    async function postComment(){
+      setIsCommentButtonReady(false);
+      await postQuizComment(quizId, commentInput);
+      await initComments();
+      setIsCommentButtonReady(true);
+    }
     
     return (
         <>
@@ -46,9 +74,13 @@ const QuizSummaryPage = () => {
             <MDBCardBody>
             <div class="btn-group-horizontal" >
             
-            <Link to={`/quiz/${quizId}/edit`}>
-            <MDBBtn rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#640979"}}>Edit Quiz</MDBBtn>
-            </Link>
+            <MDBBtn 
+              disabled={!(store && store.userInfo && store.userInfo.platformsOwned.includes(quiz.platformId))}
+              rounded style={{marginLeft: "1rem" ,marginRight: "12rem", color: "white", backgroundColor: "#640979"}}
+              onClick={() => history.push(`/quiz/${quizId}/edit`)}
+            >
+                Edit Quiz
+            </MDBBtn>
 
             <Link to={`/quiz/${quizId}/leaderboard`}>
             <MDBBtn rounded style={{marginLeft: "1rem",color: "white", backgroundColor: "#640979"}}>Leader Board</MDBBtn>
@@ -92,39 +124,66 @@ const QuizSummaryPage = () => {
       </div>
       <div>
       <Link2 activeClass="active" to="comments" spy={true} smooth={true}>
-         <button className="btn-block" data-bs-target="#collapseTarget" data-bs-toggle="collapse" style={{backgroundColor: "#640979", height: "8vh"}}>
-         <ChatTextFill style={{color:"white"}}size={30}></ChatTextFill>
-             <span style={{fontSize: '15px', marginLeft: '10px', color: "white"}}>Comments</span>
-         </button>
-         </Link2>
-         <div className="collapse" id="collapseTarget">
-         <input style={{ marginLeft:"60px", marginTop: "20px", marginBottom: "15px"}} type="text" class="form-control" required placeholder="Comment" 
-     
-    ></input>
+        <button className="btn-block" data-bs-target="#collapseTarget" data-bs-toggle="collapse" style={{backgroundColor: "#640979", height: "8vh"}}>
+        <ChatTextFill style={{color:"white"}}size={30}></ChatTextFill>
+            <span style={{fontSize: '15px', marginLeft: '10px', color: "white"}}>Comments</span>
+        </button>
+        </Link2>
+        <div className="collapse" id="collapseTarget">
 
-    <MDBBtn rounded style={{color: "white", backgroundColor: "#640979", marginLeft:"60px", marginBottom: "10px"}}>Submit</MDBBtn>
+    { store && store.userInfo &&
+    <>
+      <input
+        type="text"
+        className="form-control" 
+        required placeholder="Comment" 
+        style={{ marginLeft:"60px", marginTop: "20px", marginBottom: "15px"}}
+        value={commentInput}
+        onChange={(e) => setCommentInput(e.target.value)}
+      />
+      <MDBBtn
+        rounded
+        style={{color: "white", backgroundColor: "#640979", marginLeft:"60px", marginBottom: "10px"}}
+        disabled={!isCommentButtonReady}
+        onClick={postComment}
+      >
+        Submit
+      </MDBBtn>
+    </>
+    }
 
          <div id="comments"className="container-sm" style={{maxHeight: "40vh", overflowY: "scroll", marginTop: "20px"}}>
 
        
           
-      <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
-          <div className="row row-cols-3">
-          
-            <div className="col">
-
-             <div className="col"><img width="100" style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}} height="100" src="https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8="></img></div>
-             <div className="col" style={{color: "white", marginLeft: "25px"}}>Emre BAN </div>
-             <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
-            </div>
-        
-         
-           <div className="col my-auto"  style={{color: "white"}}> I really liked it</div>
-          
-           <div className="col" style={{color: "grey"}}>posted on 10/11/2021 at 10:59PM</div>
-          
+      { comments &&
+        comments.map((comment) => 
+        <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
+            <div className="row row-cols-3">
+              <div className="col">
+               <div className="col">
+                  <img width="100"
+                    style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}}
+                    height="100"
+                    alt='User Profile'
+                    src={`${comment.profilePicture ? comment.profilePicture :
+                      'https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8='
+                    }`}
+                  />
+                </div>
+                <div className="col"
+                style={{color: "white", marginLeft: "25px"}}
+                >
+                  {comment.username ? comment.username : 'loading...'}
+                </div>
+              <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
+              </div>
+             <div className="col my-auto"  style={{color: "white"}}> {comment.commentText} </div>
+             <div className="col" style={{color: "grey"}}>posted on {(new Date(comment.timestamp._seconds*1000)).toLocaleString('en-us')}</div>
+          </div>
         </div>
-      </div>
+        )
+        }
 
          </div>
          

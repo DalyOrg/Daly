@@ -51,8 +51,42 @@ async function putQuizLikedAdapter(quizId, add){
     return res.data; // Quiz Object
 }
 
+async function getQuizCommentsAdapter(quizId){
+    let res = await axios.get(
+        `/quiz/${quizId}/comments`
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
+async function getLeaderBoardAdapter(quizId){
+    console.log(quizId);
+    let res = await axios.get(
+        `/quiz/${quizId}/leaderboard`
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
+
+async function postQuizCommentAdapter(quizId, commentText){
+    let body = {
+        newComment:{
+            quizId: quizId,
+            commentText: commentText
+        }
+    }
+    let res = await axios.post(
+        `/quiz/${quizId}/comments`,
+        body
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
+
 export const getQuiz = wrapErrorHandling(getQuizAdapter);
 export const postQuiz = wrapErrorHandling(postQuizAdapter);
 export const putQuiz = wrapErrorHandling(putQuizAdapter);
 export const getQuizLiked = wrapErrorHandling(getQuizLikedAdapter);
 export const putQuizLiked = wrapErrorHandling(putQuizLikedAdapter);
+export const getQuizComments = wrapErrorHandling(getQuizCommentsAdapter);
+export const postQuizComment = wrapErrorHandling(postQuizCommentAdapter);
+export const getLeaderboard = wrapErrorHandling(getLeaderBoardAdapter);

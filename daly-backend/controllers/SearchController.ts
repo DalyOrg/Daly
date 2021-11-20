@@ -2,7 +2,8 @@ import {db} from '../common/firestore'
 
 const validQuizFields = [
     'categories',
-    'timeLimitSeconds'
+    'timeLimitSeconds',
+    'likes'
 ]
 
 const validPlatformFields = [

@@ -3,13 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import admin from 'firebase-admin'
 import { toHttp } from './common/toHttp';
-import { CreateQuiz, GetQuiz, GetQuizLiked, HelloWorld, UpdateQuiz, UpdateQuizLiked } from './controllers/QuizController';
+import { CreateQuiz, GetQuiz, GetQuizLiked, HelloWorld, UpdateQuiz, UpdateQuizLiked, GetComments, PostComment, GetLeaderboard } from './controllers/QuizController';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
-import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser } from './controllers/UserController';
+import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser, GetOtherUser } from './controllers/UserController';
 import { GetTrendingFeed } from './controllers/RecommendationController';
 import { SubmitSearch } from './controllers/SearchController';
 
@@ -115,6 +115,11 @@ app.put('/quiz/:quizId', toHttp(UpdateQuiz));
 app.get('/quiz/:quizId/liked', toHttp(GetQuizLiked));
 app.put('/quiz/:quizId/liked', toHttp(UpdateQuizLiked));
 
+app.get('/quiz/:quizId/comments', toHttp(GetComments));
+app.post('/quiz/:quizId/comments', toHttp(PostComment));
+
+app.get('/quiz/:quizId/leaderboard', toHttp(GetLeaderboard));
+
 app.get('/platform/:platformId', toHttp(GetPlatform));
 app.post('/platform', toHttp(CreatePlatform));
 
@@ -123,6 +128,7 @@ app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 app.put('/user/:userId', toHttp(UpdateUser));
 
 app.get('/user', toHttp(GetUser));
+app.get('/user/:userId', toHttp(GetOtherUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
 
 app.get('/recommendations/trending', toHttp(GetTrendingFeed));

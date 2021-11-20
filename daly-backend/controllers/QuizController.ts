@@ -6,6 +6,7 @@ import { User } from "../interfaces/user";
 import { getData, postData, updateData } from "./DatabaseController";
 import { GetPlatform } from "./PlatformController";
 import { GetUser, GetUserLikes, UpdateUserLikes, UpdateUserSubscriptionFeed } from "./UserController";
+import admin from 'firebase-admin';
 
 export async function HelloWorld(){
   return {helloWorld: 'Hello World!'};
@@ -181,6 +182,7 @@ interface PostCommentParams{
 }
 export async function PostComment({quizId, newComment, user}: PostCommentParams){
   newComment.userId = user.id;
+  newComment.timestamp = admin.firestore.Timestamp.now();
   let quizData = await GetQuiz({quizId}) as Quiz;
   let commentsData = await getData('comments', quizData.commentsId) as QuizComments;
   await updateData('comments', quizData.commentsId, {
