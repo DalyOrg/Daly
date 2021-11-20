@@ -10,7 +10,7 @@ async function postSearchAdapter(query){
         `/search`,
         body
     );
-    console.log(res)
+    console.log(res.data)
     return res.data;
 }
 
