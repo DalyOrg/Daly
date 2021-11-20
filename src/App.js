@@ -20,6 +20,7 @@ import SettingsPage from "./webpages/SettingsPage";
 import QuizPage from "./webpages/QuizPage";
 import UserProfilePage from "./webpages/UserProfilePage/UserProfilePage";
 import QuizSummaryPage from "./webpages/QuizSummaryPage";
+import SearchPage from "./webpages/SearchPage";
 import QuizSetup from "./webpages/QuizSetup/QuizSetup";
 import QuizEdit from "./webpages/QuizEdit";
 import LeaderBoard from "./webpages/LeaderBoardPage";
@@ -40,6 +41,7 @@ class App extends Component {
                 <Route exact path="/home" component={HomePage}/>
                 <Route exact path="/settings" component={SettingsPage}/>
                 <Route exact path="/quiz/:quizId" component={QuizSummaryPage}/>
+                <Route exact path="/search/:searchTerm" component={SearchPage}/>
                 <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
                 <Route exact path="/quiz/:quizId/edit" component={QuizEdit}/>
                 <Route exact path="/quiz/:quizId/leaderboard" component={LeaderBoard}/>

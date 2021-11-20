@@ -27,6 +27,7 @@ import { useCallback } from 'react';
 const TopBar =() =>{
     
     const [store, dispatch] = useGlobalStore();
+    const [input, setInput] = useState("");
     const history = useHistory();
 
     //render() {
@@ -40,8 +41,10 @@ const TopBar =() =>{
         </Link>
         
         <form class="d-flex">
-        <MDBInput id='typeText' type='text' style={{color: "white"}}/>
-        <MDBBtn style={{color: "white", backgroundColor: "#640979", marginLeft: '1rem'}} rounded ><Search color="white" size={20}/></MDBBtn>
+        <MDBInput id='typeText' type='text' value={input} onInput={e => setInput(e.target.value)} style={{color: "white"}}/>
+        <MDBBtn style={{color: "white", backgroundColor: "#640979", marginLeft: '1rem'}} rounded ><Search color="white" size={20} onClick={()=>{
+            history.push('/search/'+input);
+        }}/></MDBBtn>
         
         </form>
         
