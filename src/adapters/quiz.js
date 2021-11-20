@@ -51,8 +51,19 @@ async function putQuizLikedAdapter(quizId, add){
     return res.data; // Quiz Object
 }
 
+async function getLeaderBoardAdapter(quizId){
+    console.log(quizId);
+    let res = await axios.get(
+        `/quiz/${quizId}/leaderboard`
+    );
+    console.log(res)
+    return res.data; // Quiz Object
+}
+
+
 export const getQuiz = wrapErrorHandling(getQuizAdapter);
 export const postQuiz = wrapErrorHandling(postQuizAdapter);
 export const putQuiz = wrapErrorHandling(putQuizAdapter);
 export const getQuizLiked = wrapErrorHandling(getQuizLikedAdapter);
 export const putQuizLiked = wrapErrorHandling(putQuizLikedAdapter);
+export const getLeaderboard = wrapErrorHandling(getLeaderBoardAdapter);

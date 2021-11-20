@@ -1,4 +1,5 @@
 import React from "react";
+import { getLeaderboard } from '../adapters/quiz';
 import { MDBBtn } from 'mdb-react-ui-kit';
 const LeaderBoardPage = () => {
     return (
