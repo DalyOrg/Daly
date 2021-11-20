@@ -21,9 +21,13 @@ const SettingsPage = () => {
     }
 
     //TODO
-    function changeUsername(){
-        console.log('change Username');
-        console.log("here " + name);
+    async function changeUsername(){
+      var tempUser = {
+        ...store.userInfo,
+        username: name
+      }
+      let newUserInfo = await putUser(tempUser);
+      dispatch({type: 'login', payload: tempUser});
     }
 
     //TODO
@@ -36,7 +40,8 @@ const SettingsPage = () => {
           profilePicture: profilepic
         }
         dispatch({type: 'login', payload: tempUser});
-        let newUserInfo = await putUser(store.userInfo);
+        console.log(profilepic);
+        let newUserInfo = await putUser(tempUser);
         console.log('change profile pic');
         if(newUserInfo){
           console.log(newUserInfo);
@@ -45,9 +50,19 @@ const SettingsPage = () => {
     }         
 
 
-    function changeProfileBanner(){
-        console.log('change Username');
-        console.log("here " + name);
+    async function changeProfileBanner(){
+      var tempUser = {
+        ...store.userInfo,
+        profileBanner: profilebanner
+      }
+      dispatch({type: 'login', payload: tempUser});
+      console.log(profilebanner);
+      let newUserInfo = await putUser(tempUser);
+      console.log('change profile banner');
+      if(newUserInfo){
+        console.log(newUserInfo);
+      }
+      console.log(store.userInfo.profileBanner);
     }  
 
 
@@ -57,6 +72,7 @@ const SettingsPage = () => {
         let reader = new FileReader();
         reader.onloadend = function() {
             setProfilePic(reader.result);
+            console.log(profilepic);
         }
         reader.readAsDataURL(file);
     }
@@ -68,6 +84,7 @@ const SettingsPage = () => {
         let reader = new FileReader();
         reader.onloadend = function() {
             setProfileBanner(reader.result);
+            console.log(profilebanner);
         }
         reader.readAsDataURL(file);
     }
@@ -169,13 +186,16 @@ const SettingsPage = () => {
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-      <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+      <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
                                 <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfileBanner(e)}></input>
                                 Upload Image</label>
+      <div>
+          {profilebanner !== undefined ? <img style={{width:'70%', height: '70%', position: 'relative'}} src={profilebanner}/> : ""}                          
+      </div>
                                 
       </div>
       <div className="modal-footer">
-        <MDBBtn rounded type="button" onClick={changeProfileBanner} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+        <MDBBtn rounded type="button" onClick={()=>changeProfileBanner()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
       </div>
     </div>
   </div>
