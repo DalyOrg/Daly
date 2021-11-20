@@ -11,6 +11,7 @@ import session from 'express-session';
 import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
 import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser } from './controllers/UserController';
 import { GetTrendingFeed } from './controllers/RecommendationController';
+import { SubmitSearch } from './controllers/SearchController';
 
 const app = express();
 const port = 8080;
@@ -125,6 +126,8 @@ app.get('/user', toHttp(GetUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
 
 app.get('/recommendations/trending', toHttp(GetTrendingFeed));
+
+app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentially for simpler queries
 
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
