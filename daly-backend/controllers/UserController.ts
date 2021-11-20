@@ -28,6 +28,30 @@ export async function GetUser({user}: GetUserParams){
     }
 }
 
+
+export async function DeleteUser({user}: GetUserParams){
+  console.log(user.id, "Hello I am in the controller");
+  if(user === undefined){
+    return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
+}
+else{
+    let userQuery;
+    if(user.id){
+      userQuery = await db.collection(`users`).doc(user.id).delete();
+      return {message:"user data deleted!"};
+    }
+    else{
+      userQuery = await db.collection(`users`).where('googleId', '==', user.googleId);
+      userQuery.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          doc.ref.delete();
+        });
+      });
+    }
+}
+  console.log(user.id,"deleted");
+}
+
 interface GetOtherUserParams{
     userId: string
 }

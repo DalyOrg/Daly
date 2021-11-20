@@ -4,7 +4,8 @@ import { ButtonGroup } from "react-bootstrap";
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import ReactRoundedImage from "react-rounded-image";
-import { putUser } from "../adapters/user";
+import { putUser, getLogout, deleteUser } from "../adapters/user";
+import { useHistory } from 'react-router-dom';
 
 const SettingsPage = () => {
 
@@ -13,11 +14,16 @@ const SettingsPage = () => {
     const [profilepic, setProfilePic] = useState();
     const [profilebanner, setProfileBanner] = useState();
     const [name, setName] = useState();
+    
+    const history = useHistory();
 
     //TODO
     function deleteAccount(){
-        console.log('delete account');
-        //called by delete account button in modal
+        console.log('delete account', store.userInfo.id, store.userInfo.username);
+        deleteUser(store.userInfo);
+        getLogout();
+        dispatch({type: 'logout'});
+        history.push(`/`);
     }
 
     //TODO
@@ -26,7 +32,7 @@ const SettingsPage = () => {
         ...store.userInfo,
         username: name
       }
-      let newUserInfo = await putUser(tempUser);
+      let newUserInfo = await putUser(tempUser);//TODO: how to grab updated content?
       dispatch({type: 'login', payload: tempUser});
     }
 
@@ -119,7 +125,7 @@ const SettingsPage = () => {
       <div className="modal-footer">
       <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Close</MDBBtn>
         
-        <button type="button" onClick={deleteAccount} class="btn btn-danger">Delete Account</button>
+        <button type="button" data-bs-dismiss="modal" onClick={()=>deleteAccount()} class="btn btn-danger">Delete Account</button>
       </div>
     </div>
   </div>
@@ -146,7 +152,7 @@ const SettingsPage = () => {
       </div>
 
       <div className="modal-footer">
-        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}} type="button" onClick={changeUsername} class="btn btn-danger">Submit</MDBBtn>
+        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}} type="button" onClick={()=>changeUsername()} class="btn btn-danger">Submit</MDBBtn>
       </div>
     </div>
   </div>
