@@ -1,8 +1,37 @@
 import React from "react";
 import { getLeaderboard } from '../adapters/quiz';
+import { useHistory, useParams } from 'react-router';
+import { useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { getQuiz } from '../adapters/quiz';
 import { MDBBtn } from 'mdb-react-ui-kit';
 const LeaderBoardPage = () => {
+
+  const {quizId} = useParams();
+  const [leaderboard, setLeaderboard] = useState();
+ 
+
+  const initLeaderBoard = useCallback(async function(){
+      let leaderBoardObj = await getLeaderboard(quizId);
+      setLeaderboard(leaderBoardObj); 
+      console.log(leaderboard);
+  }, [leaderboard, quizId])
+
+
+  useEffect(() => {
+    initLeaderBoard();
+  }, [initLeaderBoard]);
+
+
+
+
+
+
+
     return (
+      <>
+      
+      <>
         <div>
             <div>
                 
@@ -96,6 +125,8 @@ const LeaderBoardPage = () => {
 
 
         </div>
+        </>
+      </>
     );
 }
 
