@@ -5,7 +5,6 @@ export function toHttp(controller: ((params: Object) => any)){
         try{
             let params = {...req.query, ...req.body, ...req.params, user: req.user};
             let ret = await controller(params);
-            console.log(ret);
             if(ret.status){
                 res.status(ret.status);
             }

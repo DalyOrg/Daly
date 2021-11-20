@@ -119,12 +119,15 @@ interface SubmitAttemptParams{
   user: User
 }
 export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptParams){
+  console.log('-----------------------------------------------------------------------')
   let userData = await GetUser({user}) as User;
   newAttempt.userId = userData.id;
+  newAttempt.timestamp = admin.firestore.Timestamp.now();
   let quizData = await GetQuiz({quizId}) as Quiz;
 
   let leaderboard = await getData('leaderboards', quizData.leaderboardId) as Leaderboard;
   let prevAttempt = leaderboard.rankings.find((attempt) => attempt.userId == user.id);
+  console.log(leaderboard);
   if(prevAttempt){
     if(newAttempt.score > prevAttempt.score
         || (newAttempt.score == prevAttempt.score
