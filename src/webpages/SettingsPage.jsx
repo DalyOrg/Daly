@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react';
 import { ButtonGroup } from "react-bootstrap";
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
+import ReactRoundedImage from "react-rounded-image";
+import { putUser } from "../adapters/user";
 
 const SettingsPage = () => {
+
+    const [store, dispatch] = useContext(GlobalStoreContext);
+
     const [profilepic, setProfilePic] = useState();
     const [profilebanner, setProfileBanner] = useState();
     const [name, setName] = useState();
@@ -22,9 +27,21 @@ const SettingsPage = () => {
     }
 
     //TODO
-    function changeProfilePic(){
-        console.log('change Username');
-        console.log("here " + name);
+    async function changeProfilePic(){
+        //change profile pic in global store
+        //calls the adapter to put the new userinfo in global store as the new user
+        //it should update the profile pic
+        var tempUser = {
+          ...store.userInfo,
+          profilePicture: profilepic
+        }
+        dispatch({type: 'login', payload: tempUser});
+        let newUserInfo = await putUser(store.userInfo);
+        console.log('change profile pic');
+        if(newUserInfo){
+          console.log(newUserInfo);
+          console.log(store.userInfo.profilePicture);
+        }
     }         
 
 
@@ -54,11 +71,6 @@ const SettingsPage = () => {
         }
         reader.readAsDataURL(file);
     }
-
-
-
-
-    const [store] = useContext(GlobalStoreContext);
 
     function getUsername(){
         return store.userInfo.username;
@@ -136,13 +148,14 @@ const SettingsPage = () => {
       <div className="modal-body">
       <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
                                 <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfilePic(e)}></input>
-                                Upload Image</label>
-                                
+                                Upload Image</label><br/>
+      <div style={{left: "27%", width:'70%', height: '70%', position: 'relative'}}>
+      {profilepic !== undefined ? <ReactRoundedImage image={profilepic}/> : ""}                          
       </div>
-      
+      </div>
       <div className="modal-footer">
       
-        <MDBBtn rounded type="button" onClick={changeProfilePic} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+        <button type="button" class="btn btn-primary" data-mdb-dismiss="modal" onClick={()=>changeProfilePic()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
       </div>
     </div>
   </div>
@@ -162,9 +175,7 @@ const SettingsPage = () => {
                                 Upload Image</label>
                                 
       </div>
-      
       <div className="modal-footer">
-      
         <MDBBtn rounded type="button" onClick={changeProfileBanner} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
       </div>
     </div>
