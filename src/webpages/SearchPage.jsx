@@ -1,12 +1,16 @@
 import { Funnel } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
+import { postSearch } from "../adapters/search";
+
 const SearchPage = () => {
     const {searchTerm} = useParams();
+    const results = postSearch(searchTerm);
+    console.log(results);
 
     return (
       <>
       <div class='row'>
-        <div class="col-6"><h1>Results for {searchTerm}</h1></div>
+        <div class="col-6"><h1 style={{color: 'white'}} class="px-5 pt-2">Results for {searchTerm}</h1></div>
         <div class='col-4 offset-10'>
         <Funnel style={{color: '#00B5FF', fontSize: '4rem'}}></Funnel>
         </div>

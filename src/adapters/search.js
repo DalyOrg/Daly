@@ -6,8 +6,8 @@ async function postSearchAdapter(query){
     let body = {
         query: query
     }
-    let res = await axios.put(
-        `/search/${query}`,
+    let res = await axios.post(
+        `/search`,
         body
     );
     console.log(res)
