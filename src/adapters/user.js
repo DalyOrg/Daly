@@ -2,7 +2,6 @@ import axios from 'axios';
 import { wrapErrorHandling } from './common';
 
 async function deleteUserAdapter(userData){
-    console.log("attempting to delete user data...");
     try{
         let body = { user: userData };
         let res = await axios.delete(

@@ -30,7 +30,6 @@ export async function GetUser({user}: GetUserParams){
 
 
 export async function DeleteUser({user}: GetUserParams){
-  console.log(user.id, "Hello I am in the controller");
   if(user === undefined){
     return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
 }
@@ -49,7 +48,6 @@ else{
       });
     }
 }
-  console.log(user.id,"deleted");
 }
 
 interface GetOtherUserParams{

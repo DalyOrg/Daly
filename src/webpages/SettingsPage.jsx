@@ -32,7 +32,7 @@ const SettingsPage = () => {
         ...store.userInfo,
         username: name
       }
-      let newUserInfo = await putUser(tempUser);//TODO: how to grab updated content?
+      let newUserInfo = await putUser(tempUser);
       dispatch({type: 'login', payload: tempUser});
     }
 
