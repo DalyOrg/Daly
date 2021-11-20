@@ -28,6 +28,20 @@ export async function GetUser({user}: GetUserParams){
     }
 }
 
+interface GetOtherUserParams{
+    userId: string
+}
+export async function GetOtherUser({userId}: GetOtherUserParams){
+  console.log(userId);
+  let userData = (await db.collection(`users`).doc(userId).get()).data() as User;
+  let cleanData = {
+    username: userData.username,
+    profilePicture: userData.profilePicture,
+    profileBanner: userData.profileBanner
+  };
+  return cleanData;
+}
+
 interface UpdateUserParams{
     userId: string
     newUser: Object // subset of user to update

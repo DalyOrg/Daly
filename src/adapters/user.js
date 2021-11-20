@@ -13,6 +13,14 @@ async function getUserAdapter(){
     }
 }
 
+async function getOtherUserAdapter(userId){
+    let res = await axios.get(
+        `/user/${userId}`
+    );
+    console.log(res);
+    return res.data; // User Object
+}
+
 async function getLogoutAdapter(){
     try{
         await axios.get(
@@ -44,3 +52,4 @@ export const getUser = wrapErrorHandling(getUserAdapter)
 export const putUser = wrapErrorHandling(putUserAdapter)
 export const getLogout = wrapErrorHandling(getLogoutAdapter)
 export const getSubscriptionFeed = wrapErrorHandling(getSubscriptionFeedAdapter)
+export const getOtherUser = wrapErrorHandling(getOtherUserAdapter)
