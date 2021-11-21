@@ -1,19 +1,25 @@
 import { Funnel } from 'react-bootstrap-icons';
 import { useParams } from 'react-router';
 import { postSearch } from "../adapters/search";
+import { getQuiz } from "../adapters/quiz";
 import { useEffect, useState } from "react"
 
 const SearchPage = () => {
     const {searchTerm} = useParams();
     const [results, setResults] = useState("");
-    console.log(results);
 
     useEffect(() => {
+        let quizzes = []
         postSearch(searchTerm).then((res) => {
-            console.log(res.results);
-            setResults(res.results);
+            res.results.forEach((elem) => {
+              console.log("ID",elem.id);
+              getQuiz(elem.id).then((quizInfo) => {
+                quizzes.push(quizInfo);
+              })
+            })
         })
-    }, [searchTerm])
+        setResults(quizzes);
+      }, [searchTerm])
 
     return (
       <>
