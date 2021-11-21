@@ -35,6 +35,12 @@ const LeaderBoardPage = () => {
   }, [initLeaderBoard]);
 
 
+  const history = useHistory();
+  
+  const linkTo = (quizId) => {
+
+    history.push(`/quiz/` + quizId);
+  }
 
 
 
@@ -46,7 +52,7 @@ const LeaderBoardPage = () => {
         <div>
             <div>
                 
-                <MDBBtn style={{marginLeft: "3rem" , marginTop: '2rem',color: "white", backgroundColor: "#00B5FF"}}>Back to Quiz Summary</MDBBtn>
+                <MDBBtn onClick={()=>linkTo(quizId)} style={{marginLeft: "3rem" , marginTop: '2rem',color: "white", backgroundColor: "#5321d0"}}>Back to Quiz Summary</MDBBtn>
             </div>
             <div className='d-flex justify-content-center'>
 
@@ -82,9 +88,9 @@ const LeaderBoardPage = () => {
 
             </div>
 
-            <table class="table" style={{marginTop:"2rem", backgroundColor: "#F7E7CE"}}>
+            <table class="table" style={{marginTop:"2rem", backgroundColor: "#cabcf6"}}>
   <thead>
-    <tr style={{backgroundColor: "#8B008B", color: "white"}}>
+    <tr style={{backgroundColor: "#5321d0", color: "white"}}>
       <th scope="col">Position</th>
       <th scope="col">Username</th>
       <th scope="col">Time Spent</th>

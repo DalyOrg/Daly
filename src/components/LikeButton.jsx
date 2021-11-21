@@ -30,7 +30,7 @@ const LikeButton = ({quiz, setQuiz}) => {
             <button className='btn'
                 disabled={!isReady}
                 style= {{
-                    backgroundColor: '#640979',
+                    backgroundColor: '#5321d0',
                     borderTopRightRadius: '0rem',
                     borderBottomRightRadius: '0rem'
                 }}
