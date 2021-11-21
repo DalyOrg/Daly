@@ -3,19 +3,31 @@ import { getLeaderboard } from '../adapters/quiz';
 import { useHistory, useParams } from 'react-router';
 import { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
+import { getUser } from '../adapters/user';
 import { getQuiz } from '../adapters/quiz';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { getOtherUser } from '../adapters/user';
+
 const LeaderBoardPage = () => {
 
   const {quizId} = useParams();
-  const [leaderboard, setLeaderboard] = useState();
- 
+  const [rankings, setRankings] = useState([]);
 
+  
   const initLeaderBoard = useCallback(async function(){
-      let leaderBoardObj = await getLeaderboard(quizId);
-      setLeaderboard(leaderBoardObj); 
-      console.log(leaderboard);
-  }, [leaderboard, quizId])
+    let leaderBoardObj = await getLeaderboard(quizId);
+    setRankings(leaderBoardObj.rankings);
+    leaderBoardObj.rankings.forEach(async (rank, indx) => {
+      let userData = await getOtherUser(rank.userId);
+      setRankings((prevState) => {
+        let newRanks = [...prevState];
+        newRanks[indx] = {...newRanks[indx], ...userData};
+        setRankings(newRanks);
+        console.log(rankings);
+
+      })
+    })
+  }, [quizId])
 
 
   useEffect(() => {
@@ -27,10 +39,9 @@ const LeaderBoardPage = () => {
 
 
 
-
     return (
       <>
-      
+       {rankings !== undefined ?
       <>
         <div>
             <div>
@@ -81,52 +92,23 @@ const LeaderBoardPage = () => {
     </tr>
   </thead>
   <tbody style={{color: "black"}}>
-    <tr>
-      <th scope="row">1</th>
-      <td>Sonic</td>
-      <td>5</td>
-      <td>80</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Mario</td>
-      <td>8</td>
-      <td>70</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Pikachu</td>
-      <td>8</td>
-      <td>60</td>
-      
-    </tr>
+  {rankings.map((rank, index) => (
+                         <tr>
+                         <th scope="row">{index+1}</th>
+                         <td>{rank.username}</td>
+                         <td>{rank.time}</td>
+                         <td>{rank.score}</td>
+                       </tr>
+                      
+                  ))}
 
-    <tr>
-      <th scope="row">4</th>
-      <td>Sonic</td>
-      <td>5</td>
-      <td>80</td>
-    </tr>
-    <tr>
-      <th scope="row">5</th>
-      <td>Mario</td>
-      <td>8</td>
-      <td>70</td>
-    </tr>
-    <tr>
-      <th scope="row">6</th>
-      <td>Pikachu</td>
-      <td>8</td>
-      <td>60</td>
-      
-    </tr>
   </tbody>
 </table>
 
 
         </div>
         </>
-      </>
+        :<span> Loading... </span>}</>
     );
 }
 
