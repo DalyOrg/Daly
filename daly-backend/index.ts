@@ -16,10 +16,10 @@ import { SubmitSearch } from './controllers/SearchController';
 const app = express();
 const port = 8080;
 
-//  app.use(express.json()); //changed by Qiting
+//  app.use(express.json());
 require('dotenv').config();
 const cloudinary = require('cloudinary').v2;
-cloudinary.config({//TODO: should we put all this in env file
+cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -151,7 +151,7 @@ app.get('/recommendations/trending', toHttp(GetTrendingFeed));
 
 app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentially for simpler queries
 
-(app.post('/api/upload', async (req,res)=>{//Qiting's test code
+(app.post('/api/upload', async (req,res)=>{
   console.log("attempting to upload...");
   try{
     const fileStr = req.body.data;
@@ -169,16 +169,6 @@ app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentiall
     res.status(500).json({err: 'Something went wrong'})
   }
 }));
-
-// app.get('/api/images', async (req, res)=>{
-//   const {resources} = await cloudinary.search.expression
-//   ('folder:dev_setups')
-//   .sort_by('public_id', 'desc')
-//   .max_results(30)
-//   .execute();
-//   const publicIds = resources.map (file => file.public_id);
-//   res.send(publicIds);
-// })
 
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
