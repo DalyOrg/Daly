@@ -13,6 +13,19 @@ async function deleteUserAdapter(userData){
     }
 }
 
+async function uploadUserImageAdapter(image){
+    let body = {data: image};
+    try{
+        let res = await axios.post(
+            `/api/upload`, body
+        );
+        console.log({message: "Image uploaded"});
+        return res.data;
+    }catch(err){
+        console.log("image upload error", err)
+    }
+}
+
 async function getUserAdapter(){
     try{
         let res = await axios.get(
@@ -66,3 +79,4 @@ export const getLogout = wrapErrorHandling(getLogoutAdapter)
 export const getSubscriptionFeed = wrapErrorHandling(getSubscriptionFeedAdapter)
 export const getOtherUser = wrapErrorHandling(getOtherUserAdapter)
 export const deleteUser = wrapErrorHandling(deleteUserAdapter)
+export const uploadUserImage = wrapErrorHandling(uploadUserImageAdapter)

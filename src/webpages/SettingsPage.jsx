@@ -4,7 +4,7 @@ import { ButtonGroup } from "react-bootstrap";
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import ReactRoundedImage from "react-rounded-image";
-import { putUser, getLogout, deleteUser } from "../adapters/user";
+import { putUser, getLogout, deleteUser, uploadUserImage } from "../adapters/user";
 import { useHistory } from 'react-router-dom';
 
 const SettingsPage = () => {
@@ -36,30 +36,38 @@ const SettingsPage = () => {
       dispatch({type: 'login', payload: tempUser});
     }
 
+    const uploadImage =async (base64EncodedImage)=>{
+      console.log("uploading image...");
+      var url = await uploadUserImage(base64EncodedImage);
+      console.log("upload complete");
+      if(url){
+        return url.data;
+      }else{
+        console.log("unable to grab link", url);
+      }
+    }
+
     //TODO
     async function changeProfilePic(){
-        //change profile pic in global store
-        //calls the adapter to put the new userinfo in global store as the new user
-        //it should update the profile pic
+        var url= await uploadImage(profilepic);
         var tempUser = {
           ...store.userInfo,
-          profilePicture: profilepic
+          profilePicture: url
         }
         dispatch({type: 'login', payload: tempUser});
-        console.log(profilepic);
         let newUserInfo = await putUser(tempUser);
         console.log('change profile pic');
         if(newUserInfo){
           console.log(newUserInfo);
           console.log(store.userInfo.profilePicture);
         }
-    }         
-
+    }
 
     async function changeProfileBanner(){
+      var url= await uploadImage(profilebanner);
       var tempUser = {
         ...store.userInfo,
-        profileBanner: profilebanner
+        profileBanner: url
       }
       dispatch({type: 'login', payload: tempUser});
       console.log(profilebanner);
