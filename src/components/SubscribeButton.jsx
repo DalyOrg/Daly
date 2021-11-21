@@ -68,7 +68,8 @@ const SubscribeButton = ({platformId}) => {
             <button className='btn'
                 disabled={!isReady}
                 style= {{
-                    backgroundColor: '#00B5FF'
+                    backgroundColor: '#640979',
+                    color: "white"
                 }}
                 onClick={handleClick}
             >
