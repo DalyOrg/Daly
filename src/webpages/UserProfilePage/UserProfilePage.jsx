@@ -31,6 +31,9 @@ let breakPointsSubscriptions = [
 const UserProfilePage = () => {
     const [store] = useContext(GlobalStoreContext);
     const [platformList, setPlatformList] = useState([]);
+    const [profileBanner, setProfileBanner] = useState();
+    const [profilePicture, setProfilePicture] = useState();
+    const [username, setUsername] = useState('');
 
     const pictures = ["https://i.insider.com/5f5768c47ed0ee001e25dd6b?width=1000&format=jpeg&auto=webp",
       "https://www.thetruecolors.org/wp-content/uploads/2021/02/marvel-logo-header-1.jpg", 
@@ -61,24 +64,12 @@ const UserProfilePage = () => {
                if((store.userInfo.subscribedPlatforms !==undefined)){
                    store.userInfo.subscribedPlatforms.forEach(platform => initPlatform(platform));
                }
-               
+               setProfileBanner(store.userInfo.profileBanner);
+               setProfilePicture(store.userInfo.profilePicture);
+               setUsername(store.userInfo.username);
            }
+
        },[store]);
-
-
-
-
-    function getProfileBanner(){
-        return ``;
-    }
-    
-    function getProfilePic(){
-        return ``;
-    }
-    
-    function getUsername(){
-        return store.userInfo.username;
-    }
     
     function getBadges(){
         return store.userInfo.badges;
@@ -86,11 +77,11 @@ const UserProfilePage = () => {
 
     return (
         <div>
-            <div class="profile-banner" >
-                <div class="profile-picture" ></div>
+            <div class="profile-banner" style={{backgroundColor:"grey",backgroundSize: 'cover',backgroundImage:`url(${profileBanner})`}}>
+                <div class="profile-picture" style={{backgroundColor:"white",backgroundSize: 'cover',backgroundImage:`url(${profilePicture})`}}></div>
             </div>
             <br/><br/><br/><br/><br/>
-            <p class="username">{getUsername()}</p>
+            <p class="username">{username}</p>
             
 
             <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
