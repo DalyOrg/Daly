@@ -44,7 +44,9 @@ const SearchPage = () => {
           return <div className='row border-bottom px-3 pb-4 mb-3'>
             <div className="col-2 offset-1"><img height="100px" width="200px" src={result.backgroundImage ? result.backgroundImage : "http://placehold.it/200x100"}></img></div>
             <div className='col-4'>
+              <a href={typeof result.quizzes !== 'undefined' ? "/platform/" + result.id : "/quiz/" + result.id}>
             <h1 style={{color: 'white'}}>{typeof result.quizzes !== 'undefined' ? "[Platform] " + result.name : "[Quiz] " + result.name}</h1>
+            </a>
             <h3 style={{color: 'hotpink'}}>Created by Faraz Fazli</h3>
             </div>
             <div className='col-5' style={{color: 'hotpink'}}>
