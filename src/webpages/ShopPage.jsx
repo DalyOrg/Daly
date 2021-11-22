@@ -18,13 +18,13 @@ const ShopPage = () => {
         { width: 1200, itemsToShow: 5 },
       ];
 
-      const pictures = ["https://grid-paint.com/images/png/5634464558350336.png",
-       "https://grid-paint.com/images/png/4624511991283712.png",
-       "https://www.kindpng.com/picc/m/15-156291_iron-man-png-iron-man-8-bit-iron.png",
+      const pictures = ["https://i.imgur.com/9uW16qm.png",
+       "https://www.pngall.com/wp-content/uploads/2017/03/Winnie-The-Pooh-PNG-File.png",
+       "https://freepngimg.com/thumb/sonic_the_hedgehog/21035-3-sonic-the-hedgehog-transparent-image.png",
        "https://www.pngfind.com/pngs/m/15-158318_bulbasaur-pixel-sprite-mario-flower-pixel-hd-png.png",
        "https://cdna.artstation.com/p/assets/images/images/004/983/380/large/mar-daniel-garcia-8-bit-art-batman.jpg?1487654590",
         "https://ctl.s6img.com/society6/img/BBwaqn3kl90gxakf4t4ukdoulJQ/w_700/prints/~artwork/s6-0016/a/5492688_12740327/~~/deadpool-8-bit-prints.jpg",
-    "https://grid-paint.com/images/png/5634464558350336.png", ];
+    "https://upload.wikimedia.org/wikipedia/en/0/01/Sheriff_Woody.png", ];
 
        
 
@@ -76,7 +76,7 @@ const ShopPage = () => {
 
       <div class="d-flex justify-content-between">
       <div>
-      <img width="200" height="200" src= {item}></img>
+      <img width="200" maxHeight="500" src= {item}></img>
       </div>
       <div>
             <p style={{fontSize: '40px'}}>Cost: <span style={{color: "black", fontWeight: "bold"}}>50</span></p>
