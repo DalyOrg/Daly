@@ -8,10 +8,6 @@ import { GetPlatform } from "./PlatformController";
 import { GetUser, GetUserLikes, UpdateUserLikes, UpdateUserSubscriptionFeed } from "./UserController";
 import admin from 'firebase-admin';
 
-export async function HelloWorld(){
-  return {helloWorld: 'Hello World!'};
-}
-
 interface GetQuizParams{
   quizId: string
 }
@@ -119,7 +115,6 @@ interface SubmitAttemptParams{
   user: User
 }
 export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptParams){
-  console.log('-----------------------------------------------------------------------')
   let userData = await GetUser({user}) as User;
   newAttempt.userId = userData.id;
   newAttempt.timestamp = admin.firestore.Timestamp.now();
@@ -136,13 +131,13 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
       let newRankings = leaderboard.rankings.filter((attempt) => attempt.userId != user.id);
       newRankings.push(newAttempt);
       newRankings.sort((a, b) => {
-        if(a.score > b.score)
+        if(a.score < b.score)
           return 1;
-        if(b.score > a.score)
+        if(b.score < a.score)
           return -1;
-        if(a.time < b.score)
+        if(a.time > b.time)
           return 1;
-        if(b.time < a.time)
+        if(b.time > a.time)
           return -1;
         return 0;
       }); // could be faster with insertion sort
@@ -154,13 +149,13 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
     let newRankings = leaderboard.rankings;
     newRankings.push(newAttempt);
     newRankings.sort((a, b) => {
-      if(a.score > b.score)
+      if(a.score < b.score)
         return 1;
-      if(b.score > a.score)
+      if(b.score < a.score)
         return -1;
-      if(a.time < b.score)
+      if(a.time > b.time)
         return 1;
-      if(b.time < a.time)
+      if(b.time > a.time)
         return -1;
       return 0;
     }); // could be faster with insertion sort

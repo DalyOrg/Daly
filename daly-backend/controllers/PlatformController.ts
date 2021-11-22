@@ -3,10 +3,6 @@ import { Platform } from "../interfaces/platform";
 import { User } from "../interfaces/user";
 import { UpdateUser, GetUser } from "./UserController";
 
-export async function HelloWorld(){
-  return {helloWorld: 'Hello World!'};
-}
-
 interface GetPlatformParams{
   platformId: string
 }
@@ -18,8 +14,6 @@ export async function GetPlatform({platformId}: GetPlatformParams){
 
   return ret;
 }
-
-
 
 interface CreatePlatformParams{
   newPlatform: Platform
@@ -37,12 +31,15 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
   newPlatform.subscribersId = subId;
 
   const res = await db.collection(`platforms`).add(newPlatform);
-  
-  UpdateUser({userId: userData.id, newUser: {
-    platformsOwned: [...userData.platformsOwned, res.id]
+  let resId = (await res.get()).id;
+
+  console.log(userData.platformsOwned, resId)
+
+  await UpdateUser({userId: userData.id, newUser: {
+    platformsOwned: [...userData.platformsOwned, resId]
   }});
 
   //console.log(res.id)
   // check if res is fine then send a confirmation message
-  return res.id;
+  return resId;
 }
