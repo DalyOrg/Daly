@@ -59,19 +59,19 @@ const LeaderBoardPage = () => {
             
                 <div className="row row-cols-3">
                     <div className="col">
-                    <div  style={{marginTop: '8rem', marginRight: '15rem' ,backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(https://mariopartylegacy.com/wp-content/uploads/2011/08/marioprofile.png)`, height:"200px", width:"200px"}}>
+                    <div  style={{marginTop: '8rem', marginRight: '15rem' ,backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[1] && rankings[1].profilePicture) || ""})`, height:"200px", width:"200px"}}>
                     <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "silver", fontWeight: "bold", fontSize: "30px"}}>2</p>
                     </div>
                     </div>
 
                     <div className="col">
-                    <div  style={{marginTop: '2rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(https://avatarfiles.alphacoders.com/979/97952.png)`, height:"200px", width:"200px"}}>
+                    <div  style={{marginTop: '2rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[0] && rankings[0].profilePicture) || ""})`, height:"200px", width:"200px"}}>
                     <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "gold", fontWeight: "bold", fontSize: "30px"}}>1</p>
                     </div>
                     </div>
 
                     <div className="col">
-                    <div  style={{marginTop: '8rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(https://ssb.wiki.gallery/images/thumb/9/93/Pikachu_SSBU.png/1200px-Pikachu_SSBU.png)`, height:"200px", width:"200px"}}>
+                    <div  style={{marginTop: '8rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[2] && rankings[2].profilePicture) || ""})`, height:"200px", width:"200px"}}>
                     <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "brown", fontWeight: "bold", fontSize: "30px"}}>3</p>
                     </div>
                     </div>
