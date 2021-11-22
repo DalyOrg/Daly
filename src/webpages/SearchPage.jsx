@@ -41,9 +41,9 @@ const SearchPage = () => {
         </div>
         {results ? results.map((result) => {
           return <div className='row border-bottom px-3 pb-4 mb-3'>
-            <div className="col-2 offset-1"><img src="http://placehold.it/200x100"></img></div>
+            <div className="col-2 offset-1"><img height="100px" width="200px" src={result.backgroundImage}></img></div>
             <div className='col-4'>
-            <h1 style={{color: 'white'}}>{typeof results.quizzes !== 'undefined' ? "[Platform] " + result.name : "[Quiz] " + result.name}</h1>
+            <h1 style={{color: 'white'}}>{typeof result.quizzes !== 'undefined' ? "[Platform] " + result.name : "[Quiz] " + result.name}</h1>
             <h3 style={{color: 'hotpink'}}>Created by Faraz Fazli</h3>
             </div>
             <div className='col-5' style={{color: 'hotpink'}}>
