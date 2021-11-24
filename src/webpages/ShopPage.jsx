@@ -1,15 +1,38 @@
 import React from "react";
 import { useGlobalStore } from "../store/useGlobalStore";
-import {useContext, useState} from "react";
+import {useContext, useState, useCallback} from "react";
 import ItemCarousel from "../components/ItemCarousel";
 import Carousel from 'react-elastic-carousel';
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import {MDBBtn } from 'mdb-react-ui-kit';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
+import { getItems } from '../adapters/item';
 
 const ShopPage = () => {
 
     const [store] = useContext(GlobalStoreContext);
     const [item, setItem] = useState();
+    const [itemList, setItemList] = useState([]);
+
+
+
+    const initItems = useCallback(async function(){
+      if(store !== undefined && store.userInfo !== undefined){
+        let itemObjs = await getItems();
+        setItemList(itemObjs)
+        console.log(itemList);
+      }
+    }, [itemList, store]);
+  
+    useEffect(() => {
+      initItems()
+    }, [initItems])
+
+
+  
+
+
 
     let breakPoints = [
         { width: 1, itemsToShow: 2 },
@@ -38,15 +61,16 @@ const ShopPage = () => {
       <h1 style={{fontSize: "80px", color: "white", marginLeft: "20px"}}>Shop</h1>
       </div>
       <div>
-      <h1 style={{fontSize: "40px", color: "white", marginRight: "20px", marginTop: "30px"}}>Badges: <span style={{color: "yellow"}}>250</span></h1>
+      <h1 style={{fontSize: "40px", color: "white", marginRight: "20px", marginTop: "30px"}}>Badges: <span style={{color: "yellow"}}>{store.userInfo.badges}</span></h1>
       </div>
     </div>
 
         <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
           <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>Hot</h1>
           <Carousel breakPoints={breakPoints}>
-            {pictures.map((item) => (
-                     <ItemCarousel onClick={() => setItem(item)} data-bs-toggle="modal" data-bs-target="#itemModal" style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item})`}}><span style={{backgroundColor:"yellow", color: 'black', fontWeight: "bold"}}>50</span> </ItemCarousel>
+            {itemList.map((item) => (
+                     <ItemCarousel onClick={() => setItem(item)} data-bs-toggle="modal" data-bs-target="#itemModal" style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item.picUrl})`, backgroundPositionX: "center",
+                     }}><span style={{backgroundColor:"#5321d0", color: 'white', fontWeight: "bold", borderRadius: "4px"}}>{item.price}</span> </ItemCarousel>
                   ))}
           </Carousel>
         </div>
@@ -54,7 +78,7 @@ const ShopPage = () => {
           <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>New</h1>
           <Carousel breakPoints={breakPoints}>
           {pictures.map((item) => (
-                     <ItemCarousel onClick={() => setItem(item)}  data-bs-toggle="modal" data-bs-target="#itemModal"style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item})`}}><span style={{backgroundColor:"yellow", color: 'black', fontWeight: "bold"}}>50</span> </ItemCarousel>
+                     <ItemCarousel onClick={() => setItem(item)}  data-bs-toggle="modal" data-bs-target="#itemModal"style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item})`}}><span style={{backgroundColor:"#5321d0", color: 'white', fontWeight: "bold", borderRadius: "4px"}}>50</span> </ItemCarousel>
                   ))}
        
           </Carousel>
@@ -74,15 +98,19 @@ const ShopPage = () => {
       </div>
       <div className="modal-body">
 
+      {item !== undefined ?
       <div class="d-flex justify-content-between">
+        
       <div>
-      <img width="200" maxHeight="500" src= {item}></img>
+      
+      <img width="200" maxHeight="500" src= {item.picUrl}></img>
       </div>
       <div>
-            <p style={{fontSize: '40px'}}>Cost: <span style={{color: "black", fontWeight: "bold"}}>50</span></p>
+            <p style={{fontSize: '40px'}}>Cost: <span style={{color: "black", fontWeight: "bold"}}>{item.price}</span></p>
       </div>
+      
     </div>
-
+:<span> Loading... </span>}
       </div>
       
       <div className="modal-footer">

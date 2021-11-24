@@ -12,6 +12,7 @@ import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
 import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser, GetOtherUser, DeleteUser } from './controllers/UserController';
 import { GetTrendingFeed } from './controllers/RecommendationController';
 import { SubmitSearch } from './controllers/SearchController';
+import { GetItems } from './controllers/ItemController';
 
 const app = express();
 const port = 8080;
@@ -144,6 +145,8 @@ app.get('/user', toHttp(GetUser));
 app.get('/user/:userId', toHttp(GetOtherUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
 app.delete('/user/:userId', toHttp(DeleteUser));
+
+app.get('/shop/items', toHttp(GetItems));
 
 app.get('/recommendations/trending', toHttp(GetTrendingFeed));
 

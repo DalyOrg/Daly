@@ -9,6 +9,7 @@ export interface User{
     interestsId: string
     platformsOwned: string[]
     subscribedPlatforms: string[]
+    itemsOwned: string[]
     subscriptionsId: string
     subscriptionFeedId: string
     likesId: string
