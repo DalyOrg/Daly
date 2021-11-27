@@ -8,10 +8,12 @@ import {MDBBtn } from 'mdb-react-ui-kit';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { getItems } from '../adapters/item';
+import { putUser} from "../adapters/user";
 
 const ShopPage = () => {
 
-    const [store] = useContext(GlobalStoreContext);
+    const [store, dispatch] = useContext(GlobalStoreContext);
+    const [badge, setBadge] = useState();
     const [item, setItem] = useState();
     const [itemList, setItemList] = useState([]);
 
@@ -21,16 +23,47 @@ const ShopPage = () => {
       if(store !== undefined && store.userInfo !== undefined){
         let itemObjs = await getItems();
         setItemList(itemObjs)
+        
         console.log(itemList);
       }
-    }, [itemList, store]);
+    }, [store.userInfo, dispatch]);
   
     useEffect(() => {
       initItems()
     }, [initItems])
-
-
   
+    useEffect(() => {
+      if(store !== undefined){
+        setBadge(store.userInfo.badges);
+      }
+      
+    }, [])
+      
+    
+    
+
+    async function buyItem(){
+        
+      if(store.userInfo !== undefined && item !== undefined){
+          console.log("inside if");
+        if(badge > item.price){
+          console.log("inside badge if");
+          console.log(item.price);
+          let newBadge = badge - item.price;
+          setBadge(newBadge)
+          console.log(newBadge);
+        }
+        var tempUser = {
+          ...store.userInfo,
+          badges: badge
+        }
+        
+        let newUserInfo = await putUser(tempUser);
+        dispatch({type: 'login', payload: tempUser});
+        console.log(newUserInfo);
+        
+      }
+  }
 
 
 
@@ -69,7 +102,7 @@ const ShopPage = () => {
           <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>Hot</h1>
           <Carousel breakPoints={breakPoints}>
             {itemList.map((item) => (
-                     <ItemCarousel onClick={() => setItem(item)} data-bs-toggle="modal" data-bs-target="#itemModal" style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item.picUrl})`, backgroundPositionX: "center",
+                     <ItemCarousel onClick={()=>setItem(item)} data-bs-toggle="modal" data-bs-target="#itemModal" style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item.picUrl})`, backgroundPositionX: "center",
                      }}><span style={{backgroundColor:"#5321d0", color: 'white', fontWeight: "bold", borderRadius: "4px"}}>{item.price}</span> </ItemCarousel>
                   ))}
           </Carousel>
@@ -78,7 +111,7 @@ const ShopPage = () => {
           <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' }}>New</h1>
           <Carousel breakPoints={breakPoints}>
           {pictures.map((item) => (
-                     <ItemCarousel onClick={() => setItem(item)}  data-bs-toggle="modal" data-bs-target="#itemModal"style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item})`}}><span style={{backgroundColor:"#5321d0", color: 'white', fontWeight: "bold", borderRadius: "4px"}}>50</span> </ItemCarousel>
+                     <ItemCarousel onClick={()=>setItem(item)}  data-bs-toggle="modal" data-bs-target="#itemModal"style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${item})`}}><span style={{backgroundColor:"#5321d0", color: 'white', fontWeight: "bold", borderRadius: "4px"}}>50</span> </ItemCarousel>
                   ))}
        
           </Carousel>
@@ -115,7 +148,7 @@ const ShopPage = () => {
       
       <div className="modal-footer">
       
-        <MDBBtn rounded type="button"  style={{color: "black", backgroundColor: "yellow",fontWeight:"bold"}}>Buy</MDBBtn>
+        <MDBBtn rounded data-bs-dismiss="modal" type="button" onClick={()=>buyItem()} style={{color: "black", backgroundColor: "yellow",fontWeight:"bold"}}>Buy</MDBBtn>
       </div>
     </div>
   </div>

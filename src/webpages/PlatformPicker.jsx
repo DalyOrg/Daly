@@ -82,12 +82,27 @@ const PlatformPicker = () => {
                 chatId: undefined
             };   
             console.log("before post");
-            console.log("new platform object: "+newPlatform)
+            console.log("new platform object: "+ newPlatform)
             var platform = await postPlatform(newPlatform);
             console.log("result from await" + platform)
             if(platform){
-                setPlatformId(platform);    
-                updateUser()
+                setPlatformId(platform);  
+                
+                var tempUser = {
+                  ...store.userInfo,
+                  platformsOwned: [...store.userInfo.platformsOwned, platform]
+                }
+                dispatch({type: 'login', payload: tempUser});
+                let newUserInfo = await putUser(tempUser);
+                console.log('change profile pic');
+                if(newUserInfo){
+                  console.log(newUserInfo);
+                  console.log(store.userInfo.profilePicture);
+                }
+
+
+
+                
             }
     }
 
