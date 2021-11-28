@@ -31,17 +31,10 @@ let breakPointsSubscriptions = [
 const UserProfilePage = () => {
     const [store] = useContext(GlobalStoreContext);
     const [platformList, setPlatformList] = useState([]);
+    const [itemList, setItemList] = useState([]);
     const [profileBanner, setProfileBanner] = useState();
     const [profilePicture, setProfilePicture] = useState();
     const [username, setUsername] = useState('');
-
-    const pictures = ["https://i.insider.com/5f5768c47ed0ee001e25dd6b?width=1000&format=jpeg&auto=webp",
-      "https://www.thetruecolors.org/wp-content/uploads/2021/02/marvel-logo-header-1.jpg", 
-      "https://res.cloudinary.com/jerrick/image/upload/f_jpg,fl_progressive,q_auto,w_1024/wv9zgmvj9rpbtqi2a8l0.jpg",
-       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Star_Wars_Logo.svg/1388px-Star_Wars_Logo.svg.png", 
-       "https://thumbs.dreamstime.com/b/set-justice-league-dc-comics-black-logos-kiev-ukraine-november-set-justice-league-dc-comics-black-logos-printed-paper-125514598.jpg"];
-
-
 
        const history = useHistory();
   
@@ -67,6 +60,7 @@ const UserProfilePage = () => {
                setProfileBanner(store.userInfo.profileBanner);
                setProfilePicture(store.userInfo.profilePicture);
                setUsername(store.userInfo.username);
+               setItemList(store.userInfo.itemsOwned);
            }
 
        },[store]);
@@ -88,16 +82,13 @@ const UserProfilePage = () => {
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "30px"}}>Collection</h1>
       <Carousel breakPoints={breakPointsCollection}>
         {
-          pictures.map((quiz) => 
+          itemList.map((item) => 
             <ItemCarousel
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundPositionX: "center",
-                backgroundPositionY: "center",
                 backgroundSize: "cover",
-                
-                
-                backgroundImage: `url(${quiz})`
+                backgroundImage: `url(${item.picUrl})`
               }}
               onClick={() => {
                 //history.push(`/quiz/${quiz.id}`);

@@ -74,8 +74,9 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
         let newUser = {
           googleId: profile.id,
           accountCreated: admin.firestore.Timestamp.now(),
-          badges: 0,
+          badges: 500,
           platformsOwned: [],
+          itemsOwned: [{picUrl: "https://i.imgur.com/uHJU1hj.png", price: 100},{picUrl:"https://i.imgur.com/rnGQWYi.png", price: 80}],
           subscribedPlatforms: [],
           profileBanner: 'https://coolbackgrounds.io/images/backgrounds/white/pure-white-background-85a2a7fd.jpg', // white image
           profilePicture: 'https://freesvg.org/img/abstract-user-flat-4.png', // Creative Common default user icon
