@@ -17,7 +17,7 @@ export async function getData(route: string, query: string | Object): Promise<an
     else if (typeof query === 'object' && !Array.isArray(query)
                 && query !== {}){
         let collQuery: CollectionReference | Query = collection
-        for(let field in Object.keys(query)){
+        for(let field of Object.keys(query)){
             collQuery = collQuery.where(field, '==', query[field]);
         }
         let data = await collQuery.get();
@@ -59,7 +59,6 @@ export async function updateData(route: string, query: string, newData: Object){
         };
         throw err;
     }
-    return true;
 }
 
 export async function deleteData(route: string, query: string){
@@ -73,5 +72,4 @@ export async function deleteData(route: string, query: string){
         };
         throw err;
     }
-    return true;
 }

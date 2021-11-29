@@ -14,6 +14,7 @@ import { GetTrendingFeed } from './controllers/RecommendationController';
 import { SubmitSearch } from './controllers/SearchController';
 import { GetItems } from './controllers/ItemController';
 import { User } from './interfaces/user';
+import { getData, postData } from './controllers/DatabaseController';
 
 const app = express();
 const port = 8080;
@@ -37,7 +38,7 @@ app.use(cors({
 }));
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.SESSION_SECRET,
 }));
 
 // Passport Authentication
@@ -51,26 +52,25 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
   },
   async function(accessToken, refreshToken, profile, done) {
     try{
-      const userQuery = await db.collection(`users`).where('googleId', '==', profile.id).get();
-      if(userQuery.docs.length > 0){ // found one
-        return done(null, {...userQuery.docs[0].data(), id: userQuery.docs[0].id});
+      const userQuery = await getData(`users`, {googleId: profile.id});
+      console.log(userQuery)
+      if(userQuery.length > 0){ // found one
+        return done(null, userQuery[0]);
       }
       else{ 
         // create likes object
         let newLikes = {
           likes: []
         }
-        const likesRes = await db.collection(`likes`).add(newLikes);
-        let likeId = (await likesRes.get()).id;
+        let likeId = await postData(`likes`, newLikes);
 
         // create subscription feed object
         let newFeed = {
           feed: []
         }
-        const feedRes = await db.collection(`subscriptionFeeds`).add(newFeed);
-        let feedId = (await feedRes.get()).id;
+        let feedId = await postData(`subscriptionFeeds`, newFeed);
 
-        // create new user
+        // create new default user
         let newUser = {
           googleId: profile.id,
           accountCreated: admin.firestore.Timestamp.now(),
@@ -85,13 +85,12 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
           subscriptionFeedId: feedId
         }
 
-        const res = await db.collection(`users`).add(newUser);
-        let id = (await res.get()).id;
+        let userId = await postData(`users`, newUser);
 
-        return done(null, {...newUser, id: id});
+        return done(null, {...newUser, id: userId});
       }
     } catch(err){
-      done(err)
+      done(err);
     }
   }
 ));

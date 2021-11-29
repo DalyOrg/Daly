@@ -11,8 +11,7 @@ import admin from 'firebase-admin';
 interface GetQuizParams{
   quizId: string
 }
-export async function GetQuiz({quizId}: GetQuizParams){
-  console.log(quizId)
+export async function GetQuiz({quizId}: GetQuizParams): Promise<Quiz>{
   let quizData = await getData(`quizzes`, quizId);
 
   return quizData;
@@ -108,9 +107,9 @@ export async function UpdateQuizLiked({quizId, add, user}: UpdateQuizLikedParams
 interface GetLeaderboardParams{
   quizId: string
 }
-export async function GetLeaderboard({quizId}: GetLeaderboardParams){
-  let quizData = await GetQuiz({quizId}) as Quiz;
-  let leaderboard = await getData('leaderboards', quizData.leaderboardId) as Leaderboard;
+export async function GetLeaderboard({quizId}: GetLeaderboardParams): Promise<Leaderboard>{
+  let quizData = await GetQuiz({quizId});
+  let leaderboard = await getData('leaderboards', quizData.leaderboardId);
   return leaderboard;
 }
 

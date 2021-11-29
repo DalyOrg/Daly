@@ -9,25 +9,32 @@ import { GetPlatform } from "./PlatformController";
 interface GetUserParams{
     user: User
 }
-export async function GetUser({user}: GetUserParams){
+export async function GetUser({user}: GetUserParams): Promise<User>{
   if(user === undefined){
-      let err: StdError = {
-        status: 401,
-        message: 'Not logged in!'
-      };
-      throw err;
+    let err: StdError = {
+      status: 401,
+      message: 'Not logged in!'
+    };
+    throw err;
   }
   else{
-      if(user.id){
-        let userQuery = await db.collection(`users`).doc(user.id).get();
-        return {...userQuery.data(), id: userQuery.id};
+    if(user.id){
+      let userData = await getData(`users`, user.id);
+      return userData;
+    }
+    else{
+      let userQuery = await getData(`users`, {googleId: user.googleId});
+      if(userQuery.length > 0){ // found one
+        return userQuery;
       }
       else{
-        let userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
-        if(userQuery.docs.length > 0){ // found one
-          return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
-        }
+        let err: StdError = {
+          status: 404,
+          message: 'User could not be found!'
+        };
+        throw err;
       }
+    }
   }
 }
 
