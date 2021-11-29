@@ -33,14 +33,14 @@ const TopBar =() =>{
     //render() {
     return (
         
-        <nav class="navbar navbar-dark navbar-fixed-top" style={topbarstyle}>
+        <nav className="navbar navbar-dark navbar-fixed-top" style={topbarstyle}>
             
-        <div class="container-fluid">
+        <div className="container-fluid">
         <Link to="/home">
-        <a class="navbar-brand" >Daly</a>
+        <a className="navbar-brand" >Daly</a>
         </Link>
         
-        <form class="d-flex">
+        <form className="d-flex">
         <MDBInput id='typeText' type='text' onKeyPress={e => {
                 if (e.key === 'Enter') {
                     history.push('/search/'+input);
@@ -54,32 +54,32 @@ const TopBar =() =>{
         
         {store.userInfo ?
             <>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <Justify color="white" size={30} />
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <MDBBtn  onClick={() => {
                                 history.push('/'+store.userInfo.id+'/platformpicker');
                             }}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Collection color="white" size={20} /> Platform</MDBBtn>
                     </li>
-                    <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                     
                         <MDBBtn onClick={()=> { history.push('/shop');}}data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Cart color="white" size={20} /> Shop</MDBBtn>
                         
                     </li>
-                    <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
                             <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Person color="white" size={20} /> Profile</MDBBtn>
                         </Link>
                     </li>
-                    <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/settings">
                             <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Gear color="white" size={20} /> Settings</MDBBtn>
                         </Link>
                     </li>
-                    <li class="nav-item" style={{ marginBottom: "0.5rem" }}>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent", color: "red" }}
                             onClick={() => {
                                 getLogout();

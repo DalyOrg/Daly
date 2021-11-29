@@ -34,7 +34,7 @@ const ShopPage = () => {
 
     useEffect(() => {
       setBadge(store.userInfo.badges);
-    }, [])
+    }, [store.userInfo.badges])
   
     
 

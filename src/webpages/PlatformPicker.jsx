@@ -2,33 +2,23 @@ import React from "react";
 import ItemCarousel from "../components/PlatformPickerCarousel";
 import Carousel from 'react-elastic-carousel';
 import { useEffect, useState } from 'react';
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
-import { useParams } from 'react-router';
+import { MDBBtn } from 'mdb-react-ui-kit';
 import { useHistory } from 'react-router';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getPlatform } from '../adapters/platform';
 import { postPlatform } from "../adapters/platform";
-import { useCallback } from 'react';
 import { Redirect } from "react-router";
-import { getUser } from '../adapters/user';
 import { putUser } from "../adapters/user";
 import "../carousel.css";
 
 const PlatformPicker = () => {
-    let selectedItem = "";
     const [store, dispatch] = useGlobalStore();
     const [platformList, setPlatformList] = useState([]);
     const [name, setName] = useState();
     const [platformId, setPlatformId] = useState();
-
-    const [user, setUser] = useState();
-  
-
-
     const history = useHistory();
   
     const linkTo = (platformId) => {
-
       history.push(`/platform/` + platformId);
     }
 
@@ -36,37 +26,18 @@ const PlatformPicker = () => {
     async function initPlatform(platformId){
         let platformObj = await getPlatform(platformId);
         setPlatformList((platformList) => [...platformList, platformObj])
-        console.log(platformObj);
     }
 
     useEffect(() => {
         if(store !== undefined && store.userInfo !== undefined){
-            console.log(store.userInfo.platformsOwned);
-            console.log(store.userInfo.id);
-            if((store.userInfo.platformsOwned !==undefined)){
+            if((store.userInfo.platformsOwned !== undefined)){
                 store.userInfo.platformsOwned.forEach(platform => initPlatform(platform));
             }
-            
         }
     },[store]);
 
- 
-    const updateUser = useCallback(async function(){
-        if(store !== undefined){
-            let userInfo = await getUser();
-            userInfo.platformsOwned.push(platformId);
-            putUser(userInfo);
-            if(userInfo.id){
-              dispatch({type: 'login', payload: userInfo})
-            }
-
-        }
-      }, [store, dispatch]);
-
-
 
     async function newPlatform(){
-        
         if(store.userInfo === undefined){
             alert("You must log in to create a quiz.");
             return;
@@ -80,38 +51,21 @@ const PlatformPicker = () => {
                 subscribersId: undefined,
                 subscriberCount: 0,
                 chatId: undefined
-            };   
-            console.log("before post");
-            console.log("new platform object: "+ newPlatform)
+            };       
             var platform = await postPlatform(newPlatform);
-            console.log("result from await" + platform)
             if(platform){
                 setPlatformId(platform);  
-                
                 var tempUser = {
                   ...store.userInfo,
                   platformsOwned: [...store.userInfo.platformsOwned, platform]
                 }
                 dispatch({type: 'login', payload: tempUser});
                 let newUserInfo = await putUser(tempUser);
-                console.log('change profile pic');
                 if(newUserInfo){
                   console.log(newUserInfo);
-                  console.log(store.userInfo.profilePicture);
-                }
-
-
-
-                
+                }                
             }
     }
-
-
-
-
-
-
-
 
     return (
         <div>
