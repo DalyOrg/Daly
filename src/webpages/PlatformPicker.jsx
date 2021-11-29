@@ -12,6 +12,7 @@ import { putUser } from "../adapters/user";
 import "../carousel.css";
 
 const PlatformPicker = () => {
+
     const [store, dispatch] = useGlobalStore();
     const [platformList, setPlatformList] = useState([]);
     const [name, setName] = useState();
@@ -46,8 +47,8 @@ const PlatformPicker = () => {
                 ownerId: store.userInfo.id,
                 name: name,
                 quizzes: [],
-                platformPicture: undefined,
-                platformBanner: undefined,
+                platformPicture: "https://i.imgur.com/x3ihOZC.jpg",
+                platformBanner: "https://i.imgur.com/tXJmlg8.jpg",
                 subscribersId: undefined,
                 subscriberCount: 0,
                 chatId: undefined

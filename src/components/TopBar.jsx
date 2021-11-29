@@ -37,7 +37,7 @@ const TopBar =() =>{
             
         <div className="container-fluid">
         <Link to="/home">
-        <a className="navbar-brand" >Daly</a>
+        <button className="navbar-brand" >Daly</button>
         </Link>
         
         <form className="d-flex">

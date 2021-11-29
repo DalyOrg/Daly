@@ -95,10 +95,10 @@ const PlatformPage = () => {
                     </div>
                        
                      <div className="col" style={{marginTop: '4rem'}}>
-                         <span style={{fontSize: "20px", color: "white" , marginLeft: '6rem'}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold", marginLeft: '6rem'}}>25K</span></span>
+                         <span style={{fontSize: "20px", color: "white" , marginLeft: '6rem'}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold", marginLeft: '6rem'}}>{platform.subscriberCount}</span></span>
                     </div>
                      <div className="col" style={{marginTop: '4rem'}}>
-                     <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>20</span></span>
+                     <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{(platform.quizzes).length}</span></span>
                     </div>
                     <div className="col" style={{marginTop: '4rem'}}>
                     {platformOwner !== false ? 
