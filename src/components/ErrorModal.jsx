@@ -1,4 +1,4 @@
-import {Modal} from 'bootstrap'
+import { Modal } from 'mdb-ui-kit'
 import { useRef } from 'react'
 import { useEffect } from 'react'
 
@@ -16,7 +16,7 @@ const ErrorModal = ({message}) => {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Error!</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close" />
                     </div>
                     <div className="modal-body">
                         <p>{message}</p>
