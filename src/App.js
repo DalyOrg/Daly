@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import "./App.css";
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics"; // TODO: add later perhaps?
@@ -29,11 +29,35 @@ import PlatformPage from "./webpages/PlatformPage";
 import ShopPage from "./webpages/ShopPage";
 //components
 import TopBar from "./components/TopBar.jsx";
+import { render } from "@testing-library/react";
+import { useGlobalStore } from "./store/useGlobalStore";
+import { getUser } from "./adapters/user";
 
+
+const GetUserWrapper = ({children}) => {
+    const [store, dispatch] = useGlobalStore();
+
+    const initUser = useCallback(async function(){
+        if(store !== undefined && store.userInfo === undefined){
+          let userInfo = await getUser();
+          if(userInfo.id){
+            dispatch({type: 'login', payload: userInfo})
+          }
+        }
+    }, [store, dispatch]);
+
+    useEffect(() => {
+      initUser()
+    }, [initUser]);
+
+    return(<> {children} </>);
+}
 
 class App extends Component {
     render() {
-        return <Router>
+        return(
+        <GetUserWrapper>
+        <Router>
             <TopBar></TopBar>
             <Switch>
                 <Route exact path="/" component={LandingPage}></Route>
@@ -54,6 +78,8 @@ class App extends Component {
                 <Redirect to="/404"></Redirect>
             </Switch>
         </Router>
+        </GetUserWrapper>
+        )
     }
 }
 

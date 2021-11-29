@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { GlobalStoreContext } from "./useGlobalStore";
 import App from "../App";
+import { getUser } from "../adapters/user";
 
 const GlobalStoreWrapper = () => {
     const [store, setStore] = useState({});

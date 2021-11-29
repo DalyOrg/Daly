@@ -24,19 +24,6 @@ const HomePage = () => {
   const [subFeed, setSubFeed] = useState([]);
   const [trendingFeed, setTrendingFeed] = useState([]);
   
-  const initUser = useCallback(async function(){
-    if(store.userInfo === undefined){
-      let userInfo = await getUser();
-      if(userInfo.id){
-        dispatch({type: 'login', payload: userInfo})
-      }
-    }
-  }, [store.userInfo, dispatch]);
-
-  useEffect(() => {
-    initUser()
-  }, [initUser])
-
   const initSubFeed = useCallback(async function(){
     if(store !== undefined && store.userInfo !== undefined){
       let subFeedRes = await getSubscriptionFeed();
