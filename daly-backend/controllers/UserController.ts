@@ -10,17 +10,21 @@ interface GetUserParams{
     user: User
 }
 export async function GetUser({user}: GetUserParams){
-    if(user === undefined){
-        return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
-    }
-    else{
-        let userQuery;
+  console.log(user)
+    if(user === undefined){    
+        let err: StdError = {
+          status: 401,
+          message: 'Not logged in!'
+        }
+        throw err;
+    }                          
+    else{                      
         if(user.id){
-          userQuery = await db.collection(`users`).doc(user.id).get();
+          let userQuery = await db.collection(`users`).doc(user.id).get();
           return {...userQuery.data(), id: userQuery.id};
         }
         else{
-          userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
+          let userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
           if(userQuery.docs.length > 0){ // found one
             return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
           }

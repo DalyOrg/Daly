@@ -36,7 +36,8 @@ const QuizSummaryPage = () => {
     }, [initQuiz]);
 
     const initComments = useCallback(async function(){
-        let commentsObj = await getQuizComments(quizId);
+      if(quiz){ // check if quiz exists
+        let commentsObj = await getQuizComments(quiz.id);
         setComments(commentsObj.comments);
         commentsObj.comments.forEach(async (comment, indx) => {
           let userData = await getOtherUser(comment.userId);
@@ -46,7 +47,8 @@ const QuizSummaryPage = () => {
             setComments(newComments)
           })
         })
-    }, [quizId])
+      }
+    }, [quiz])
 
     useEffect(() => {
         initComments();

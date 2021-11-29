@@ -13,6 +13,7 @@ import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscr
 import { GetTrendingFeed } from './controllers/RecommendationController';
 import { SubmitSearch } from './controllers/SearchController';
 import { GetItems } from './controllers/ItemController';
+import { User } from './interfaces/user';
 
 const app = express();
 const port = 8080;
@@ -35,11 +36,11 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use(session({
   secret: 'keyboard cat',
 }));
 
+// Passport Authentication
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -96,12 +97,12 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
   }
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
+passport.serializeUser(function(user: User, done) {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(userId, done) {
+  done(null, {id: userId});
 });
 
 app.get('/auth/google',
@@ -121,6 +122,7 @@ app.get('/auth/logout',
     res.status(200);
 });
 
+// quiz
 app.post('/quiz', toHttp(CreateQuiz));
 
 app.get('/quiz/:quizId', toHttp(GetQuiz));
@@ -135,6 +137,7 @@ app.post('/quiz/:quizId/comments', toHttp(PostComment));
 app.get('/quiz/:quizId/leaderboard', toHttp(GetLeaderboard));
 app.post('/quiz/:quizId/leaderboard/attempt', toHttp(SubmitAttempt))
 
+// platform
 app.get('/platform/:platformId', toHttp(GetPlatform));
 app.post('/platform', toHttp(CreatePlatform));
 
@@ -142,17 +145,22 @@ app.get('/platform/:platformId/subscribed', toHttp(GetUserSubscription));
 app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 app.put('/user/:userId', toHttp(UpdateUser));
 
+// user
 app.get('/user', toHttp(GetUser));
 app.get('/user/:userId', toHttp(GetOtherUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
 app.delete('/user/:userId', toHttp(DeleteUser));
 
+// shop
 app.get('/shop/items', toHttp(GetItems));
 
+// recommendations
 app.get('/recommendations/trending', toHttp(GetTrendingFeed));
 
+// search
 app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentially for simpler queries
 
+// upload
 (app.post('/api/upload', async (req,res)=>{
   console.log("attempting to upload...");
   try{
@@ -172,6 +180,22 @@ app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentiall
   }
 }));
 
+// 404
+app.get('*', async (req, res) => {
+  res.status(404).json({message: 'URI path not found.'})
+});
+
+// error handling middleware
+app.use(async (error: any, req: express.Request, res: express.Response, next) => {
+  if(error.status && error.message){ // StdError
+    res.status(error.status).json({message: error.message});
+  }
+  else{
+    res.status(500).json({message: 'Unknown Error'});
+  }
+})
+
+// start server
 app.listen(port, () => {
   return console.log(`server is listening on ${port}`);
 });

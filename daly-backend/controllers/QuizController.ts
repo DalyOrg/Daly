@@ -13,11 +13,9 @@ interface GetQuizParams{
 }
 export async function GetQuiz({quizId}: GetQuizParams){
   console.log(quizId)
-  const quizDoc = await db.collection(`quizzes`).doc(quizId).get();
-  let ret = quizDoc.data();
-  ret.id = quizDoc.id;
+  let quizData = await getData(`quizzes`, quizId);
 
-  return ret;
+  return quizData;
 }
 
 interface CreateQuizParams{
@@ -82,6 +80,13 @@ export async function GetQuizLiked({quizId, user}: GetQuizLikedParams){
   if(likeObj.likes){
     return {isLiked: likeObj.likes.includes(quizId)}
   }
+  else{
+    let err: StdError = {
+        status: 404,
+        message: `Your account does not support likes.`
+    };
+    throw err;
+  }
 }
 
 interface UpdateQuizLikedParams{
@@ -97,7 +102,7 @@ export async function UpdateQuizLiked({quizId, add, user}: UpdateQuizLikedParams
   const res = await db.collection(`quizzes`).doc(quizId).update({
     likes: newLikes
   });
-  return {message: 'Likes Updated', newLikes: newLikes }
+  return {message: 'Likes Updated', newLikes: newLikes };
 }
 
 interface GetLeaderboardParams{

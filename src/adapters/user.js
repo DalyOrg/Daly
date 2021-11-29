@@ -73,7 +73,7 @@ async function putUserAdapter(user){
     return res.data;
 }
 
-export const getUser = wrapErrorHandling(getUserAdapter)
+export const getUser = getUserAdapter // don't want to display unauthorized error
 export const putUser = wrapErrorHandling(putUserAdapter)
 export const getLogout = wrapErrorHandling(getLogoutAdapter)
 export const getSubscriptionFeed = wrapErrorHandling(getSubscriptionFeedAdapter)

@@ -1,10 +1,28 @@
+import ErrorModal from "../components/ErrorModal";
+import {render} from "react-dom";
+
+function displayErrorModal(err){ 
+    let modalRoot = document.getElementById("errorModal");
+
+    if (!modalRoot) {
+        modalRoot = document.createElement("div");
+        modalRoot.setAttribute("id", "errorModal");
+        document.body.appendChild(modalRoot);
+    }
+
+    render(<ErrorModal message={err.message} />, modalRoot);
+}
 
 export function wrapErrorHandling(adapter){
-    return function(){
+    return async function(){
         try{
-            return adapter.apply(this, arguments)
+            let res =  await adapter.apply(this, arguments)
+            return res
         } catch(err){
-            // do stuff
+            // axios error
+            console.log('Error!')
+            displayErrorModal(err.response.data);
+            return undefined
         }
     }
 }
