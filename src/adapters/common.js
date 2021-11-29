@@ -4,11 +4,12 @@ import {render} from "react-dom";
 function displayErrorModal(err){ 
     let modalRoot = document.getElementById("errorModal");
 
-    if (!modalRoot) {
-        modalRoot = document.createElement("div");
-        modalRoot.setAttribute("id", "errorModal");
-        document.body.appendChild(modalRoot);
+    if (modalRoot) {
+        modalRoot.remove(); // reset elment
     }
+    modalRoot = document.createElement("div");
+    modalRoot.setAttribute("id", "errorModal");
+    document.body.appendChild(modalRoot);
 
     render(<ErrorModal message={err.message} />, modalRoot);
 }
