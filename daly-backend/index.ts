@@ -50,7 +50,6 @@ passport.use(new GoogleStrategy.OAuth2Strategy({
     callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`
   },
   async function(accessToken, refreshToken, profile, done) {
-    console.log(profile.emails)
     try{
       const userQuery = await db.collection(`users`).where('googleId', '==', profile.id).get();
       if(userQuery.docs.length > 0){ // found one
@@ -123,11 +122,6 @@ app.get('/auth/logout',
 });
 
 // quiz
-app.post('/quiz', toHttp(CreateQuiz));
-
-app.get('/quiz/:quizId', toHttp(GetQuiz));
-app.put('/quiz/:quizId', toHttp(UpdateQuiz));
-
 app.get('/quiz/:quizId/liked', toHttp(GetQuizLiked));
 app.put('/quiz/:quizId/liked', toHttp(UpdateQuizLiked));
 
@@ -137,19 +131,27 @@ app.post('/quiz/:quizId/comments', toHttp(PostComment));
 app.get('/quiz/:quizId/leaderboard', toHttp(GetLeaderboard));
 app.post('/quiz/:quizId/leaderboard/attempt', toHttp(SubmitAttempt))
 
-// platform
-app.get('/platform/:platformId', toHttp(GetPlatform));
-app.post('/platform', toHttp(CreatePlatform));
+app.get('/quiz/:quizId', toHttp(GetQuiz));
+app.put('/quiz/:quizId', toHttp(UpdateQuiz));
 
+app.post('/quiz', toHttp(CreateQuiz));
+
+// platform
 app.get('/platform/:platformId/subscribed', toHttp(GetUserSubscription));
 app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
-app.put('/user/:userId', toHttp(UpdateUser));
+
+app.get('/platform/:platformId', toHttp(GetPlatform));
+
+app.post('/platform', toHttp(CreatePlatform));
 
 // user
-app.get('/user', toHttp(GetUser));
-app.get('/user/:userId', toHttp(GetOtherUser));
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));
+
+app.get('/user/:userId', toHttp(GetOtherUser));
+app.put('/user/:userId', toHttp(UpdateUser));
 app.delete('/user/:userId', toHttp(DeleteUser));
+
+app.get('/user', toHttp(GetUser));
 
 // shop
 app.get('/shop/items', toHttp(GetItems));

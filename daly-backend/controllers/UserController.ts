@@ -10,26 +10,25 @@ interface GetUserParams{
     user: User
 }
 export async function GetUser({user}: GetUserParams){
-  console.log(user)
-    if(user === undefined){    
-        let err: StdError = {
-          status: 401,
-          message: 'Not logged in!'
+  if(user === undefined){
+      let err: StdError = {
+        status: 401,
+        message: 'Not logged in!'
+      };
+      throw err;
+  }
+  else{
+      if(user.id){
+        let userQuery = await db.collection(`users`).doc(user.id).get();
+        return {...userQuery.data(), id: userQuery.id};
+      }
+      else{
+        let userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
+        if(userQuery.docs.length > 0){ // found one
+          return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
         }
-        throw err;
-    }                          
-    else{                      
-        if(user.id){
-          let userQuery = await db.collection(`users`).doc(user.id).get();
-          return {...userQuery.data(), id: userQuery.id};
-        }
-        else{
-          let userQuery = await db.collection(`users`).where('googleId', '==', user.googleId).get();
-          if(userQuery.docs.length > 0){ // found one
-            return {...userQuery.docs[0].data(), id: userQuery.docs[0].id};
-          }
-        }
-    }
+      }
+  }
 }
 
 
@@ -58,8 +57,7 @@ interface GetOtherUserParams{
     userId: string
 }
 export async function GetOtherUser({userId}: GetOtherUserParams){
-  console.log(userId);
-  let userData = (await db.collection(`users`).doc(userId).get()).data() as User;
+  let userData = await getData(`users`, userId) as User;
   let cleanData = {
     username: userData.username,
     profilePicture: userData.profilePicture,
