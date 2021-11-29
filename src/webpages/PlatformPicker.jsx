@@ -75,11 +75,13 @@ const PlatformPicker = () => {
                 <MDBBtn data-bs-toggle="modal" data-bs-target="#nameModal"  style={{marginLeft: "1rem" , marginBottom: '1rem',color: "white", backgroundColor: "#640979"}}>Add a Platform</MDBBtn>
                
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
+            {platformList.length !== 0 ?
                 <Carousel>
                 {platformList.map((platform) => (
                      <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
+                : <h1 style={{color: "white", textAlign: "center"}}>You haven't created a platform yet.</h1>}
             </div>
 
 
