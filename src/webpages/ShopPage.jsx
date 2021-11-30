@@ -112,7 +112,7 @@ const ShopPage = () => {
 
 
 <div id="itemModal" className="modal fade" tabindex="-1">
-  <div className="modal-dialog">
+  <div className="modal-dialog" >
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title">Shop</h5>
@@ -128,7 +128,7 @@ const ShopPage = () => {
       <img width="200" maxHeight="500" src= {item.picUrl}></img>
       </div>
       <div>
-            <p style={{fontSize: '40px'}}>Cost: <span style={{color: "black", fontWeight: "bold"}}>{item.price}</span></p>
+            <p style={{fontSize: '40px'}}>Cost: <span style={{color: "black"}}>{item.price}</span></p>
       </div>
       
     </div>

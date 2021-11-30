@@ -1,6 +1,6 @@
 import React from "react";
 import "./platformPage.css";
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn, MDBBtnGroup } from 'mdb-react-ui-kit';
+import {  MDBBtn } from 'mdb-react-ui-kit';
 import { PencilFill } from 'react-bootstrap-icons';
 import ItemCarousel from "../components/ItemCarousel";
 import Carousel from 'react-elastic-carousel';

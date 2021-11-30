@@ -1,14 +1,15 @@
 import React from "react";
 import ItemCarousel from "../components/PlatformPickerCarousel";
 import Carousel from 'react-elastic-carousel';
-import { useEffect, useState } from 'react';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { useEffect, useState,useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getPlatform } from '../adapters/platform';
 import { postPlatform } from "../adapters/platform";
-import { Redirect } from "react-router";
 import { putUser } from "../adapters/user";
+import { Redirect } from "react-router";
+
 import "../carousel.css";
 
 const PlatformPicker = () => {
@@ -23,21 +24,45 @@ const PlatformPicker = () => {
       history.push(`/platform/` + platformId);
     }
 
+    let breakPoints = [
+      { width: 1, itemsToShow: 1 },
+      { width: 550, itemsToShow: 1 },
+      { width: 768, itemsToShow: 1 },
+      { width: 1200, itemsToShow: 1 },
+    ];
 
-    async function initPlatform(platformId){
-        let platformObj = await getPlatform(platformId);
-        setPlatformList((platformList) => [...platformList, platformObj])
-    }
 
-    useEffect(() => {
-        if(store !== undefined && store.userInfo !== undefined){
-            if((store.userInfo.platformsOwned !== undefined)){
-                store.userInfo.platformsOwned.forEach(platform => initPlatform(platform));
+
+    const initPlatform = useCallback(async function(){
+      if(store !== undefined && store.userInfo !== undefined && store.userInfo.platformsOwned !== undefined){
+        setPlatformList(store.userInfo.platformsOwned);
+        store.userInfo.platformsOwned.forEach(async(platform,index) => 
+          {
+            let platformObj = await getPlatform(platform);
+            setPlatformList((prevState) =>
+            {
+              let newPlatformList = [...prevState];
+              newPlatformList[index] = platformObj;
+              setPlatformList(newPlatformList);
             }
-        }
-    },[store]);
+            );
+          }
+        )
+      }
+    }, [store])
 
 
+    
+    useEffect(() => {
+      initPlatform();
+  }, [initPlatform]);
+
+
+
+
+
+
+  
     async function newPlatform(){
         if(store.userInfo === undefined){
             alert("You must log in to create a quiz.");
@@ -69,6 +94,9 @@ const PlatformPicker = () => {
     }
 
     return (
+      
+      <>
+      {platformList !== undefined && store !== undefined && store.userInfo !== undefined ?
         <div>
             <h1 className='d-flex justify-content-center' style={{color: '#FFFFFF', marginTop: '2rem'}}>Platforms</h1>
 
@@ -76,9 +104,10 @@ const PlatformPicker = () => {
                
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
             {platformList.length !== 0 ?
-                <Carousel>
+                <Carousel breakPoints={breakPoints}>
                 {platformList.map((platform) => (
-                     <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
+                     <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',
+                     backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
                 : <h1 style={{color: "white", textAlign: "center"}}>You haven't created a platform yet.</h1>}
@@ -115,7 +144,9 @@ const PlatformPicker = () => {
                         : ""
                     }
         </div>
+       :<span> Loading... </span>}</>
     );
+    
 }
 
 export default PlatformPicker;
