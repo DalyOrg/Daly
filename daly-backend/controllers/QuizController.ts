@@ -51,6 +51,9 @@ export async function CreateQuiz({newQuiz}: CreateQuizParams){
     })
   }
 
+  //put quiz in platform quiz list
+  const platRes = await db.collection(`platforms`).doc(newQuiz.platformId).update("quizzes", [...platformData.quizzes, res.id]);
+
   //console.log(res.id)
   // check if res is fine then send a confirmation message
   return res.id;
