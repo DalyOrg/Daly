@@ -118,17 +118,21 @@ const PlatformPage = () => {
                           </div>
             </div>
 
-
+            {(platform.quizzes) !== undefined ?              
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
+                
                 {(platform.quizzes).length !== 0 ?
                 <Carousel breakPoints={breakPoints}>
                 
                 {quizList.map((quiz) => (
-                     <ItemCarousel onClick={()=>linkTo(quiz.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${quiz.backgroundImage})`}}></ItemCarousel>
+                     <ItemCarousel onClick={()=>linkTo(quiz.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",
+                     backgroundPosition: "center",
+                     backgroundSize: "cover",backgroundImage:`url(${quiz.backgroundImage})`}}></ItemCarousel>
                   ))}
                 </Carousel>
             : <h1 style={{color: "white", textAlign: "center"}}>You haven't created a quiz yet.</h1>}
             </div>
+            : <h1 style={{color: "white", textAlign: "center"}}>Loading</h1>}
             {platformOwner !== false ?
             <MDBBtn rounded className='mx-2' color='danger' style={{marginBottom: "1rem"}}>
                  DELETE PLATFORM

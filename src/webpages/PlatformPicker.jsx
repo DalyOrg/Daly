@@ -106,7 +106,9 @@ const PlatformPicker = () => {
             {platformList.length !== 0 ?
                 <Carousel breakPoints={breakPoints}>
                 {platformList.map((platform) => (
-                     <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',
+                     <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",
+                     backgroundPosition: "center",
+                     backgroundSize: "cover",
                      backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
