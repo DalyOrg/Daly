@@ -13,7 +13,6 @@ const QuizEdit = () => {
     const { quizId } = useParams();
     const [quiz, setQuiz] = useState();
 
-
     //current question properties
     const [question, setQuestion] = useState(); //This will only change when user clicks on a new question, stays constant otherwise
     const [questionNum, setQuestionNum] = useState(0); //This will only change when user clicks on a new question
@@ -28,6 +27,9 @@ const QuizEdit = () => {
     const [timeLimitSeconds,setTimeLimitSeconds] = useState();
     const [minutes, setMinutes] = useState();
     const [seconds, setSeconds] = useState();
+
+    const [inputName, setInputName] = useState();
+    const [quizName, setQuizName] = useState();
 
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
@@ -206,9 +208,6 @@ const QuizEdit = () => {
     async function editBanner(){
     }
 
-    async function editName(){
-    }
-
     async function editTimeLimit(){
     }
 
@@ -272,7 +271,12 @@ const QuizEdit = () => {
                                 {quiz.name}
                             </span>
                             <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF"}}
-                                onClick={editName}
+                                data-mdb-toggle="modal"
+                                data-mdb-target="#nameModal"
+                                onClick={()=>{
+                                    setQuizName(quiz.name);
+                                    setInputName(quiz.name);
+                                }}
                             >
                                 <PencilFill color="white" size={20}/>
                             </MDBBtn>
@@ -457,6 +461,30 @@ const QuizEdit = () => {
           </span>
           <div class="row col-4 offset-4 my-2 mb-3">
             <button type="button" onClick={()=>updateTimer()} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
+                Save
+            </button>
+      </div>
+      </div>
+    </div>
+   </div>
+</div>
+
+{/* modal for name change */}
+<div class="modal hide fade in" style={{pointerEvents: 'none'}} id="nameModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" style={{pointerEvents: 'all'}}>
+    <div class="modal-content">
+      <div class="modal-header" style={{backgroundColor: 'purple'}}>
+        <h5 class="modal-title" id="editModalLabel">Quiz Name Change</h5>
+        <button type="button" onClick={()=>setQuizName('')} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-0" style={{maxHeight: '460px', overflowY:'auto'}}>
+          <span key={quizName}>
+                <input type="text" id="quizName" name="quizName" defaultValue={quizName} required 
+                            onChange={
+                            e=>setInputName(e.target.value)
+                            }/></span>
+          <div class="row col-4 offset-4 my-2 mb-3">
+            <button type="button" onClick={()=>setQuiz({...quiz, name: inputName})} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
                 Save
             </button>
       </div>
