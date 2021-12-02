@@ -10,14 +10,14 @@ const QuizPage = () => {
     const {quizId} = useParams();
     const [timer, setTimer] = useState();
     const [quiz, setQuiz] = useState();
-    const [time, setTime] = useState(0);
+    const [time, setTime] = useState();
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [showResults, setShowResults] = useState(false);
 
 
     async function countDown(){
         if(!showResults){
-            setTime((prevTime) => prevTime + 1);
+            setTime((prevTime) => prevTime - 1);
         }
     }
 
@@ -27,19 +27,21 @@ const QuizPage = () => {
     }, [timer])
 
     useEffect(() => {
-        if(quiz && time >= quiz.timeLimitSeconds){
+        if(time<=0){
             // auto submit
             submitAttempt();
+            alert("Times up!");
         }
     }, [quiz, time, submitAttempt])
 
     const startTimer = useCallback(async function(){
         setTimer(setInterval(countDown, 1000));
-    }, [setTimer, setInterval])
+    }, [setTimer, setInterval, time])
 
     const initQuiz = useCallback(async function(){
         let quizObj = await getQuiz(quizId);
         setQuiz(quizObj); 
+        setTime(quizObj.timeLimitSeconds);
         startTimer();
     }, [quizId]);
 
@@ -64,7 +66,7 @@ const QuizPage = () => {
         <QuizResult
             quiz={quiz}
             setQuiz={setQuiz}
-            time={time}
+            time={quiz.timeLimitSeconds - time}
         />
         : quiz !== undefined ?
         quiz.questions.length === 0 ?
@@ -118,7 +120,7 @@ const QuizPage = () => {
             <span className='mx-auto'
                 style={{color: '#FFFFFF'}}
             >
-                Time Taken: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
+                Time Left: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
             </span>
         </div>
         
