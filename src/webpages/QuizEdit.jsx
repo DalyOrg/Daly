@@ -339,24 +339,6 @@ const QuizEdit = () => {
                     </MDBBtn>
                 </div>
 
-                <div className="d-flex mb-3">
-                    <MDBBtn 
-                        className='me-auto'
-                        rounded size='sm' style={{backgroundColor: "#00B5FF"}}
-                        data-mdb-toggle="modal"
-                        data-mdb-target="#editModal"
-                        onClick = {()=>setUpNewQuestion()}
-                    >
-                        Add New Question
-                    </MDBBtn>
-                    <MDBBtn 
-                        rounded size='sm' style={{backgroundColor: "#00B5FF"}}
-                        onClick={publishQuiz}
-                    >
-                        Publish Quiz
-                    </MDBBtn>
-                </div>
-
                 <div className='d-flex flex-column'>
                     {
                         quiz.questions.map((question, indx) => 
@@ -397,11 +379,25 @@ const QuizEdit = () => {
                     }
                 </div>
 
-                <div className='d-flex'>
-                    <MDBBtn rounded className='' color='danger'
+                <div className="d-flex mb-3">
+                    <MDBBtn className='me-auto' rounded size='sm' color='danger'
                         onClick={deleteQuiz}
                     >
                         DELETE QUIZ
+                    </MDBBtn>
+                    <MDBBtn 
+                        rounded size='sm' style={{backgroundColor: "#00B5FF"}}
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#editModal"
+                        onClick = {()=>setUpNewQuestion()}
+                    >
+                        Add New Question
+                    </MDBBtn>
+                    <MDBBtn 
+                        rounded size='sm' style={{backgroundColor: "green"}}
+                        onClick={publishQuiz}
+                    >
+                        Publish Quiz
                     </MDBBtn>
                 </div>
 
