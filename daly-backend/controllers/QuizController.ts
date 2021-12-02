@@ -195,3 +195,20 @@ export async function PostComment({quizId, newComment, user}: PostCommentParams)
   })
   return {message: 'Comment Created'}
 }
+
+interface DeleteQuizParams{
+  quizId: string
+  user: User
+}
+export async function DeleteQuiz({quizId, user}: DeleteQuizParams){
+      var quizQuery = await GetQuiz({quizId}) as Quiz;
+      var platformQuery = await GetPlatform({platformId: quizQuery.platformId}) as Platform;
+      var tempQuiz = [...platformQuery.quizzes];
+      var deleteIndex = tempQuiz.indexOf(quizId);
+      if (deleteIndex > -1) {
+        tempQuiz.splice(deleteIndex, 1);
+      }
+      const platRes = await db.collection(`platforms`).doc(quizQuery.platformId).update("quizzes", tempQuiz);
+      const quizDelete = await db.collection(`quizzes`).doc(quizId).delete();
+      return {message:"quiz deleted!"};
+}

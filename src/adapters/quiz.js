@@ -97,6 +97,19 @@ async function submitQuizAttemptAdapter(quizId, timeLeft, score){
     return res.data; // Quiz Object
 }
 
+async function deleteQuizAdapter(quizId){
+    try{
+        let body = { quizId:quizId };
+        let res = await axios.delete(
+            `/quiz/${quizId}`, body
+        );
+        console.log({message: "Quiz deleted!"});
+    }catch(err){
+        console.log("quiz delete error", err)
+    }
+}
+
+export const deleteQuiz = wrapErrorHandling(deleteQuizAdapter);
 export const getQuiz = wrapErrorHandling(getQuizAdapter);
 export const postQuiz = wrapErrorHandling(postQuizAdapter);
 export const putQuiz = wrapErrorHandling(putQuizAdapter);

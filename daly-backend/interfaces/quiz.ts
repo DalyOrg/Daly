@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 
 export interface Quiz{
+    id: String
     name: string
     questions: {
         questionText: string

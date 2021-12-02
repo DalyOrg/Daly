@@ -7,7 +7,7 @@ import { purple } from "@mui/material/colors";
 import axios from "axios";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { useHistory } from 'react-router-dom';
-import { putQuiz } from "../adapters/quiz";
+import { putQuiz, deleteQuiz } from "../adapters/quiz";
 import { uploadUserImage } from "../adapters/images";
 
 const QuizEdit = () => {
@@ -31,8 +31,6 @@ const QuizEdit = () => {
 
     const [inputName, setInputName] = useState();
     const [quizName, setQuizName] = useState();
-
-    const [banner, setBanner] = useState();
 
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
@@ -208,17 +206,7 @@ const QuizEdit = () => {
         setQuiz(tempQuiz);
     }
 
-    // Popup Hooks
-    async function editBanner(){
-    }
-
-    async function editTimeLimit(){
-    }
-
     async function addCategory(){
-    }
-
-    async function addQuestion(){
     }
 
     async function deleteQuestion(indx){
@@ -236,13 +224,14 @@ const QuizEdit = () => {
 
     async function publishQuiz(){
         // hint: use PUT /quiz/:quizId
-        console.log(quiz);
         putQuiz(quiz);
         history.push(`/quiz/` + quizId);
     }
 
-    async function deleteQuiz(){
+    async function deleteQuizAction(){
         // do not implement yet
+        await deleteQuiz(quiz.id);
+        history.push('/home');
     }
 
     async function updateBackground(e){
@@ -381,7 +370,7 @@ const QuizEdit = () => {
 
                 <div className="d-flex mb-3">
                     <MDBBtn className='me-auto' rounded size='sm' color='danger'
-                        onClick={deleteQuiz}
+                        onClick={()=>deleteQuizAction()}
                     >
                         DELETE QUIZ
                     </MDBBtn>
