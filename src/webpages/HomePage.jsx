@@ -60,12 +60,10 @@ const HomePage = () => {
           trendingFeed.map((quiz) => 
             <ItemCarousel
               style={{
-                backgroundRepeat: "no-repeat",
-                backgroundPositionX: "center",
-                backgroundPositionY: "center",
-                backgroundSize: "cover",
-                
-                
+               backgroundRepeat: "no-repeat",
+               backgroundPosition: "center",
+               backgroundSize: "cover",
+
                 backgroundImage: `url(${quiz.backgroundImage})`
               }}
               onClick={() => {
@@ -80,14 +78,15 @@ const HomePage = () => {
     { store && store.userInfo &&
       <div>
         <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "25px", marginBottom: "2rem" }}>From Your Subscriptions</h1>
+        {subFeed.length !== 0 ?
         <Carousel breakPoints={breakPoints}>
           {
             subFeed.map((quiz) => 
               <ItemCarousel
                 style={{
-                  backgroundSize: 'cover',
-                  backgroundPositionX: "center",
-                  backgroundPositionY: "center",
+                   backgroundRepeat: "no-repeat",
+                   backgroundPosition: "center",
+                  backgroundSize: "cover",
                   backgroundImage: `url(${quiz.backgroundImage})`
                 }}
                 onClick={() => {
@@ -98,6 +97,7 @@ const HomePage = () => {
             )
           }
         </Carousel>
+        : <h4 style={{color: "white", textAlign: "center"}}>You haven't subscribed to a platform yet.</h4>}
       </div>
     }
     </div>

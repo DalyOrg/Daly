@@ -35,6 +35,7 @@ const UserProfilePage = () => {
     const [profileBanner, setProfileBanner] = useState();
     const [profilePicture, setProfilePicture] = useState();
     const [username, setUsername] = useState('');
+    const [item, setItem] = useState();
 
        const history = useHistory();
   
@@ -84,14 +85,20 @@ const UserProfilePage = () => {
         {
           itemList.map((item) => 
             <ItemCarousel
+            data-bs-toggle="modal" data-bs-target="#userItemModal"
               style={{
+                
                 backgroundRepeat: "no-repeat",
-                backgroundPositionX: "center",
+                backgroundPosition: "center",
                 backgroundSize: "cover",
+
+
+                
+
                 backgroundImage: `url(${item.picUrl})`
               }}
               onClick={() => {
-                //history.push(`/quiz/${quiz.id}`);
+                setItem(item)
               }}
             >
             </ItemCarousel>
@@ -102,6 +109,7 @@ const UserProfilePage = () => {
     { store && store.userInfo &&
       <div style={{marginTop: "2rem"}}>
         <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Subscribed Platforms</h1>
+        {platformList.length !== 0 ?
         <Carousel breakPoints={breakPointsSubscriptions}>
           {
             platformList.map((platform) => 
@@ -110,8 +118,30 @@ const UserProfilePage = () => {
             )
           }
         </Carousel>
+         : <h4 style={{color: "white", textAlign: "center"}}>No subscribed platforms yet.</h4>}
       </div>
 }
+
+
+
+
+
+<div id="userItemModal" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    
+      
+      {item !== undefined ?
+      <div class="modal-body">
+        <img  width="100%" height= "auto" src= {item.picUrl}></img>
+      </div>
+      :<span> Loading... </span>}
+      
+    
+  </div>
+</div>
+
+
+
 
 
 
