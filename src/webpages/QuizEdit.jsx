@@ -8,6 +8,7 @@ import axios from "axios";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { useHistory } from 'react-router-dom';
 import { putQuiz } from "../adapters/quiz";
+import { uploadUserImage } from "../adapters/images";
 
 const QuizEdit = () => {
     const { quizId } = useParams();
@@ -30,6 +31,8 @@ const QuizEdit = () => {
 
     const [inputName, setInputName] = useState();
     const [quizName, setQuizName] = useState();
+
+    const [banner, setBanner] = useState();
 
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
@@ -155,13 +158,14 @@ const QuizEdit = () => {
     }
 
     //edit question
-    function changeQuestionImage(e){
+    async function changeQuestionImage(e){
         var file=e.target.files[0];
         let reader = new FileReader();
-        reader.onloadend = function() {
-            setImageUrl(reader.result);
+        reader.onloadend =async function() {
+            var url = await uploadImage(reader.result)
+            setImageUrl(url);
         }
-        reader.readAsDataURL(file);
+        await reader.readAsDataURL(file);
     }
 
     function changeQuestionText(e){
@@ -241,6 +245,28 @@ const QuizEdit = () => {
         // do not implement yet
     }
 
+    async function updateBackground(e){
+        var file=e.target.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = async function() {
+            var url = await uploadImage(reader.result);
+            setQuiz({...quiz, backgroundImage:url});
+        }
+        await reader.readAsDataURL(file);
+    }
+
+    const uploadImage =async (base64EncodedImage)=>{
+        console.log("uploading image...");
+        var url = await uploadUserImage(base64EncodedImage);
+        console.log("upload complete");
+        if(url){
+          return url.data;
+        }else{
+          console.log("unable to grab link", url);
+        }
+      }
+
     return (
         <>{ quiz &&
         <div>
@@ -250,13 +276,11 @@ const QuizEdit = () => {
                     backgroundImage:`url(${quiz.backgroundImage})`
                 }}
             >
-                <span className="changeBannerButton"
-                    onClick={editBanner}
-                >
-                    <MDBBtn style={{backgroundColor: "#00B5FF"}}>
-                        Edit Banner Picture
-                    </MDBBtn>
-                </span> 
+                <span className="changeBannerButton">                   
+                <label style={{backgroundColor: "#00B5FF", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
+                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
+                    Edit Banner Picture</label>
+                    </span> 
             </div>
 
             <div className="container"
@@ -400,7 +424,7 @@ const QuizEdit = () => {
           <div className="answers">
                   {question ? question.answers.map((answer, idx)  =>
                   <div>
-                      <span key={question.answers[idx].correctAnswer.toString()}><input type="checkbox" onClick={()=>{updateCorrectAnswer(idx)}} defaultChecked={question.answers[idx].correctAnswer}></input></span>
+                      <span key={question.answers[idx].correctAnswer}><input type="checkbox" onClick={()=>{updateCorrectAnswer(idx)}} defaultChecked={question.answers[idx].correctAnswer}></input></span>
                       <span key={question.answers[idx].answerText}><input className="px-2 mx-1 my-2 py-1" onChange={(e)=>{updateAnswer(idx, e)}} style={{borderRadius: '20px', width: '90%'}} defaultValue={question.answers[idx].answerText}></input>
                       <TrashFill style={{cursor: 'pointer'}} color="red" size={20}
                                         onClick={(ev) => {

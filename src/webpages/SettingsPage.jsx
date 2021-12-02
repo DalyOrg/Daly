@@ -4,7 +4,8 @@ import { ButtonGroup } from "react-bootstrap";
 import { GlobalStoreContext } from '../store/useGlobalStore';
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import ReactRoundedImage from "react-rounded-image";
-import { putUser, getLogout, deleteUser, uploadUserImage } from "../adapters/user";
+import { putUser, getLogout, deleteUser} from "../adapters/user";
+import { uploadUserImage } from "../adapters/images";
 import { useHistory } from 'react-router-dom';
 
 const SettingsPage = () => {
