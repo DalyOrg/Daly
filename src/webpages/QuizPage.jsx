@@ -14,16 +14,24 @@ const QuizPage = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [showResults, setShowResults] = useState(false);
 
+
     async function countDown(){
         if(!showResults){
             setTime((prevTime) => prevTime + 1);
         }
+    }
+
+    const submitAttempt = useCallback(async function(){
+        clearInterval(timer);
+        setShowResults(true);
+    }, [timer])
+
+    useEffect(() => {
         if(quiz && time >= quiz.timeLimitSeconds){
             // auto submit
-            clearInterval(timer); // why doesn't this clear?
             submitAttempt();
         }
-    }
+    }, [quiz, time, submitAttempt])
 
     const startTimer = useCallback(async function(){
         setTimer(setInterval(countDown, 1000));
@@ -47,11 +55,6 @@ const QuizPage = () => {
         let newQuiz = {...quiz};
         newQuiz.questions[selectedQuestion] = newQuestion;
         setQuiz(newQuiz);
-    }
-
-    async function submitAttempt(){
-        clearInterval(timer);
-        setShowResults(true);
     }
 
     return (
