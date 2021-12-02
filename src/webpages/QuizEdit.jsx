@@ -394,7 +394,7 @@ const QuizEdit = () => {
                         Add New Question
                     </MDBBtn>
                     <MDBBtn 
-                        rounded size='sm' style={{backgroundColor: "green"}}
+                        rounded size='sm' style={{marginLeft: '1rem', backgroundColor: "green"}}
                         onClick={publishQuiz}
                     >
                         Publish Quiz
