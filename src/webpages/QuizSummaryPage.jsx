@@ -96,7 +96,7 @@ const QuizSummaryPage = () => {
                 <MDBCardTitle style={{ marginBottom: '1.5rem' }} className='d-flex justify-content-center'>{quiz.creator}</MDBCardTitle>
                 <p className='d-flex justify-content-center'>Time Limit: {quiz.timeLimitSeconds}</p>
                 <p className='d-flex justify-content-center'>Number of Questions: {quiz.questions.length}</p>
-                <p className='d-flex justify-content-center'>Attempt: </p>
+                
                 <div className='d-flex justify-content-center'>
                 <Link to={`/quiz/${quizId}/take`}>
                 <MDBBtn rounded style={{color: "white", backgroundColor: "#5321d0"}}>Take Quiz</MDBBtn>
