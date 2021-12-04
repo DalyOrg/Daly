@@ -69,3 +69,31 @@ export async function PutPlatformBanner({platformId, platformBanner, user}: PutP
     const platformUpdate = await db.collection(`platforms`).doc(platformId).update("platformBanner", platformBanner);
     return {message:"platform banner updated!"};
 }
+
+interface PutPlatformPicParams{
+  platformId: string
+  platformPic: string
+  user: User
+}
+export async function PutPlatformPic({platformId, platformPic, user}: PutPlatformPicParams){
+    var platformQuery = await GetPlatform({platformId}) as Platform;
+      if(user.id !== platformQuery.ownerId){
+        return{message: "Not platform owner!"};
+      }
+    const platformUpdate = await db.collection(`platforms`).doc(platformId).update("platformPicture", platformPic);
+    return {message:"platform pic updated!"};
+}
+
+interface PutPlatformNameParams{
+  platformId: string
+  name: string
+  user: User
+}
+export async function PutPlatformName({platformId, name, user}: PutPlatformNameParams){
+    var platformQuery = await GetPlatform({platformId}) as Platform;
+      if(user.id !== platformQuery.ownerId){
+        return{message: "Not platform owner!"};
+      }
+    const platformUpdate = await db.collection(`platforms`).doc(platformId).update("name", name);
+    return {message:"platform name updated!"};
+}

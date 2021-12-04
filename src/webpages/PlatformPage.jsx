@@ -5,7 +5,7 @@ import { PencilFill } from 'react-bootstrap-icons';
 import ItemCarousel from "../components/ItemCarousel";
 import Carousel from 'react-elastic-carousel';
 import { useGlobalStore } from "../store/useGlobalStore";
-import { getPlatform, deletePlatform, putPlatformBanner } from '../adapters/platform';
+import { getPlatform, deletePlatform, putPlatformBanner, putPlatformPic, putPlatformName } from '../adapters/platform';
 import { useCallback } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { useState } from 'react';
@@ -36,6 +36,8 @@ const PlatformPage = () => {
       history.push(`/quiz/` + quizId);
     }
 
+    const [name, setName] = useState();
+    const [resetModal, setResetModal] = useState(0);
 
     async function deletePlatformAction(){
         var res = await deletePlatform(platform.id);
@@ -94,11 +96,26 @@ const PlatformPage = () => {
         reader.onloadend = async function() {
             var url = await uploadImage(reader.result);
             setPlatform({...platform, platformBanner:url});
-            console.log(url);
-            //put new banner in database...
             await putPlatformBanner(platform.id, url);
         }
         await reader.readAsDataURL(file);
+   }
+
+   async function updatePlatformPic(e){
+    var file=e.target.files[0];
+
+    let reader = new FileReader();
+    reader.onloadend = async function() {
+        var url = await uploadImage(reader.result);
+        setPlatform({...platform, platformPicture:url});
+        await putPlatformPic(platform.id, url);
+    }
+    await reader.readAsDataURL(file);
+   }
+
+   async function updatePlatformName(name){
+        setPlatform({...platform, name: name});
+        await putPlatformName(platform.id, name);
    }
 
     return (
@@ -122,7 +139,9 @@ const PlatformPage = () => {
             
                     <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
-                    <MDBBtn rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
+                    <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}>
+                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updatePlatformPic(e)}></input>
+                    <PencilFill color="white" size={20}/></label>
                     : <></>}   
                     </div>
                        
@@ -150,7 +169,14 @@ const PlatformPage = () => {
                         <div className="col" style={{color: "white"}}>
                           <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</span>
                           {platformOwner !== false ?
-                          <MDBBtn rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
+                          <MDBBtn 
+                          data-mdb-toggle="modal" 
+                          data-mdb-target="#nameModal" 
+                          onClick  = {()=>{
+                            setName(platform.name);
+                            setResetModal(resetModal +1);
+                          }}
+                          rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
                           : <></>}  
                           </div>
             </div>
@@ -177,7 +203,33 @@ const PlatformPage = () => {
             : <></>}  
         </div>
 
-        :<span> Loading... </span>}</>
+            :<span> Loading... </span>}
+        
+        {/* modal for name change */}
+<div class="modal hide fade in" style={{pointerEvents: 'none'}} id="nameModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" style={{pointerEvents: 'all'}}>
+    <div class="modal-content">
+      <div class="modal-header" style={{backgroundColor: 'purple'}}>
+        <h5 class="modal-title" id="editModalLabel">Platform Name Change</h5>
+        <button type="button" onClick={()=>setName('')} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-0" style={{maxHeight: '460px', overflowY:'auto'}}>
+          <span key={resetModal}>
+                <input type="text" id="name" name="name" defaultValue={name} required 
+                            onChange={
+                            e=>setName(e.target.value)
+                            }/></span>
+          <div class="row col-4 offset-4 my-2 mb-3">
+            <button type="button" onClick={()=>updatePlatformName(name)} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
+                Save
+            </button>
+      </div>
+      </div>
+    </div>
+   </div>
+</div>
+
+        </>
     );
 }
 

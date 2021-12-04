@@ -57,6 +57,20 @@ async function putPlatformBannerAdapter(platformId, banner){
     return res.data;
 }
 
+async function putPlatformPicAdapter(platformId, pic){
+    let body = { platformId: platformId, platformPic: pic };
+    let res = await axios.put(`/platform/${platformId}/platformPicture`, body)
+    return res.data;
+}
+
+async function putPlatformNameAdapter(platformId, name){
+    let body = { platformId: platformId, name: name };
+    let res = await axios.put(`/platform/${platformId}/platformName`, body)
+    return res.data;
+}
+
+export const putPlatformName = wrapErrorHandling(putPlatformNameAdapter);
+export const putPlatformPic = wrapErrorHandling(putPlatformPicAdapter);
 export const putPlatformBanner = wrapErrorHandling(putPlatformBannerAdapter);
 export const deletePlatform = wrapErrorHandling(deletePlatformAdapter);
 export const postPlatform = wrapErrorHandling(postPlatformAdapter);
