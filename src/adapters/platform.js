@@ -44,15 +44,11 @@ async function putPlatformSubscribedAdapter(platformId, add){
 }
 
 async function deletePlatformAdapter(platformId){
-    try{
         let body = { platformId:platformId };
         let res = await axios.delete(
             `/platform/${platformId}`, body
         );
         console.log({message: "Platform deleted!"});
-    }catch(err){
-        console.log("Platform delete error", err)
-    }
 }
 
 export const deletePlatform = wrapErrorHandling(deletePlatformAdapter);
