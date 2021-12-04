@@ -2,17 +2,21 @@ import Question from '../components/Question'
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getQuiz, submitQuizAttempt } from '../adapters/quiz';
+import { getUser } from '../adapters/user';
 import { useCallback } from 'react';
 import QuizResult from './QuizResult';
 import { Opacity } from '@mui/icons-material';
+import { useGlobalStore } from '../store/useGlobalStore';
 
 const QuizPage = () => {
     const {quizId} = useParams();
+    const [store, dispatch] = useGlobalStore();
     const [timer, setTimer] = useState();
     const [quiz, setQuiz] = useState();
     const [time, setTime] = useState();
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [showResults, setShowResults] = useState(false);
+    const [badgesEarned, setBadgesEarned] = useState(-1);
 
 
     async function countDown(){
@@ -21,10 +25,27 @@ const QuizPage = () => {
         }
     }
 
+    const calculateScore = useCallback(function(){
+        let sum = quiz.questions.reduce((currentSum, currentQuestion) => { 
+            return currentSum +
+                (currentQuestion.selectedAnswer && currentQuestion.selectedAnswer.correctAnswer ?
+                    1 : 0);
+        }, 0);
+        return (sum * 1.0 / quiz.questions.length) * 100;
+    }, [quiz])
+
     const submitAttempt = useCallback(async function(){
         clearInterval(timer);
+        if(store && store.userInfo){ // if logged in
+            console.log(store.userInfo);
+            let submitData = await submitQuizAttempt(quiz.id, quiz.timeLimitSeconds - time, calculateScore());
+            let newUserInfo = await getUser();
+            dispatch({type: 'login', payload: newUserInfo});
+            setBadgesEarned(submitData.badgesEarned);
+        }
         setShowResults(true);
-    }, [timer])
+    }, [timer, quiz, calculateScore, store, dispatch, time])
+
 
     useEffect(() => {
         if(time<=0){
@@ -65,8 +86,11 @@ const QuizPage = () => {
         quiz !== undefined && showResults ?
         <QuizResult
             quiz={quiz}
+            score={calculateScore()}
+            badgesEarned={badgesEarned}
             setQuiz={setQuiz}
             time={quiz.timeLimitSeconds - time}
+            isLoggedIn={store !== undefined && store.userInfo !== undefined}
         />
         : quiz !== undefined ?
         quiz.questions.length === 0 ?

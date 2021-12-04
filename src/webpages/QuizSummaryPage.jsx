@@ -111,10 +111,12 @@ const QuizSummaryPage = () => {
                   >
                     Platform
                   </MDBBtn>
+                  { store && store.userInfo &&
                   <LikeButton
                     quiz={quiz}
                     setQuiz={setQuiz}
                   />
+                  }
                 </div>
                 
                 

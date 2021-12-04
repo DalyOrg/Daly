@@ -41,36 +41,49 @@ export async function GetUser({user}: GetUserParams): Promise<User>{
 
 export async function DeleteUser({user}: GetUserParams){
   if(user === undefined){
-    return({status: 401, message: 'Not logged in!'}) // TODO refactor error handling system
-}
-else{
-    let userQuery;
-    if(user.id){
-      userQuery = await db.collection(`users`).doc(user.id).delete();
-      return {message:"user data deleted!"};
-    }
-    else{
-      userQuery = await db.collection(`users`).where('googleId', '==', user.googleId);
-      userQuery.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          doc.ref.delete();
+    let err: StdError = {
+      status: 401,
+      message: 'Not logged in!'
+    };
+    throw err;
+  }
+  else{
+      let userQuery;
+      if(user.id){
+        userQuery = await db.collection(`users`).doc(user.id).delete();
+        return {message:"user data deleted!"};
+      }
+      else{
+        userQuery = await db.collection(`users`).where('googleId', '==', user.googleId);
+        userQuery.get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            doc.ref.delete();
+          });
         });
-      });
-    }
-}
+      }
+  }
 }
 
 interface GetOtherUserParams{
     userId: string
 }
 export async function GetOtherUser({userId}: GetOtherUserParams){
-  let userData = await getData(`users`, userId) as User;
-  let cleanData = {
-    username: userData.username,
-    profilePicture: userData.profilePicture,
-    profileBanner: userData.profileBanner
-  };
-  return cleanData;
+  try{
+    let userData = await getData(`users`, userId) as User;
+    let cleanData = {
+      username: userData.username,
+      profilePicture: userData.profilePicture,
+      profileBanner: userData.profileBanner
+    };
+    return cleanData;
+  }
+  catch(err){ // user is likely deleted
+    return {
+      username: '[deleted]',
+      profilePicture: 'https://i.imgur.com/gpOVR3I.png',
+      profileBanner:'https://i.imgur.com/H4Dksdd.jpg' 
+    }
+  }
 }
 
 interface UpdateUserParams{

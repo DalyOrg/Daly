@@ -10,16 +10,19 @@ const LikeButton = ({quiz, setQuiz}) => {
 
     useEffect(() => {
         getQuizLiked(quiz.id).then((res) => {
-            console.log(res)
-            setIsLiked(res.isLiked)
-            setIsReady(true)
+            if(res){
+                setIsLiked(res.isLiked)
+                setIsReady(true)
+            }
         })
     }, [quiz])
 
     async function handleClick(){
         setIsReady(false)
         let res = await putQuizLiked(quiz.id, !isLiked)
-        setQuiz({...quiz, likes: res.newLikes})
+        if(res){
+            setQuiz({...quiz, likes: res.newLikes})
+        }
         setIsReady(true)
     }
 

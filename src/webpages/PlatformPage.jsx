@@ -106,7 +106,13 @@ const PlatformPage = () => {
                         <MDBBtn rounded size='lg' style={{backgroundColor: "#640979"}}>Create</MDBBtn>
                     </Link>
                     
-                    : <SubscribeButton platformId={platformId} /> }
+                    :
+                    <>
+                        { store && store.userInfo &&
+                            <SubscribeButton platformId={platformId} />
+                        }
+                    </>
+                    }
                     </div>
                  </div>
 
@@ -118,7 +124,7 @@ const PlatformPage = () => {
                           </div>
             </div>
 
-            {(platform.quizzes) !== undefined ?              
+            {(platform.quizzes) !== undefined ?
             <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 
                 {(platform.quizzes).length !== 0 ?

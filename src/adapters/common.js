@@ -6,7 +6,11 @@ function displayErrorModal(err){
 
     if (modalRoot) {
         modalRoot.remove(); // reset elment
+        // modal-backdrops get made on a sibling node
+        let backdrops = document.getElementsByClassName("modal-backdrop show");
+        backdrops.forEach((backdrop) => backdrop.remove());
     }
+
     modalRoot = document.createElement("div");
     modalRoot.setAttribute("id", "errorModal");
     document.body.appendChild(modalRoot);

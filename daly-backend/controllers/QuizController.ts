@@ -129,7 +129,6 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
 
   let leaderboard = await getData('leaderboards', quizData.leaderboardId) as Leaderboard;
   let prevAttempt = leaderboard.rankings.find((attempt) => attempt.userId == user.id);
-  console.log(leaderboard);
   if(prevAttempt){
     if(newAttempt.score > prevAttempt.score
         || (newAttempt.score == prevAttempt.score
@@ -147,8 +146,8 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
         if(b.time > a.time)
           return -1;
         return 0;
-      }); // could be faster with insertion sort
-      updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings});
+      }); // could be faster with binary search insertion
+      updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings}); // don't await for speed
     }
   }
   else{
@@ -165,10 +164,29 @@ export async function SubmitAttempt({quizId, newAttempt, user}: SubmitAttemptPar
       if(b.time > a.time)
         return -1;
       return 0;
-    }); // could be faster with insertion sort
-    updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings});
+    }); // could be faster with binary search insertion
+    updateData('leaderboards', quizData.leaderboardId, {rankings: newRankings}); // don't await for speed
   }
-  return {message: 'Attempt received'}
+
+  // check if this user is the quiz owner
+  if(userData.platformsOwned.includes(quizData.platformId)){
+    return {badgesEarned: 0, message: `You can't earn badges from your own quiz, silly!`}
+  }
+
+  // reward badges to the user proportional to their improvement
+  let badgesEarned = 0
+  if(prevAttempt === undefined){ // score based on the lowest possible
+    prevAttempt = {score: 0, time: quizData.timeLimitSeconds, userId: null, timestamp: null}
+  }
+  let scoreImprovement = (newAttempt.score - prevAttempt.score) / 100; // proportion of score improvement
+  scoreImprovement = scoreImprovement < 0 ? 0 : scoreImprovement;
+  let timeImprovement = (prevAttempt.time - newAttempt.time) / quizData.timeLimitSeconds; // proportion of time improvement
+  timeImprovement = timeImprovement < 0 ? 0 : timeImprovement;
+  badgesEarned = Math.ceil(scoreImprovement * 20) + Math.ceil(timeImprovement * 10); // badges earned proportional to max badges earnable
+
+  await updateData('users', userData.id, {badges: userData.badges + badgesEarned}) // wait to ensure parity with user
+
+  return {badgesEarned}
 }
 
 interface GetCommentsParams{
