@@ -63,3 +63,17 @@ export async function DeletePlatform({platformId, user}: DeletePlatformParams){
       const platformDelete = await db.collection(`platforms`).doc(platformId).delete();
       return {message:"platform deleted!"};
 }
+
+interface PutPlatformBannerParams{
+  platformId: string
+  platformBanner: string
+  user: User
+}
+export async function PutPlatformBanner({platformId, platformBanner, user}: PutPlatformBannerParams){
+    var platformQuery = await GetPlatform({platformId}) as Platform;
+      if(user.id !== platformQuery.ownerId){
+        return{message: "Not platform owner!"};
+      }
+    const platformUpdate = await db.collection(`platforms`).doc(platformId).update("platformBanner", platformBanner);
+    return {message:"platform banner updated!"};
+}

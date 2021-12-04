@@ -5,7 +5,7 @@ import { PencilFill } from 'react-bootstrap-icons';
 import ItemCarousel from "../components/ItemCarousel";
 import Carousel from 'react-elastic-carousel';
 import { useGlobalStore } from "../store/useGlobalStore";
-import { getPlatform, deletePlatform } from '../adapters/platform';
+import { getPlatform, deletePlatform, putPlatformBanner } from '../adapters/platform';
 import { useCallback } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ import { getQuiz } from '../adapters/quiz';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import SubscribeButton from "../components/SubscribeButton";
+import {uploadUserImage} from "../adapters/images";
 
 let breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -75,13 +76,42 @@ const PlatformPage = () => {
 
    }
 
+   const uploadImage =async (base64EncodedImage)=>{
+    console.log("uploading image...");
+    var url = await uploadUserImage(base64EncodedImage);
+    console.log("upload complete");
+    if(url){
+      return url.data;
+    }else{
+      console.log("unable to grab link", url);
+    }
+  }
+
+   async function updateBackground(e){
+        var file=e.target.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = async function() {
+            var url = await uploadImage(reader.result);
+            setPlatform({...platform, platformBanner:url});
+            console.log(url);
+            //put new banner in database...
+            await putPlatformBanner(platform.id, url);
+        }
+        await reader.readAsDataURL(file);
+   }
+
     return (
         <>
         {platform !== undefined ?
         <div>
             <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
                 {platformOwner !== false ?
-                <span className="changeBannerButton"><MDBBtn style={{backgroundColor: "#640979"}}>Edit Banner Picture</MDBBtn></span>
+                <span className="changeBannerButton">                   
+                <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
+                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)}></input>
+                    Edit Banner Picture</label>
+                    </span> 
                 : <></>}
             </div>
 

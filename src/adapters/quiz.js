@@ -21,10 +21,8 @@ async function postQuizAdapter(quizObject){
 }
 
 async function putQuizAdapter(quiz){
-    console.log(quiz);
     let body = { newQuiz: quiz };
     let res = await axios.put(`/quiz/${quiz.id}`, body)
-    console.log(res);
     return res.data;
 }
 
