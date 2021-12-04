@@ -7,7 +7,7 @@ import Carousel from 'react-elastic-carousel';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getPlatform, deletePlatform } from '../adapters/platform';
 import { useCallback } from 'react';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getQuiz } from '../adapters/quiz';
@@ -38,8 +38,8 @@ const PlatformPage = () => {
 
     async function deletePlatformAction(){
         var res = await deletePlatform(platform.id);
-        //history.push("/" + platform.ownerId + '/platformpicker');
-        history.push("/home");
+        history.push("/" + platform.ownerId + '/platformpicker');
+        window.location.reload();
     }
 
     var platformOwner = false;

@@ -50,9 +50,9 @@ interface DeletePlatformParams{
 }
 export async function DeletePlatform({platformId, user}: DeletePlatformParams){
       var platformQuery = await GetPlatform({platformId}) as Platform;
-      // if(user.id !== platformQuery.ownerId){
-      //   return{message: "Not platform owner!"};
-      // }
+      if(user.id !== platformQuery.ownerId){
+        return{message: "Not platform owner!"};
+      }
       var userQuery = await GetUser({user: user}) as User;
       var tempPlatform = [...userQuery.platformsOwned];
       var deleteIndex = tempPlatform.indexOf(platformId);
