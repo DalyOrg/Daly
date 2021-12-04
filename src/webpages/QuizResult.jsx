@@ -10,8 +10,14 @@
 */
 
 import LikeButton from "../components/LikeButton";
+import { useState } from "react";
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { FlagFill } from "react-bootstrap-icons";
+import ReportModal from "../components/ReportModal";
 
 const QuizResult = ({quiz, setQuiz, score, badgesEarned, time, isLoggedIn}) => {
+    const [reportMetadata, setReportMetadata] = useState();
+
     function getMessage(){
         if(score <= 25){
             return `You'll get it next time!`
@@ -66,25 +72,26 @@ const QuizResult = ({quiz, setQuiz, score, badgesEarned, time, isLoggedIn}) => {
                     You earned {badgesEarned} badges!
                 </span>
             </div>
-            <div className='mx-auto'>
+            <div className='mx-auto d-flex gap-3'>
                 <LikeButton
                     quiz={quiz}
                     setQuiz={setQuiz}
                 />
+                <MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}
+                    data-bs-toggle="modal" data-bs-target="#reportModal"
+                    onClick={() => setReportMetadata({
+                        type: 'quiz', quizId: quiz.id
+                    })}
+                >
+                    <FlagFill />
+                </MDBBtn> 
             </div>
+            <ReportModal
+                reasons={['Offensive Language', 'Mistake In Question/Answer', 'Other']}
+                metadata={reportMetadata}
+            />
             </>
             }
-            { /*store && store.userInfo &&
-            <div className='mx-auto'>
-                <button className='btn btn-secondary'
-                    style={{color: '#FFFFFF', backgroundColor: '#1C7947', width: "10rem"}}
-                    disabled={!submitReady}
-                    onClick={submitAttempt}
-                >
-                    Submit Attempt
-                </button>
-            </div>
-            */}
         </div>
         
     )

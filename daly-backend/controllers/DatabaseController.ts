@@ -37,22 +37,26 @@ export async function getData(route: string, query: string | Object): Promise<an
 export async function postData(route: string, newData: Object){
     const collection = db.collection(route);
 
-    let res = await collection.add(newData);
-    if(res === null){
+    try{
+        let res = await collection.add(newData);
+        return res.id;
+    }
+    catch(e){
         let err: StdError = {
             status: 500,
             message: `The ${route} data could not be created.`
         };
         throw err;
     }
-    return res.id;
 }
 
 export async function updateData(route: string, query: string, newData: Object){
     const doc = db.collection(route).doc(query);
 
-    let res = await doc.update(newData);
-    if(res === null){
+    try{
+        let res = await doc.update(newData);
+    }
+    catch(e){
         let err: StdError = {
             status: 500,
             message: `The ${route} data could not be updated.`
@@ -64,8 +68,10 @@ export async function updateData(route: string, query: string, newData: Object){
 export async function deleteData(route: string, query: string){
     const doc = db.collection(route).doc(query);
 
-    let res = await doc.delete();
-    if(res === null){
+    try{
+        let res = await doc.delete();
+    }
+    catch(e){
         let err: StdError = {
             status: 500,
             message: `The ${route} data could not be deleted.`

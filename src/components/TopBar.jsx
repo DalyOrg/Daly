@@ -2,7 +2,7 @@ import "../App.css";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { MDBInput } from 'mdb-react-ui-kit';
 import { Nav, Navbar, NavbarBrand, NavDropdown } from "react-bootstrap";
-import { Cart } from 'react-bootstrap-icons';
+import { Archive, Cart } from 'react-bootstrap-icons';
 import { Collection } from 'react-bootstrap-icons';
 import { Person } from 'react-bootstrap-icons';
 import { Gear } from 'react-bootstrap-icons';
@@ -72,6 +72,13 @@ const TopBar =() =>{
                     <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
                             <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Person color="white" size={20} /> Profile</MDBBtn>
+                        </Link>
+                    </li>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
+                        <Link to="/user/reports">
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}>
+                                <Archive color="white" size={20} /> Reports
+                            </MDBBtn>
                         </Link>
                     </li>
                     <li className="nav-item" style={{ marginBottom: "0.5rem" }}>

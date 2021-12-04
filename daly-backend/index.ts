@@ -15,6 +15,7 @@ import { SubmitSearch } from './controllers/SearchController';
 import { GetItems } from './controllers/ItemController';
 import { User } from './interfaces/user';
 import { getData, postData } from './controllers/DatabaseController';
+import { CreateReport, GetUserReports } from './controllers/ReportController';
 
 const app = express();
 const port = 8080;
@@ -161,6 +162,10 @@ app.get('/recommendations/trending', toHttp(GetTrendingFeed));
 
 // search
 app.post('/search', toHttp(SubmitSearch)); // POST search; GET search potentially for simpler queries
+
+// report
+app.get('/report/userReports', toHttp(GetUserReports));
+app.post('/report', toHttp(CreateReport));
 
 // upload
 (app.post('/api/upload', async (req,res)=>{

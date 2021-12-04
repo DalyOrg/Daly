@@ -15,6 +15,7 @@ import { FlagFill } from "react-bootstrap-icons";
 import { Link as Link2 } from 'react-scroll';
 import { Link as Link } from 'react-router-dom';
 import { useGlobalStore } from "../store/useGlobalStore";
+import ReportModal from "../components/ReportModal";
 
 const QuizSummaryPage = () => {
     const myRef = useRef(null)
@@ -25,6 +26,7 @@ const QuizSummaryPage = () => {
     const [isCommentButtonReady, setIsCommentButtonReady] = useState(true);
     const [store] = useGlobalStore();
     const history = useHistory();
+    const [reportMetadata, setReportMetadata] = useState();
 
     const initQuiz = useCallback(async function(){
         let quizObj = await getQuiz(quizId);
@@ -180,7 +182,19 @@ const QuizSummaryPage = () => {
                 >
                   {comment.username ? comment.username : 'loading...'}
                 </div>
-              <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}><MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}><FlagFill></FlagFill></MDBBtn></div>
+              { store && store.userInfo &&
+              <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}>
+                <MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}
+                  data-bs-toggle="modal" data-bs-target="#reportModal"
+                  onClick={() => setReportMetadata({
+                    type: 'comment', quizId: quiz.id,
+                    userId: comment.userId, commentText: comment.commentText
+                  })}
+                >
+                  <FlagFill />
+                </MDBBtn>
+              </div>
+              }
               </div>
              <div className="col my-auto"  style={{color: "white"}}> {comment.commentText} </div>
              <div className="col" style={{color: "grey"}}>posted on {(new Date(comment.timestamp._seconds*1000)).toLocaleString('en-us')}</div>
@@ -196,8 +210,12 @@ const QuizSummaryPage = () => {
    
      </div>
      </>
-      :<span> Loading... </span>}</>
-        
+      :<span> Loading... </span>}
+      <ReportModal
+        reasons={['Offensive Language', 'Quiz Spoilers', 'Other']}
+        metadata={reportMetadata}
+      />
+    </>  
     );
 }
 
