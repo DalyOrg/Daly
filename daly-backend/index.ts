@@ -8,7 +8,7 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth';
 import {db} from './common/firestore';
 import session from 'express-session';
-import { GetPlatform, CreatePlatform } from './controllers/PlatformController';
+import { GetPlatform, CreatePlatform, DeletePlatform } from './controllers/PlatformController';
 import { GetUser, GetUserSubscription, GetUserSubscriptionFeed, UpdateUserSubscription, UpdateUser, GetOtherUser, DeleteUser } from './controllers/UserController';
 import { GetTrendingFeed } from './controllers/RecommendationController';
 import { SubmitSearch } from './controllers/SearchController';
@@ -144,6 +144,7 @@ app.put('/platform/:platformId/subscribed', toHttp(UpdateUserSubscription));
 app.get('/platform/:platformId', toHttp(GetPlatform));
 
 app.post('/platform', toHttp(CreatePlatform));
+app.delete('/platform/:platformId', toHttp(DeletePlatform));
 
 // user
 app.get('/user/feed', toHttp(GetUserSubscriptionFeed));

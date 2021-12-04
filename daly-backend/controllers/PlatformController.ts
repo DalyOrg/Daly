@@ -35,3 +35,23 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
 
   return resId;
 }
+
+interface DeletePlatformParams{
+  platformId: string
+  user: User
+}
+export async function DeletePlatform({platformId, user}: DeletePlatformParams){
+      var platformQuery = await GetPlatform({platformId}) as Platform;
+      if(user.id !== platformQuery.ownerId){
+        return{message: "Not platform owner!"};
+      }
+      var userQuery = await GetUser({user: user}) as User;
+      var tempPlatform = [...userQuery.platformsOwned];
+      var deleteIndex = tempPlatform.indexOf(platformId);
+      if (deleteIndex > -1) {
+        tempPlatform.splice(deleteIndex, 1);
+      }
+      const userRes = await db.collection(`users`).doc(user.id).update("platformsOwned", tempPlatform);
+      const platformDelete = await db.collection(`platforms`).doc(platformId).delete();
+      return {message:"platform deleted!"};
+}
