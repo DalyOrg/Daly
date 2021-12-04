@@ -2,7 +2,7 @@ import "../App.css";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { MDBInput } from 'mdb-react-ui-kit';
 import { Nav, Navbar, NavbarBrand, NavDropdown } from "react-bootstrap";
-import { Cart } from 'react-bootstrap-icons';
+import { Archive, Cart } from 'react-bootstrap-icons';
 import { Collection } from 'react-bootstrap-icons';
 import { Person } from 'react-bootstrap-icons';
 import { Gear } from 'react-bootstrap-icons';
@@ -27,7 +27,7 @@ import { useCallback } from 'react';
 const TopBar =() =>{
     
     const [store, dispatch] = useGlobalStore();
-    const [input, setInput] = useState("");
+    const [searchText, setSearchText] = useState("");
     const history = useHistory();
 
     //render() {
@@ -40,14 +40,15 @@ const TopBar =() =>{
         <button className="navbar-brand" >Daly</button>
         </Link>
         
-        <form className="d-flex">
-        <MDBInput id='typeText' type='text' onKeyPress={e => {
-                if (e.key === 'Enter') {
-                    history.push('/search/'+input);
-                }
-              }} value={input} onInput={e => setInput(e.target.value)} style={{color: "white"}}/>
+        <form className="d-flex" onSubmit={e => {
+            e.preventDefault();
+            history.push('/search/'+searchText);
+            window.location.reload();
+        }}>
+        <MDBInput id='typeText' type='text' onChange={e => setSearchText(e.target.value)} value={searchText} style={{color: "white", width: "100%"}}/>
         <MDBBtn style={{color: "white", backgroundColor: "#5321d0", marginLeft: '1rem'}} rounded ><Search color="white" size={20} onClick={()=>{
-            history.push('/search/'+input);
+            console.log(searchText);
+            history.push('/search/'+searchText);
         }}/></MDBBtn>
         
         </form>
@@ -72,6 +73,13 @@ const TopBar =() =>{
                     <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
                         <Link to="/user/placeholder">
                             <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Person color="white" size={20} /> Profile</MDBBtn>
+                        </Link>
+                    </li>
+                    <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
+                        <Link to="/user/reports">
+                            <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}>
+                                <Archive color="white" size={20} /> Reports
+                            </MDBBtn>
                         </Link>
                     </li>
                     <li className="nav-item" style={{ marginBottom: "0.5rem" }}>

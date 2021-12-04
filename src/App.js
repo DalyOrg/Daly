@@ -32,6 +32,7 @@ import TopBar from "./components/TopBar.jsx";
 import { render } from "@testing-library/react";
 import { useGlobalStore } from "./store/useGlobalStore";
 import { getUser } from "./adapters/user";
+import ReportsPage from "./webpages/ReportsPage";
 
 
 const GetUserWrapper = ({children}) => {
@@ -69,6 +70,7 @@ class App extends Component {
                 <Route exact path="/quiz/:quizId/take" component={QuizPage}/>
                 <Route exact path="/quiz/:quizId/edit" component={QuizEdit}/>
                 <Route exact path="/quiz/:quizId/leaderboard" component={LeaderBoard}/>
+                <Route exact path="/user/reports" component={ReportsPage}/>
                 <Route exact path="/user/:userId" component={UserProfilePage}/>
                 <Route exact path="/:userId/platformpicker" component={PlatformPicker}/>
                 <Route exact path="/platform/:platformId" component={PlatformPage}/>
