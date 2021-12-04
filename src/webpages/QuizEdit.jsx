@@ -17,6 +17,7 @@ const QuizEdit = () => {
     //current question properties
     const [question, setQuestion] = useState(); //This will only change when user clicks on a new question, stays constant otherwise
     const [questionNum, setQuestionNum] = useState(0); //This will only change when user clicks on a new question
+    const [questionModalReset, setQuestionModalReset] = useState(0);
     
     //combine these into a question object and update quiz state when question is submitted
     const [questionText, setQuestionText] = useState(""); //changes based on user input
@@ -31,6 +32,9 @@ const QuizEdit = () => {
 
     const [inputName, setInputName] = useState();
     const [quizName, setQuizName] = useState();
+
+    const [inputCategory, setInputCategory] = useState("");
+    const [categoryNum, setCategoryNum] = useState(0); //used to reset the modal, not actually the index number
 
     const initQuiz = useCallback(async function(){
         let quizData = await getQuiz(quizId)
@@ -61,7 +65,7 @@ const QuizEdit = () => {
         setImageUrl("");
         setAnswerText([]);
         setCorrectAnswer([]);
-        console.log(quiz.questions.length);
+        setQuestionModalReset(questionModalReset+1);
     }
 
     function handleCloseModal(){
@@ -80,6 +84,7 @@ const QuizEdit = () => {
         setImageUrl("");
         setAnswerText([]);
         setCorrectAnswer([]);
+        setQuestionModalReset(questionModalReset+1);
     }
 
     function initTime(){
@@ -125,6 +130,7 @@ const QuizEdit = () => {
         }
         setAnswerText(tempAns);
         setCorrectAnswer(tempCor);
+        setQuestionModalReset(questionModalReset+1);
     }
 
     function addAnswer(){
@@ -206,9 +212,6 @@ const QuizEdit = () => {
         setQuiz(tempQuiz);
     }
 
-    async function addCategory(){
-    }
-
     async function deleteQuestion(indx){
         // indx = index of question in quiz.questions
         let tempQuestions = [...quiz.questions];
@@ -256,6 +259,12 @@ const QuizEdit = () => {
         }
       }
 
+      function deleteCategory(index){
+          var temp = [...quiz.categories];
+          temp.splice(index,1);
+          setQuiz({...quiz, categories: temp});
+      }
+
     return (
         <>{ quiz &&
         <div>
@@ -266,7 +275,7 @@ const QuizEdit = () => {
                 }}
             >
                 <span className="changeBannerButton">                   
-                <label style={{backgroundColor: "#00B5FF", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
+                <label className={"btn waves-effect"} style={{backgroundColor: "#00B5FF", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
                     <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
                     Edit Banner Picture</label>
                     </span> 
@@ -315,14 +324,16 @@ const QuizEdit = () => {
 
                 <div className="d-flex mb-3 gap-3">
                     {
-                        quiz.categories.map((category) => 
-                            <MDBBtn style={{backgroundColor: '#CB12CB'}}>
+                        quiz.categories.map((category, index) => 
+                            <MDBBtn style={{backgroundColor: '#CB12CB'}} onClick={()=>deleteCategory(index)}>
                                 {category}
                             </MDBBtn>
                         )
                     }
                     <MDBBtn style={{backgroundColor: '#CB12CB'}}
-                        onClick={addCategory}
+                        data-mdb-toggle="modal"
+                        data-mdb-target="#categoryModal"
+                        onClick={()=>{setInputCategory(''); setCategoryNum(categoryNum+1);}}
                     >
                         Add +
                     </MDBBtn>
@@ -394,6 +405,7 @@ const QuizEdit = () => {
 <div class="modal hide fade in" style={{pointerEvents: 'none'}} id="editModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" style={{pointerEvents: 'all'}}>
     <div class="modal-content">
+    <form>
       <div class="modal-header" style={{backgroundColor: 'purple'}}>
         <h5 class="modal-title" id="editModalLabel">Question {(questionNum + 1)}</h5>
         <button type="button" onClick={()=>handleCloseModal()} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
@@ -403,14 +415,14 @@ const QuizEdit = () => {
         <img style={{cursor: 'pointer', width:'70%', height: '70%', position: 'relative'}} src={imageUrl === "" ? questionImageButton() : imageUrl}></img>
         </label>
           <input type="file" id="file" name="file" id="file-input" accept=".jpg,.png,.img,.jpeg" onChange={(e)=>changeQuestionImage(e)} multiple></input>
-          <div key={question ? question.questionText : ""} className="questionBody mt-2 py-4 px-4" style={{backgroundColor: '#00B5FF', borderRadius: '20px'}}>
-            <textarea defaultValue={question ? question.questionText : ""} rows="4" cols="50" style={{backgroundColor: '#00B5FF', borderRadius: '10px', color: 'white', border: 'none'}} onChange={e=>changeQuestionText(e)}></textarea>
+          <div key={questionModalReset} className="questionBody mt-2 py-4 px-4" style={{backgroundColor: '#00B5FF', borderRadius: '20px'}}>
+            <textarea defaultValue={question ? question.questionText : ""} rows="4" cols="50" style={{backgroundColor: '#00B5FF', borderRadius: '10px', color: 'white', border: 'none'}} onChange={e=>changeQuestionText(e)} required></textarea>
           </div>
           <div className="answers">
                   {question ? question.answers.map((answer, idx)  =>
                   <div>
-                      <span key={question.answers[idx].correctAnswer}><input type="checkbox" onClick={()=>{updateCorrectAnswer(idx)}} defaultChecked={question.answers[idx].correctAnswer}></input></span>
-                      <span key={question.answers[idx].answerText}><input className="px-2 mx-1 my-2 py-1" onChange={(e)=>{updateAnswer(idx, e)}} style={{borderRadius: '20px', width: '90%'}} defaultValue={question.answers[idx].answerText}></input>
+                      <span key={"hello"+questionModalReset}><input type="checkbox" onClick={()=>{updateCorrectAnswer(idx)}} defaultChecked={question.answers[idx].correctAnswer}></input></span>
+                      <span key={questionModalReset}><input className="px-2 mx-1 my-2 py-1" onChange={(e)=>{updateAnswer(idx, e)}} style={{borderRadius: '20px', width: '90%'}} defaultValue={question.answers[idx].answerText} required></input>
                       <TrashFill style={{cursor: 'pointer'}} color="red" size={20}
                                         onClick={(ev) => {
                                             ev.stopPropagation();
@@ -427,10 +439,11 @@ const QuizEdit = () => {
         </button>
         </div>
       <div class="row col-4 offset-4 my-2 mb-3">
-        <button type="button" onClick={()=>submitQuestion()} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
+        <button type="submit" onClick={()=>submitQuestion()} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
           Submit Question
         </button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -495,6 +508,30 @@ const QuizEdit = () => {
           <div class="row col-4 offset-4 my-2 mb-3">
             <button type="button" onClick={()=>setQuiz({...quiz, name: inputName})} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
                 Save
+            </button>
+      </div>
+      </div>
+    </div>
+   </div>
+</div>
+
+{/* modal for adding category */}
+<div class="modal hide fade in" style={{pointerEvents: 'none'}} id="categoryModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" style={{pointerEvents: 'all'}}>
+    <div class="modal-content">
+      <div class="modal-header" style={{backgroundColor: 'purple'}}>
+        <h5 class="modal-title" id="editModalLabel">Add Category</h5>
+        <button type="button" onClick={()=>{setInputCategory(''); setCategoryNum(categoryNum+1);}} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-0" style={{maxHeight: '460px', overflowY:'auto'}}>
+          <span key={categoryNum}>
+                <input type="text" id="category" name="category" defaultValue="" required 
+                            onChange={
+                            e=>setInputCategory(e.target.value)
+                            }/></span>
+          <div class="row col-4 offset-4 my-2 mb-3">
+            <button type="button" onClick={()=>setQuiz({...quiz, categories: [...quiz.categories, inputCategory]})} class="btn btn-primary" data-mdb-dismiss="modal" style={{backgroundColor: '#00B5FF'}}>
+                Add
             </button>
       </div>
       </div>
