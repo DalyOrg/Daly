@@ -186,6 +186,7 @@ const SettingsPage = () => {
       </div>
       </div>
       <div className="modal-footer">
+        <p>note it will take longer for image to update if the file is big</p>
         <button type="button" class="btn btn-primary" onClick={()=>changeProfilePic()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
       </div>
     </div>
@@ -210,6 +211,7 @@ const SettingsPage = () => {
                                 
       </div>
       <div className="modal-footer">
+        <p>note it will take longer for image to update if the file is big</p>
         <MDBBtn rounded type="button" onClick={()=>changeProfileBanner()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
       </div>
     </div>

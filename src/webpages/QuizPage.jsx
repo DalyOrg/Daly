@@ -48,7 +48,7 @@ const QuizPage = () => {
 
 
     useEffect(() => {
-        if(time<=0){
+        if(time<=0 && quiz.questions.length!==0){
             // auto submit
             submitAttempt();
             alert("Times up!");

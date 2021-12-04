@@ -57,7 +57,7 @@ const PlatformPage = () => {
     }, [initPlatform]);
     
     useEffect(() => {
-        if(platform !== undefined){
+        if(platform !== undefined && quizList.length === 0){
             platform.quizzes.forEach(quiz => initQuiz(quiz))
         }
     }, [platform]);
