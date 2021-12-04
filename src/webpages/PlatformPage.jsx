@@ -56,18 +56,8 @@ const PlatformPage = () => {
         initPlatform();
     }, [initPlatform]);
     
-    useEffect(() => {
-        if(platform !== undefined && quizList.length === 0){
-            platform.quizzes.forEach(quiz => initQuiz(quiz))
-        }
-    }, [platform]);
 
-
-
-    async function initQuiz(quizId){
-        let quizObj = await getQuiz(quizId);
-        setQuizList([...quizList, quizObj])
-    }
+ 
 
    if(store.userInfo !== undefined){
 
@@ -117,6 +107,30 @@ const PlatformPage = () => {
         setPlatform({...platform, name: name});
         await putPlatformName(platform.id, name);
    }
+
+  //  const initQuiz = useCallback(async function(quizId){
+  //     let quizObj = await getQuiz(quizId);
+  //     console.log("quiz",quizObj);
+  //     setQuizList([...quizList, quizObj])
+  //   },[platform])
+
+  // useEffect(() => {
+  //   if(platform !== undefined){
+  //     platform.quizzes.forEach((quiz) => initQuiz(quiz));
+  //   }
+  // }, [initQuiz]);
+
+  useEffect(() => {
+    if(platform !== undefined){
+        platform.quizzes.forEach(quiz => initQuiz(quiz))
+    }
+}, [platform]);
+
+
+async function initQuiz(quizId){
+    let quizObj = await getQuiz(quizId);
+    setQuizList([...quizList, quizObj])
+}
 
     return (
         <>
@@ -182,13 +196,13 @@ const PlatformPage = () => {
             </div>
 
             {(platform.quizzes) !== undefined ?              
-            <div style={{ marginBottom: '5rem', marginTop: '5rem'}}>
+            <div key={quizList} style={{ marginBottom: '5rem', marginTop: '5rem'}}>
                 
                 {(platform.quizzes).length !== 0 ?
-                <Carousel breakPoints={breakPoints}>
+                <Carousel key={quizList} breakPoints={breakPoints}>
                 
                 {quizList.map((quiz) => (
-                     <ItemCarousel onClick={()=>linkTo(quiz.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",
+                     <ItemCarousel key={quizList} onClick={()=>linkTo(quiz.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",
                      backgroundPosition: "center",
                      backgroundSize: "cover",backgroundImage:`url(${quiz.backgroundImage})`}}></ItemCarousel>
                   ))}
