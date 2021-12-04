@@ -14,4 +14,20 @@ async function postSearchAdapter(query){
     return res.data;
 }
 
+async function postFilterAdapter(query){
+    console.log(query);
+    let body = {
+        field: 'questions',
+        operator: '<',
+        value: query
+    }
+    let res = await axios.post(
+        `/search`,
+        body
+    );
+    console.log(res.data)
+    return res.data;
+}
+
 export const postSearch = wrapErrorHandling(postSearchAdapter);
+export const postFilter = wrapErrorHandling(postFilterAdapter);
