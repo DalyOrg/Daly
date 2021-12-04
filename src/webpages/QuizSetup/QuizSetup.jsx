@@ -6,6 +6,7 @@ import { postQuiz } from "../../adapters/quiz";
 import { Redirect, useParams } from "react-router";
 import { GlobalStoreContext } from '../../store/useGlobalStore';
 import React, {useContext} from "react";
+import {uploadUserImage} from "../../adapters/images"
 
 
 const QuizSetup = () => {
@@ -32,14 +33,26 @@ const QuizSetup = () => {
         }
     }
 
-    function updateBackground(event){
+    const uploadImage =async (base64EncodedImage)=>{
+        console.log("uploading image...");
+        var url = await uploadUserImage(base64EncodedImage);
+        console.log("upload complete");
+        if(url){
+          return url.data;
+        }else{
+          console.log("unable to grab link", url);
+        }
+      }
+
+    async function updateBackground(event){
         var file=event.target.files[0];
 
         let reader = new FileReader();
-        reader.onloadend = function() {
-            setBackground(reader.result);
+        reader.onloadend =async function() {
+            var url = await uploadImage(reader.result);
+            setBackground(url);
         }
-        reader.readAsDataURL(file);
+        await reader.readAsDataURL(file);
     }
 
     function categoryStyle(){
