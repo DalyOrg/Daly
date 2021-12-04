@@ -5,7 +5,7 @@ import { PencilFill } from 'react-bootstrap-icons';
 import ItemCarousel from "../components/ItemCarousel";
 import Carousel from 'react-elastic-carousel';
 import { useGlobalStore } from "../store/useGlobalStore";
-import { getPlatform } from '../adapters/platform';
+import { getPlatform, deletePlatform } from '../adapters/platform';
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { useState } from 'react';
@@ -24,8 +24,9 @@ let breakPoints = [
 const PlatformPage = () => {
     const [store, dispatch] = useGlobalStore();
     const [quizList, setQuizList] = useState([]);
-    
 
+    const [platform, setPlatform] = useState();
+      const {platformId} = useParams();
 
     const history = useHistory();
   
@@ -35,12 +36,13 @@ const PlatformPage = () => {
     }
 
 
-
+    async function deletePlatformAction(){
+        var res = await deletePlatform(platform.id);
+        //history.push("/" + platform.ownerId + '/platformpicker');
+        history.push("/home");
+    }
 
     var platformOwner = false;
-
-      const [platform, setPlatform] = useState();
-      const {platformId} = useParams();
   
       const initPlatform = useCallback(async function(){
           let platformObj = await getPlatform(platformId);
@@ -140,7 +142,7 @@ const PlatformPage = () => {
             </div>
             : <h1 style={{color: "white", textAlign: "center"}}>Loading</h1>}
             {platformOwner !== false ?
-            <MDBBtn rounded className='mx-2' color='danger' style={{marginBottom: "1rem"}}>
+            <MDBBtn rounded className='mx-2' color='danger' style={{marginBottom: "1rem"}} onClick={()=>deletePlatformAction()}>
                  DELETE PLATFORM
             </MDBBtn>
             : <></>}  
