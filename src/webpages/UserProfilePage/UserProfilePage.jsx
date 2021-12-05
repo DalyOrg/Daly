@@ -131,8 +131,8 @@ const UserProfilePage = () => {
     
       
       {item !== undefined ?
-      <div class="modal-body">
-        <img  width="100%" height= "auto" src= {item.picUrl}></img>
+      <div class="modal-body" >
+        <img height="600px" src= {item.picUrl}></img>
       </div>
       :<span> Loading... </span>}
       
