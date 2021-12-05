@@ -142,7 +142,7 @@ async function initQuiz(quizId){
             <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
                 {platformOwner !== false ?
                 <span className="changeBannerButton">                   
-                <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
+                <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>
                     <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)}></input>
                     Edit Banner Picture</label>
                     </span> 
@@ -227,7 +227,7 @@ async function initQuiz(quizId){
   <div class="modal-dialog" style={{pointerEvents: 'all'}}>
     <div class="modal-content">
       <div class="modal-header" style={{backgroundColor: 'purple'}}>
-        <h5 class="modal-title" id="editModalLabel">Platform Name Change</h5>
+        <h5 class="modal-title" id="editModalLabel" style={{color: "white"}}>Platform Name Change</h5>
         <button type="button" onClick={()=>setName('')} class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center pb-0" style={{maxHeight: '460px', overflowY:'auto'}}>
