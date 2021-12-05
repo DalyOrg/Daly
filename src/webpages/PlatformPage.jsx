@@ -129,7 +129,10 @@ const PlatformPage = () => {
 
 async function initQuiz(quizId){
     let quizObj = await getQuiz(quizId);
-    setQuizList([...quizList, quizObj])
+    if(quizList.length < platform.quizzes.length){
+      setQuizList((prevList) => [...prevList, quizObj]);
+    }
+    
 }
 
     return (

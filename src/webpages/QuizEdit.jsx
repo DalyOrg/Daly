@@ -227,7 +227,7 @@ const QuizEdit = () => {
 
     async function publishQuiz(){
         // hint: use PUT /quiz/:quizId
-        putQuiz(quiz);
+        await putQuiz(quiz);
         history.push(`/quiz/` + quizId);
     }
 
