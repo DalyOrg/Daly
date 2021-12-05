@@ -13,7 +13,7 @@ const Question = ({question, setQuestion}) => {
           </h3>
           {
             question.imageUrl &&
-            <img className='mx-auto'
+            <img className="mx-auto" height="300"
               src={question.imageUrl}
               alt={question.questionText}
             />

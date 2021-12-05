@@ -120,26 +120,39 @@ const PlatformPage = () => {
   //   }
   // }, [initQuiz]);
 
+
+  const initQuiz = useCallback(async function(){
+    if(store !== undefined && platform !== undefined){
+      setQuizList(platform.quizzes);
+      platform.quizzes.forEach(async(quiz,index) => 
+        {
+          let quizObj = await getQuiz(quiz);
+          setQuizList((prevState) =>
+          {
+            let newQuizList = [...prevState];
+            newQuizList[index] = quizObj;
+            return newQuizList;
+          }
+          );
+        }
+      )
+    }
+  }, [platform,store])
+
+
+  
   useEffect(() => {
-    if(platform !== undefined){
-        platform.quizzes.forEach(quiz => initQuiz(quiz))
-    }
-}, [platform]);
+    initQuiz();
+}, [initQuiz]);
 
 
-async function initQuiz(quizId){
-    let quizObj = await getQuiz(quizId);
-    if(quizList.length < platform.quizzes.length){
-      setQuizList((prevList) => [...prevList, quizObj]);
-    }
-    
-}
+
 
     return (
         <>
         {platform !== undefined ?
         <div>
-            <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`}}>
+            <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`, backgroundPositionX: "center",backgroundPositionY: "center"}}>
                 {platformOwner !== false ?
                 <span className="changeBannerButton">                   
                 <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>
@@ -154,7 +167,7 @@ async function initQuiz(quizId){
 
                     <div className="row">
             
-                    <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
+                    <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundPositionX: "center",backgroundPositionY: "center",backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
                     <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}>
                     <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updatePlatformPic(e)}></input>

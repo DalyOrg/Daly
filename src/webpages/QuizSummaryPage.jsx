@@ -46,7 +46,7 @@ const QuizSummaryPage = () => {
           setComments((prevState) => {
             let newComments = [...prevState];
             newComments[indx] = {...newComments[indx], ...userData};
-            setComments(newComments)
+            return newComments;
           })
         })
       }

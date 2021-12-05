@@ -275,7 +275,7 @@ const QuizEdit = () => {
                 }}
             >
                 <span className="changeBannerButton">                   
-                <label className={"btn waves-effect"} style={{backgroundColor: "#00B5FF", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"10px"}}>
+                <label className={"btn waves-effect"} style={{backgroundColor: "#00B5FF", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>
                     <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
                     Edit Banner Picture</label>
                     </span> 
