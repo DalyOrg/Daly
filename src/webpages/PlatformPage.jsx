@@ -163,28 +163,48 @@ const PlatformPage = () => {
             </div>
 
 
-            <div className="container">
-
-                    <div className="row">
             
-                    <div  style={{backgroundColor: "grey",marginTop: '0.5rem', backgroundSize: 'cover',backgroundPositionX: "center",backgroundPositionY: "center",backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
+            <div className="container">
+                    <div className="d-flex bd-highlight mb-3">
+                    <div className="p-2 bd-highlight" >
+                    <div  style={{backgroundColor: "grey", backgroundSize: 'cover',backgroundPositionX: "center",backgroundPositionY: "center",backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
                     <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}>
                     <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updatePlatformPic(e)}></input>
                     <PencilFill color="white" size={20}/></label>
                     : <></>}   
+                    
+                    </div>
+                    <p style={{fontSize: "25px", textAlign: "center", color: "white"}}>{platform.name}
+                      <span style={{}}>
+                      {platformOwner !== false ?
+                          <MDBBtn 
+                          data-mdb-toggle="modal" 
+                          data-mdb-target="#nameModal" 
+                          onClick  = {()=>{
+                            setName(platform.name);
+                            setResetModal(resetModal +1);
+                          }}
+                          rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
+                          : <></>}  
+
+                      </span>
+                    
+                    </p>
+                    
+                          
                     </div>
                        
-                     <div className="col" style={{marginTop: '4rem'}}>
-                         <span style={{fontSize: "20px", color: "white" , marginLeft: '6rem'}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold", marginLeft: '6rem'}}>{platform.subscriberCount}</span></span>
+                     <div className="mx-auto mx-5 mt-5" style={{}}>
+                         <span style={{fontSize: "20px", color: "white"}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{platform.subscriberCount}</span></span>
                     </div>
-                     <div className="col" style={{marginTop: '4rem'}}>
+                     <div className="mx-auto mx-5 mt-5" style={{}}>
                      <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{(platform.quizzes).length}</span></span>
                     </div>
-                    <div className="col" style={{marginTop: '4rem'}}>
+                    <div className="ms-auto p-2 bd-highlight" style={{}}>
                     {platformOwner !== false ? 
                     <Link to={`/platform/${platformId}/create`}>
-                        <MDBBtn rounded size='lg' style={{backgroundColor: "#640979"}}>Create</MDBBtn>
+                        <MDBBtn className='me-auto' rounded size='lg' style={{backgroundColor: "#640979"}}>Create</MDBBtn>
                     </Link>
                     :
                     <>
@@ -195,24 +215,12 @@ const PlatformPage = () => {
                     }
                     </div>
                  </div>
-
-                        <div className="col" style={{color: "white"}}>
-                          <span style={{fontSize: "25px", marginRight: '1rem', marginTop: "1rem"}}>{platform.name}</span>
-                          {platformOwner !== false ?
-                          <MDBBtn 
-                          data-mdb-toggle="modal" 
-                          data-mdb-target="#nameModal" 
-                          onClick  = {()=>{
-                            setName(platform.name);
-                            setResetModal(resetModal +1);
-                          }}
-                          rounded size='sm' style={{backgroundColor: "#640979"}}><PencilFill color="white" size={20}/></MDBBtn>
-                          : <></>}  
-                          </div>
-            </div>
+                 </div>
+                        
+            
 
             {(platform.quizzes) !== undefined ?              
-            <div key={quizList} style={{ marginBottom: '5rem', marginTop: '5rem'}}>
+            <div key={quizList} style={{marginTop: "3rem"}}>
                 
                 {(platform.quizzes).length !== 0 ?
                 <Carousel key={quizList} breakPoints={breakPoints}>
@@ -223,11 +231,11 @@ const PlatformPage = () => {
                      backgroundSize: "cover",backgroundImage:`url(${quiz.backgroundImage})`}}></ItemCarousel>
                   ))}
                 </Carousel>
-            : <h1 style={{color: "white", textAlign: "center"}}>You haven't created a quiz yet.</h1>}
+            : <h1 style={{color: "white", textAlign: "center"}}>No quiz exists yet.</h1>}
             </div>
             : <h1 style={{color: "white", textAlign: "center"}}>Loading</h1>}
             {platformOwner !== false ?
-            <MDBBtn rounded className='mx-2' color='danger' style={{marginBottom: "1rem"}} onClick={()=>deletePlatformAction()}>
+            <MDBBtn rounded className='mx-2' color='danger' style={{marginTop: "4rem"}} onClick={()=>deletePlatformAction()}>
                  DELETE PLATFORM
             </MDBBtn>
             : <></>}  
