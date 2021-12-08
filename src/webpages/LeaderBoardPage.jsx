@@ -65,22 +65,27 @@ const LeaderBoardPage = () => {
                     <div className="col">
                     <div style={{marginTop: '8rem'}}>
                      <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "silver", fontWeight: "bold", fontSize: "30px"}}>2</p>
+                     {rankings[1] !== undefined ?
                      <MDBBtn onClick={()=>userTo(rankings[1].userId)} style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[1] && rankings[1].profilePicture) || ""})`, height:"200px", width:"200px"}}></MDBBtn>
+                     : <div  style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${("https://i.imgur.com/H4Dksdd.jpg") })`, height:"200px", width:"200px", backgroundPosition: "center"}}></div>}
                     </div>
                     </div>
 
                     <div className="col">
                     <div>
                     <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "gold", fontWeight: "bold", fontSize: "30px"}}>1</p>
-                      <MDBBtn onClick={()=>userTo(rankings[0].userId)} style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[0] && rankings[0].profilePicture) || ""})`, height:"200px", width:"200px"}}></MDBBtn>
-                    
+                    {rankings[0] !== undefined ?
+                     <MDBBtn onClick={()=>userTo(rankings[0].userId)} style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[0] && rankings[0].profilePicture) || ""})`, height:"200px", width:"200px"}}></MDBBtn>
+                     : <div  style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${("https://i.imgur.com/H4Dksdd.jpg") })`, height:"200px", width:"200px", backgroundPosition: "center"}}></div>}
                     </div>
                     </div>
 
                     <div className="col">
                     <div style={{marginTop: '8rem'}}>
                      <p style={{ textAlign: "center",borderRadius: "100px",width: "50px" ,color: "white", backgroundColor: "brown", fontWeight: "bold", fontSize: "30px"}}>3</p>
+                     {rankings[2] !== undefined ?
                      <MDBBtn onClick={()=>userTo(rankings[2].userId)} style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${(rankings[2] && rankings[2].profilePicture) || ""})`, height:"200px", width:"200px"}}></MDBBtn>
+                     : <div  style={{backgroundSize: 'cover',backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage: `url(${("https://i.imgur.com/H4Dksdd.jpg") })`, height:"200px", width:"200px", backgroundPosition: "center"}}></div>}
                     </div>
                     </div>
                     
