@@ -71,7 +71,7 @@ const TopBar =() =>{
                         
                     </li>
                     <li className="nav-item" style={{ marginBottom: "0.5rem" }}>
-                        <Link to="/user/placeholder">
+                        <Link to={"/user/"+store.userInfo.id} >
                             <MDBBtn data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" style={{ backgroundColor: "transparent" }}><Person color="white" size={20} /> Profile</MDBBtn>
                         </Link>
                     </li>

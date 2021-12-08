@@ -63,7 +63,10 @@ const QuizSummaryPage = () => {
       await initComments();
       setIsCommentButtonReady(true);
     }
-    
+    const linkToUser = (userId) => {
+      history.push(`/user/` + userId);
+    }
+
     return (
         <>
         {quiz !== undefined ?
@@ -169,13 +172,10 @@ const QuizSummaryPage = () => {
             <div className="row row-cols-3">
               <div className="col">
                <div className="col">
-                  <img width="100"
-                    style={{borderRadius:"50%", marginTop: "10px", objectFit: "cover", marginLeft: "10px"}}
-                    height="100"
-                    alt='User Profile'
-                    src={`${comment.profilePicture ? comment.profilePicture :
-                      'https://i.imgur.com/gpOVR3I.png'
-                    }`}
+                  <MDBBtn
+                  onClick={()=>linkToUser(comment.userId)}
+                    style={{backgroundPosition: 'center',backgroundSize: 'cover',height:"110px", width:"110px",borderRadius:"50%", marginTop: "10px", objectFit: "cover", marginLeft: "10px", backgroundImage: `url(${(comment.profilePicture ? comment.profilePicture : "https://i.imgur.com/gpOVR3I.png")})`}}
+                    
                   />
                   <p style={{color: "white", marginLeft: "13px", overflow: "hidden", maxWidth: "115px", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{comment.username ? comment.username : 'loading...'}</p>
                 </div>

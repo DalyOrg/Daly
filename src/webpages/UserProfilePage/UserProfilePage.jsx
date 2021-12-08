@@ -31,13 +31,8 @@ let breakPointsSubscriptions = [
 //TODO: if this page is reached without logging in, redirect to login page
 const UserProfilePage = () => {
   const {userId} = useParams();
-    const [store] = useContext(GlobalStoreContext);
     const [platformList, setPlatformList] = useState([]);
-    const [itemList, setItemList] = useState([]);
     const [platformOwnedList, setPlatformOwnedList] = useState([]);
-    const [profileBanner, setProfileBanner] = useState();
-    const [profilePicture, setProfilePicture] = useState();
-    const [username, setUsername] = useState('');
     const [item, setItem] = useState();
     const [user, setUser] = useState();
 
@@ -59,27 +54,10 @@ const UserProfilePage = () => {
     }, [initUser]);
 
 
-
-   
-       useEffect(() => {
-           if(store !== undefined && store.userInfo !== undefined){
-               console.log(store.userInfo.subscribedPlatforms);
-               console.log(store.userInfo.id);
-               
-               setProfileBanner(store.userInfo.profileBanner);
-               setProfilePicture(store.userInfo.profilePicture);
-               setUsername(store.userInfo.username);
-               setItemList(store.userInfo.itemsOwned);
-           }
-
-       },[store]);
-    
-
-
        const initPlatform = useCallback(async function(){
-        if(store !== undefined && store.userInfo !== undefined && store.userInfo.subscribedPlatforms !== undefined){
-          setPlatformList(store.userInfo.subscribedPlatforms);
-          store.userInfo.subscribedPlatforms.forEach(async(platform,index) => 
+        if(user !== undefined && user.subscribedPlatforms !== undefined){
+          setPlatformList(user.subscribedPlatforms);
+          user.subscribedPlatforms.forEach(async(platform,index) => 
             {
               let platformObj = await getPlatform(platform);
               setPlatformList((prevState) =>
@@ -92,7 +70,7 @@ const UserProfilePage = () => {
             }
           )
         }
-      }, [store])
+      }, [user])
   
   
       
@@ -103,9 +81,9 @@ const UserProfilePage = () => {
   
 
     const initPlatformOwned = useCallback(async function(){
-      if(store !== undefined && store.userInfo !== undefined && store.userInfo.platformsOwned !== undefined){
-        setPlatformOwnedList(store.userInfo.platformsOwned);
-        store.userInfo.platformsOwned.forEach(async(platform,index) => 
+      if(user !== undefined && user.platformsOwned !== undefined){
+        setPlatformOwnedList(user.platformsOwned);
+        user.platformsOwned.forEach(async(platform,index) => 
           {
             let platformObj = await getPlatform(platform);
             setPlatformOwnedList((prevState) =>
@@ -118,7 +96,7 @@ const UserProfilePage = () => {
           }
         )
       }
-    }, [store])
+    }, [user])
 
 
     
@@ -129,18 +107,22 @@ const UserProfilePage = () => {
 
     return (
         <div>
-            <div class="profile-banner" style={{backgroundColor:"grey",backgroundSize: 'cover',backgroundImage:`url(${profileBanner})`}}>
-                <div class="profile-picture" style={{backgroundColor:"white",backgroundSize: 'cover',backgroundImage:`url(${profilePicture})`}}></div>
+          { user !== undefined && user.profileBanner !== undefined && user.profilePicture !== undefined ?
+            <div class="profile-banner" style={{backgroundColor:"grey",backgroundSize: 'cover',backgroundImage:`url(${user.profileBanner})`}}>
+                <div class="profile-picture" style={{backgroundColor:"white",backgroundSize: 'cover',backgroundImage:`url(${user.profilePicture})`}}></div>
             </div>
+            :<span> Loading... </span>}
             <br/><br/><br/><br/><br/>
-            <p class="username">{username}</p>
-            
+            { user !== undefined && user.username !== undefined ?
+            <p class="username">{user.username}</p>
+            :<span> Loading... </span>}
 
             <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "30px"}}>Collection</h1>
+      { user !== undefined && user.itemsOwned !== undefined?
       <Carousel breakPoints={breakPointsCollection}>
         {
-          itemList.map((item) => 
+          user.itemsOwned.map((item) => 
             <ItemCarousel
             data-bs-toggle="modal" data-bs-target="#userItemModal"
               style={{
@@ -158,11 +140,14 @@ const UserProfilePage = () => {
           )
         }
       </Carousel>
+      :<span> Loading... </span>}
     </div>
-    { platformList !== undefined && store !== undefined && store.userInfo !== undefined ?
+    { user !== undefined && user.subscribedPlatforms !==undefined ?
       <div style={{marginTop: "2rem"}}>
+       
         <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Subscribed Platforms</h1>
-        {platformList.length !== 0 ?
+       
+        {user.subscribedPlatforms.length !== 0 ?
         <Carousel breakPoints={breakPointsSubscriptions}>
           {
             platformList.map((platform) => 
@@ -175,10 +160,10 @@ const UserProfilePage = () => {
       </div>
 :<span> Loading... </span>}
 
-{ platformOwnedList !== undefined && store !== undefined && store.userInfo !== undefined ?
+{ user !== undefined && user.platformsOwned !==undefined ?
       <div style={{marginTop: "2rem"}}>
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Platforms Owned</h1>
-            {platformOwnedList.length !== 0 ?
+            {user.platformsOwned.length !== 0 ?
                 <Carousel breakPoints={breakPointsSubscriptions}>
                 {platformOwnedList.map((platform) => (
                      <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",

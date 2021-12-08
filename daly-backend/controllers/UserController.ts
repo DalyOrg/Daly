@@ -73,7 +73,11 @@ export async function GetOtherUser({userId}: GetOtherUserParams){
     let cleanData = {
       username: userData.username,
       profilePicture: userData.profilePicture,
-      profileBanner: userData.profileBanner
+      profileBanner: userData.profileBanner,
+      itemsOwned: userData.itemsOwned,
+      platformsOwned: userData.platformsOwned,
+      subscribedPlatforms: userData.subscribedPlatforms
+
     };
     return cleanData;
   }

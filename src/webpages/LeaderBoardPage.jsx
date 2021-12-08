@@ -43,7 +43,6 @@ const LeaderBoardPage = () => {
   }
 
   const userTo = (userId) => {
-    console.log("useridd" + userId);
     history.push(`/user/` + userId);
   }
 
