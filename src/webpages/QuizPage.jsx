@@ -106,9 +106,19 @@ const QuizPage = () => {
         <div>
             
         </div>
-            <h1 className='mx-auto' style={{color: '#FFFFFF'}}>
-                {quiz.name}
-            </h1>
+
+            <div class="d-flex justify-content-between">
+                <h1  style={{color: '#FFFFFF', marginLeft: "1rem"}}>
+                    {quiz.name}
+                 </h1>
+
+                 <p
+                    style={{color: '#FFFFFF', marginRight: "2rem", fontSize: "30px"}}
+                 >
+                    Time Left: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
+                </p>
+            </div>
+   
             <div className='mx-auto' style={{color: '#FFFFFF'}}>
                 <Question
                     question={quiz.questions[selectedQuestion]}
@@ -141,11 +151,7 @@ const QuizPage = () => {
             >
                 Submit
             </button>
-            <span className='mx-auto'
-                style={{color: '#FFFFFF'}}
-            >
-                Time Left: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
-            </span>
+         
         </div>
         
         :<span> Loading... </span>}
