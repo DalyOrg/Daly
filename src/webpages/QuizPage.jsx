@@ -51,7 +51,7 @@ const QuizPage = () => {
         if(time<=0 && quiz.questions.length!==0){
             // auto submit
             submitAttempt();
-            alert("Times up!");
+            // alert("Times up!");
         }
     }, [quiz, time, submitAttempt])
 
