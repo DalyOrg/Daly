@@ -47,11 +47,11 @@ const UserProfilePage = () => {
        const initUser = useCallback(async function(){
         let userObj = await getOtherUser(userId);
         setUser(userObj); 
-    }, [userId])
+      }, [userId])
 
-    useEffect(() => {
-      initUser();
-    }, [initUser]);
+      useEffect(() => {
+        initUser();
+      }, [initUser]);
 
 
        const initPlatform = useCallback(async function(){
@@ -142,12 +142,12 @@ const UserProfilePage = () => {
       </Carousel>
       :<span> Loading... </span>}
     </div>
-    { user !== undefined && user.subscribedPlatforms !==undefined ?
+    { user !== undefined && user.subscribedPlatforms !==undefined && platformList !== undefined ?
       <div style={{marginTop: "2rem"}}>
        
         <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Subscribed Platforms</h1>
        
-        {user.subscribedPlatforms.length !== 0 ?
+        {user.subscribedPlatforms.length !== 0 && platformList.length !== 0?
         <Carousel breakPoints={breakPointsSubscriptions}>
           {
             platformList.map((platform) => 
@@ -160,10 +160,10 @@ const UserProfilePage = () => {
       </div>
 :<span> Loading... </span>}
 
-{ user !== undefined && user.platformsOwned !==undefined ?
+{ user !== undefined && user.platformsOwned !==undefined && platformOwnedList !== undefined?
       <div style={{marginTop: "2rem"}}>
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Platforms Owned</h1>
-            {user.platformsOwned.length !== 0 ?
+            {user.platformsOwned.length !== 0 && platformOwnedList.length !== 0?
                 <Carousel breakPoints={breakPointsSubscriptions}>
                 {platformOwnedList.map((platform) => (
                      <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF', backgroundRepeat: "no-repeat",

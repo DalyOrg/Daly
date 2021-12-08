@@ -16,7 +16,6 @@ import { Link as Link2 } from 'react-scroll';
 import { Link as Link } from 'react-router-dom';
 import { useGlobalStore } from "../store/useGlobalStore";
 import ReportModal from "../components/ReportModal";
-import { Ellipsis } from "react-bootstrap/esm/PageItem";
 
 const QuizSummaryPage = () => {
     const myRef = useRef(null)
