@@ -16,6 +16,7 @@ import { Link as Link2 } from 'react-scroll';
 import { Link as Link } from 'react-router-dom';
 import { useGlobalStore } from "../store/useGlobalStore";
 import ReportModal from "../components/ReportModal";
+import { Ellipsis } from "react-bootstrap/esm/PageItem";
 
 const QuizSummaryPage = () => {
     const myRef = useRef(null)
@@ -164,24 +165,21 @@ const QuizSummaryPage = () => {
           
       { comments &&
         comments.map((comment) => 
-        <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
+        <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowX: 'hidden'}}>
             <div className="row row-cols-3">
               <div className="col">
                <div className="col">
                   <img width="100"
-                    style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}}
+                    style={{borderRadius:"50%", marginTop: "10px", objectFit: "cover", marginLeft: "10px"}}
                     height="100"
                     alt='User Profile'
                     src={`${comment.profilePicture ? comment.profilePicture :
                       'https://i.imgur.com/gpOVR3I.png'
                     }`}
                   />
+                  <p style={{color: "white", marginLeft: "13px", overflow: "hidden", maxWidth: "115px", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{comment.username ? comment.username : 'loading...'}</p>
                 </div>
-                <div className="col"
-                style={{color: "white", marginLeft: "25px"}}
-                >
-                  {comment.username ? comment.username : 'loading...'}
-                </div>
+                
               { store && store.userInfo &&
               <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}>
                 <MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}

@@ -45,7 +45,7 @@ const SearchPage = () => {
           return <div className='d-flex bd-highlight mb-3'>
             <div className="p-2 bd-highlight">
             <a href={typeof result.quizzes !== 'undefined' ? "/platform/" + result.id : "/quiz/" + result.id}>
-            <img style={{borderRadius: "50px"}}height="200px" width="200px" src={result.backgroundImage ? result.backgroundImage : "https://i.imgur.com/H4Dksdd.jpg"}></img>
+            <img style={{borderRadius: "50px", objectFit: "cover"}}height="200px" width="200px" src={result.backgroundImage ? result.backgroundImage : "https://i.imgur.com/H4Dksdd.jpg"}></img>
             </a>
             </div>
             <div className="p-2 bd-highlight">
