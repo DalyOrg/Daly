@@ -28,6 +28,7 @@ const PlatformPage = () => {
 
     const [platform, setPlatform] = useState();
       const {platformId} = useParams();
+      const [subCount, setSubCount] = useState();
 
     const history = useHistory();
   
@@ -50,6 +51,7 @@ const PlatformPage = () => {
       const initPlatform = useCallback(async function(){
           let platformObj = await getPlatform(platformId);
           setPlatform(platformObj); 
+          setSubCount(platformObj.subscriberCount);
       }, [platformId])
 
     useEffect(() => {
@@ -145,8 +147,9 @@ const PlatformPage = () => {
     initQuiz();
 }, [initQuiz]);
 
-
-
+  const subsChange = function(amount){
+    setSubCount(subCount+amount);
+  }
 
     return (
         <>
@@ -196,7 +199,7 @@ const PlatformPage = () => {
                     </div>
                        
                      <div className="mx-auto mx-5 mt-5" style={{}}>
-                         <span style={{fontSize: "20px", color: "white"}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{platform.subscriberCount}</span></span>
+                         <span style={{fontSize: "20px", color: "white"}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{subCount}</span></span>
                     </div>
                      <div className="mx-auto mx-5 mt-5" style={{}}>
                      <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{(platform.quizzes).length}</span></span>
@@ -209,7 +212,10 @@ const PlatformPage = () => {
                     :
                     <>
                     { store && store.userInfo &&
-                        <SubscribeButton platformId={platformId} /> 
+                        <SubscribeButton 
+                        platformId={platformId}
+                        subsChange = {subsChange}
+                        /> 
                     }
                     </>
                     }

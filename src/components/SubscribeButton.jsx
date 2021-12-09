@@ -5,7 +5,7 @@ import { putUser } from "../adapters/user";
 import { useCallback } from 'react';
 import { getUser } from '../adapters/user';
 
-const SubscribeButton = ({platformId}) => {
+const SubscribeButton = ({platformId, subsChange}) => {
     const [store, dispatch] = useGlobalStore()
     const [isSubscribed, setIsSubscribed] = useState(false)
     const [isReady, setIsReady] = useState(false)
@@ -53,7 +53,12 @@ const SubscribeButton = ({platformId}) => {
         }else{
             removePlatformFromUser();
         }
-        setIsReady(false)
+        setIsReady(false);
+        if(isSubscribed){
+            subsChange(-1);
+        }else{
+            subsChange(1);
+        }
         await putPlatformSubscribed(platformId, !isSubscribed);
         setIsSubscribed(!isSubscribed);
         setIsReady(true);

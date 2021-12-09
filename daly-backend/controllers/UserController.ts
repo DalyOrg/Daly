@@ -169,6 +169,8 @@ export async function UpdateUserSubscription({platformId, add, user}: UpdateUser
     subscriberData.subscriptions = subscriberData.subscriptions.filter((id) => id !== user.id);
   }
   await updateData('subscriptions', platformData.subscribersId, subscriberData);
+  await db.collection(`platforms`).doc(platformId).update("subscriberCount", subscriberData.subscriptions.length);
+  console.log(subscriberData, platformId, platformData);
   return({message: 'Subscription Updated'})
 }
 
