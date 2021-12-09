@@ -15,6 +15,7 @@ const SettingsPage = () => {
     const [profilepic, setProfilePic] = useState();
     const [profilebanner, setProfileBanner] = useState();
     const [name, setName] = useState();
+    const [uploadProgress, setUploadProgress] = useState("");
     
     const history = useHistory();
 
@@ -38,9 +39,9 @@ const SettingsPage = () => {
     }
 
     const uploadImage =async (base64EncodedImage)=>{
-      console.log("uploading image...");
+      setUploadProgress("Uploading...");
       var url = await uploadUserImage(base64EncodedImage);
-      console.log("upload complete");
+      setUploadProgress("Upload Complete!");
       if(url){
         return url.data;
       }else{
@@ -175,7 +176,7 @@ const SettingsPage = () => {
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title">Change Profile Picture</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>setUploadProgress("")}></button>
       </div>
       <div className="modal-body">
       <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
@@ -186,8 +187,9 @@ const SettingsPage = () => {
       </div>
       </div>
       <div className="modal-footer">
+        <h3 key={uploadProgress}>{uploadProgress}</h3>
         <p>note it will take longer for image to update if the file is big</p>
-        <button type="button" class="btn btn-primary" onClick={()=>changeProfilePic()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
+        <button type="button" class="btn btn-primary" onClick={()=>changeProfilePic()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</button>
       </div>
     </div>
   </div>
@@ -199,7 +201,7 @@ const SettingsPage = () => {
     <div className="modal-content">
       <div className="modal-header">
         <h5 className="modal-title">Change Profile Banner Picture</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>setUploadProgress("")}></button>
       </div>
       <div className="modal-body">
       <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
@@ -211,8 +213,9 @@ const SettingsPage = () => {
                                 
       </div>
       <div className="modal-footer">
+        <h3 key={uploadProgress}>{uploadProgress}</h3>
         <p>note it will take longer for image to update if the file is big</p>
-        <MDBBtn rounded type="button" onClick={()=>changeProfileBanner()} data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+        <MDBBtn rounded type="button" onClick={()=>changeProfileBanner()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
       </div>
     </div>
   </div>
