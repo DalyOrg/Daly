@@ -80,16 +80,14 @@ const PlatformPicker = () => {
             };       
             var platform = await postPlatform(newPlatform);
             if(platform){
-                setPlatformId(platform);  
                 var tempUser = {
                   ...store.userInfo,
                   platformsOwned: [...store.userInfo.platformsOwned, platform]
                 }
                 dispatch({type: 'login', payload: tempUser});
-                let newUserInfo = await putUser(tempUser);
-                if(newUserInfo){
-                  console.log(newUserInfo);
-                }                
+                await putUser(tempUser);
+                setPlatformId(platform);  
+                        
             }
     }
 
