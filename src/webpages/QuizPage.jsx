@@ -100,7 +100,6 @@ const QuizPage = () => {
             style={{
                 backgroundColor: "rgba(18, 5, 77, .5)",
                 backgroundSize: 'cover',
-                height: '100vh'
             }}
         > 
         <div>

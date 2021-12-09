@@ -30,6 +30,10 @@ const PlatformPage = () => {
       const {platformId} = useParams();
       const [subCount, setSubCount] = useState();
 
+    const [uploadProgress, setUploadProgress] = useState("");
+    const [platformPic, setPlatformPic] = useState();
+    const [platformBanner, setPlatformBanner] = useState();
+
     const history = useHistory();
   
     const linkTo = (quizId) => {
@@ -52,6 +56,8 @@ const PlatformPage = () => {
           let platformObj = await getPlatform(platformId);
           setPlatform(platformObj); 
           setSubCount(platformObj.subscriberCount);
+          setPlatformBanner(platformObj.platformBanner);
+          setPlatformPic(platformObj.platformPicture);
       }, [platformId])
 
     useEffect(() => {
@@ -71,9 +77,9 @@ const PlatformPage = () => {
    }
 
    const uploadImage =async (base64EncodedImage)=>{
-    console.log("uploading image...");
+    setUploadProgress("Uploading...");
     var url = await uploadUserImage(base64EncodedImage);
-    console.log("upload complete");
+    setUploadProgress("Upload Complete!");
     if(url){
       return url.data;
     }else{
@@ -81,28 +87,16 @@ const PlatformPage = () => {
     }
   }
 
-   async function updateBackground(e){
-        var file=e.target.files[0];
-
-        let reader = new FileReader();
-        reader.onloadend = async function() {
-            var url = await uploadImage(reader.result);
-            setPlatform({...platform, platformBanner:url});
-            await putPlatformBanner(platform.id, url);
-        }
-        await reader.readAsDataURL(file);
+   async function updateBackground(){
+      var url = await uploadImage(platformBanner);
+      setPlatform({...platform, platformBanner:url});
+      await putPlatformBanner(platform.id, url);
    }
 
-   async function updatePlatformPic(e){
-    var file=e.target.files[0];
-
-    let reader = new FileReader();
-    reader.onloadend = async function() {
-        var url = await uploadImage(reader.result);
+   async function updatePlatformPic(){
+        var url = await uploadImage(platformPic);
         setPlatform({...platform, platformPicture:url});
         await putPlatformPic(platform.id, url);
-    }
-    await reader.readAsDataURL(file);
    }
 
    async function updatePlatformName(name){
@@ -158,9 +152,10 @@ const PlatformPage = () => {
             <div className="platformBanner" style={{backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`, backgroundPositionX: "center",backgroundPositionY: "center"}}>
                 {platformOwner !== false ?
                 <span className="changeBannerButton">                   
-                <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>
-                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)}></input>
-                    Edit Banner Picture</label>
+                {/* <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>
+                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" ></input>
+                    Edit Banner Picture</label> */}
+                    <button className={"btn waves-effect"} data-bs-toggle="modal" data-bs-target="#platformBannerModal" style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"15px", padding:"8px", borderRadius:"10px"}}>Edit Banner Picture</button>
                     </span> 
                 : <></>}
             </div>
@@ -172,9 +167,10 @@ const PlatformPage = () => {
                     <div className="p-2 bd-highlight" >
                     <div  style={{backgroundColor: "grey", backgroundSize: 'cover',backgroundPositionX: "center",backgroundPositionY: "center",backgroundRepeat: "no-repeat ",color: "white", borderRadius: "100px", backgroundImage:`url(${platform.platformPicture})`, height:"200px", width:"200px"}}>
                     {platformOwner !== false ?
-                    <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}>
-                    <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updatePlatformPic(e)}></input>
-                    <PencilFill color="white" size={20}/></label>
+                    // <label className={"btn waves-effect"} style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}>
+                    // <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updatePlatformPic(e)}></input>
+                    // <PencilFill color="white" size={20}/></label>
+                    <button className={"btn waves-effect"} data-bs-toggle="modal" data-bs-target="#platformPicModal" style={{backgroundColor: "#640979", cursor: "pointer", color:"white", fontSize:"20px", padding:"8px", borderRadius:"20px"}}><PencilFill color="white" size={20}/></button>
                     : <></>}   
                     
                     </div>
@@ -271,6 +267,76 @@ const PlatformPage = () => {
       </div>
     </div>
    </div>
+</div>
+
+{/* banner change modal */}
+<div id="platformBannerModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Platform Banner Picture</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>setUploadProgress("")}></button>
+      </div>
+      <div className="modal-body">
+      <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+                                <input type="file"  accept=".jpg,.png,.img" onChange={event=>{
+                                  var file=event.target.files[0];
+
+                                  let reader = new FileReader();
+                                  reader.onloadend = function() {
+                                      setPlatformBanner(reader.result);
+                                  }
+                                  reader.readAsDataURL(file);
+                                }}>
+                                </input>
+                                Upload Image</label>
+      <div>
+          {platformBanner !== undefined ? <img style={{width:'70%', height: '70%', position: 'relative'}} src={platformBanner}/> : ""}                          
+      </div>
+                                
+      </div>
+      <div className="modal-footer">
+        <h3 key={uploadProgress}>{uploadProgress}</h3>
+        <p>note it will take longer for image to update if the file is big</p>
+        <MDBBtn rounded type="button" onClick={()=>updateBackground()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* pic change modal */}
+<div id="platformPicModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Platform Picture</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>setUploadProgress("")}></button>
+      </div>
+      <div className="modal-body">
+      <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+                                <input type="file"  accept=".jpg,.png,.img" onChange={event=>{
+                                  var file=event.target.files[0];
+
+                                  let reader = new FileReader();
+                                  reader.onloadend = function() {
+                                      setPlatformPic(reader.result);
+                                  }
+                                  reader.readAsDataURL(file);
+                                }}>
+                                </input>
+                                Upload Image</label>
+      <div>
+          {platformBanner !== undefined ? <img style={{width:'70%', height: '70%', position: 'relative'}} src={platformPic}/> : ""}                          
+      </div>
+                                
+      </div>
+      <div className="modal-footer">
+        <h3 key={uploadProgress}>{uploadProgress}</h3>
+        <p>note it will take longer for image to update if the file is big</p>
+        <MDBBtn rounded type="button" onClick={()=>updatePlatformPic()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
 </div>
 
         </>
