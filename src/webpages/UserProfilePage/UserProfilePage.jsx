@@ -116,10 +116,11 @@ const UserProfilePage = () => {
             { user !== undefined && user.username !== undefined ?
             <p class="username">{user.username}</p>
             :<span> Loading... </span>}
-
+{ user !== undefined && user.itemsOwned !== undefined ?
             <div style={{ marginBottom: '5rem', marginTop: '3rem'}} className="App">
       <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white' , fontSize: "30px"}}>Collection</h1>
-      { user !== undefined && user.itemsOwned !== undefined?
+      
+      {user.itemsOwned.length !== 0 ?
       <Carousel breakPoints={breakPointsCollection}>
         {
           user.itemsOwned.map((item) => 
@@ -140,8 +141,10 @@ const UserProfilePage = () => {
           )
         }
       </Carousel>
-      :<span> Loading... </span>}
+      : <h4 style={{color: "white", textAlign: "center"}}>No items owned yet.</h4>}
+      
     </div>
+    :<span> Loading... </span>}
     { user !== undefined && user.subscribedPlatforms !==undefined && platformList !== undefined ?
       <div style={{marginTop: "2rem"}}>
        
@@ -172,7 +175,7 @@ const UserProfilePage = () => {
                      backgroundImage:`url(${platform.platformBanner})`}}> </ItemCarousel>
                   ))}
                 </Carousel>
-                : <h1 style={{color: "white", textAlign: "center"}}>No Platform created yet.</h1>}
+                : <h4 style={{color: "white", textAlign: "center"}}>No Platform created yet.</h4>}
             </div>
             :<span> Loading... </span>}
 
