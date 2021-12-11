@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import QuizResult from './QuizResult';
 import { Opacity } from '@mui/icons-material';
 import { useGlobalStore } from '../store/useGlobalStore';
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const QuizPage = () => {
     const {quizId} = useParams();
@@ -17,7 +19,7 @@ const QuizPage = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [showResults, setShowResults] = useState(false);
     const [badgesEarned, setBadgesEarned] = useState(-1);
-
+    const history = useHistory();
 
     async function countDown(){
         if(!showResults){
@@ -94,7 +96,9 @@ const QuizPage = () => {
         />
         : quiz !== undefined ?
         quiz.questions.length === 0 ?
-            <span>No Questions Yet!</span>
+            <div style={{justifyContent: "center"}}><h1 style={{color: "white", textAlign: "center"}}>No Questions Yet!</h1><br/>
+            <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF", margin: "auto", display: "flex"}} onClick={()=>{history.push(`/quiz/`+quizId+`/`)}}>Back To Summary Page</MDBBtn>
+            </div>
         :
         <div className='d-flex flex-column gap-3'
             style={{
