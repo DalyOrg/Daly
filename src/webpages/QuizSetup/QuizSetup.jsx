@@ -19,11 +19,13 @@ const QuizSetup = () => {
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState('');
-    //const [time, setTime] = useState();
     const [min, setMin] = useState(0);
     const [sec, setSec] = useState(0);
     const [category, setCategory] = useState('');
     const [background, setBackground] = useState('https://cdn.discordapp.com/attachments/880269941146792009/908928075083960320/Screen_Shot_2021-11-12_at_10.55.37_PM.png');
+    const [backgroundURL, setBackgroundURL] = useState('https://cdn.discordapp.com/attachments/880269941146792009/908928075083960320/Screen_Shot_2021-11-12_at_10.55.37_PM.png');
+
+    const [uploadProgress, setUploadProgress] = useState('');
 
     function addCategory(cat){
         if(category && category.length <= 20){
@@ -36,9 +38,9 @@ const QuizSetup = () => {
     }
 
     const uploadImage =async (base64EncodedImage)=>{
-        console.log("uploading image...");
+        setUploadProgress("Uploading...");
         var url = await uploadUserImage(base64EncodedImage);
-        console.log("upload complete");
+        setUploadProgress("Upload Complete!");
         if(url){
           return url.data;
         }else{
@@ -46,15 +48,9 @@ const QuizSetup = () => {
         }
       }
 
-    async function updateBackground(event){
-        var file=event.target.files[0];
-
-        let reader = new FileReader();
-        reader.onloadend =async function() {
-            var url = await uploadImage(reader.result);
-            setBackground(url);
-        }
-        await reader.readAsDataURL(file);
+    async function updateBackground(){
+        var url = await uploadImage(background);
+        setBackgroundURL(url);
     }
 
     function categoryStyle(){
@@ -92,7 +88,7 @@ const QuizSetup = () => {
             platformId: platformId, 
             leaderboardId: undefined, //create leaderboard when the first person takes the quiz
             commentsId: undefined, //create comment when the first person comments
-            backgroundImage: background,
+            backgroundImage: backgroundURL,
             cssSettings: undefined
         };   
         var quiz = await postQuiz(newQuiz);
@@ -103,6 +99,7 @@ const QuizSetup = () => {
     }
 
     return (
+        <>
         <div>
             <form id="quiz-setup">
                 <p class="quiz-setup-title"><b>Quiz Setup</b></p>
@@ -119,12 +116,6 @@ const QuizSetup = () => {
 
                     <label class="reg-label" for="min">Time allotted:</label><br/>
                     <span>
-                    {/* <input type="text" id="min" name="min" value={min? min : ''} required 
-                    onChange={
-                        e=>setMin(e.target.value.replace(/\D/,''))
-                    }
-                    ></input>
-                    <span style={{color:"white"}}>Min</span> */}
                     <table style={{color:"white", position:"relative"}}>
                   <tr>
                       <td>
@@ -181,9 +172,10 @@ const QuizSetup = () => {
                     <table class="background">
                         <tr>
                             <th><h2 class="add-background">Add Background</h2></th>
-                            <th><label class="reg-label" class="upload-button" style={{color:"white"}}>
-                                <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
-                                Upload Image</label>
+                            <th><MDBBtn data-bs-toggle="modal" data-bs-target="#backgroundModal" type="button" style={{color: "white", backgroundColor: "#CB12CB", marginLeft: '1rem', marginBottom: '1rem'}} rounded 
+                                onClick={()=>{
+                                    setUploadProgress("");
+                                }} >Upload Image</MDBBtn>
                             </th>
                         </tr>
                     </table>
@@ -203,6 +195,43 @@ const QuizSetup = () => {
                     }
             </form>
         </div>
+
+{/* pic change modal */}
+<div id="backgroundModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Change Background Picture</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={()=>setUploadProgress("")}></button>
+      </div>
+      <div className="modal-body">
+      <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
+                                <input type="file"  accept=".jpg,.png,.img" onChange={event=>{
+                                  var file=event.target.files[0];
+
+                                  let reader = new FileReader();
+                                  reader.onloadend = function() {
+                                      setBackground(reader.result);
+                                  }
+                                  reader.readAsDataURL(file);
+                                }}>
+                                </input>
+                                Upload Image</label>
+      <div>
+          {background !== undefined ? <img style={{width:'70%', height: '70%', position: 'relative'}} src={background}/> : ""}                          
+      </div>
+                                
+      </div>
+      <div className="modal-footer">
+        <h3 key={uploadProgress}>{uploadProgress}</h3>
+        <p>note it will take longer for image to update if the file is big</p>
+        <MDBBtn rounded type="button" onClick={()=>updateBackground()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+                    
+        </>
     );
 }
 
