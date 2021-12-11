@@ -382,7 +382,7 @@ const QuizEdit = () => {
 
                 <div className="d-flex mb-3">
                     <MDBBtn className='me-auto' rounded size='sm' color='danger'
-                        onClick={()=>deleteQuizAction()}
+                        data-bs-toggle="modal" data-bs-target="#deleteModal"
                     >
                         DELETE QUIZ
                     </MDBBtn>
@@ -577,7 +577,28 @@ const QuizEdit = () => {
       </div>
     </div>
   </div>
-</div></>
+</div>
+
+<div id="deleteModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Delete Quiz</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <p>Are you sure about deleting this quiz?</p>
+      </div>
+      <div className="modal-footer">
+      <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Close</MDBBtn>
+        
+        <button type="button" data-bs-dismiss="modal" onClick={()=>deleteQuizAction()} class="btn btn-danger">Delete Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</>
     )
 }
 

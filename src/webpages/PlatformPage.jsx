@@ -237,7 +237,7 @@ const PlatformPage = () => {
             </div>
             : <h1 style={{color: "white", textAlign: "center"}}>Loading</h1>}
             {platformOwner !== false ?
-            <MDBBtn rounded className='mx-2' color='danger' style={{marginTop: "4rem"}} onClick={()=>deletePlatformAction()}>
+            <MDBBtn rounded className='mx-2' color='danger' style={{marginTop: "4rem"}} data-bs-toggle="modal" data-bs-target="#deleteModal">
                  DELETE PLATFORM
             </MDBBtn>
             : <></>}  
@@ -334,6 +334,25 @@ const PlatformPage = () => {
         <h3 key={uploadProgress}>{uploadProgress}</h3>
         <p>note it will take longer for image to update if the file is big</p>
         <MDBBtn rounded type="button" onClick={()=>updatePlatformPic()} style={{color: "white", backgroundColor: "#00B5FF"}}>Submit</MDBBtn>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="deleteModal" className="modal fade" tabindex="-1">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Delete Platform</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <p>Are you sure about deleting this platform?</p>
+      </div>
+      <div className="modal-footer">
+      <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#00B5FF"}}>Close</MDBBtn>
+        
+        <button type="button" data-bs-dismiss="modal" onClick={()=>deletePlatformAction()} class="btn btn-danger">Delete Platform</button>
       </div>
     </div>
   </div>
