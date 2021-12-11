@@ -19,7 +19,9 @@ const QuizSetup = () => {
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState('');
-    const [time, setTime] = useState();
+    //const [time, setTime] = useState();
+    const [min, setMin] = useState(0);
+    const [sec, setSec] = useState(0);
     const [category, setCategory] = useState('');
     const [background, setBackground] = useState('https://cdn.discordapp.com/attachments/880269941146792009/908928075083960320/Screen_Shot_2021-11-12_at_10.55.37_PM.png');
 
@@ -85,7 +87,7 @@ const QuizSetup = () => {
             questions: [],
             likes: 0,
             timestamp: new Date(),
-            timeLimitSeconds: (time * 60),
+            timeLimitSeconds: ((min * 60) + sec),
             categories: categories,
             platformId: platformId, 
             leaderboardId: undefined, //create leaderboard when the first person takes the quiz
@@ -115,12 +117,38 @@ const QuizSetup = () => {
                         
                     <br/>
 
-                    <label class="reg-label" for="time">Time allotted (in minutes):</label><br/>
-                    <input type="text" id="time" name="time" value={time? time : ''} required 
+                    <label class="reg-label" for="min">Time allotted:</label><br/>
+                    <span>
+                    {/* <input type="text" id="min" name="min" value={min? min : ''} required 
                     onChange={
-                        e=>setTime(e.target.value.replace(/\D/,''))
+                        e=>setMin(e.target.value.replace(/\D/,''))
                     }
-                    ></input><br/>
+                    ></input>
+                    <span style={{color:"white"}}>Min</span> */}
+                    <table style={{color:"white", position:"relative"}}>
+                  <tr>
+                      <td>
+                        <span>
+                            <input style={{width:"100%"}} type="text" id="min" name="min" value={min? min : ''} required 
+                            onChange={
+                            e=>setMin(parseInt(e.target.value.replace(/\D/,''),10))
+                            }
+                        ></input></span>
+                      </td>
+                      <td style={{paddingRight:"50px", paddingLeft:"20px"}}>Min</td>
+                      <td>
+                      <span>
+                        <input style={{width:"100%"}} type="text" id="sec" name="sec" value={sec? sec : ''} required 
+                            onChange={
+                                e=>setSec(parseInt(e.target.value.replace(/\D/,''),10))
+                            }
+                        ></input></span>
+                      </td>
+                      <td style={{paddingLeft:"20px"}}>Sec</td>
+                  </tr>
+              </table>
+
+                    </span>
                     <br/>
 
                     <label for="categories" style={{color: categoryStyle()}}>Categories: (Character limit: {category.length}/20)</label><br/>
@@ -153,7 +181,7 @@ const QuizSetup = () => {
                     <table class="background">
                         <tr>
                             <th><h2 class="add-background">Add Background</h2></th>
-                            <th><label class="reg-label" class="upload-button">
+                            <th><label class="reg-label" class="upload-button" style={{color:"white"}}>
                                 <input type="file" name="backgroundImage" accept=".jpg,.png,.img,.jpeg" onChange={e=>updateBackground(e)} required></input>
                                 Upload Image</label>
                             </th>
