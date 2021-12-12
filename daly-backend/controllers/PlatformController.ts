@@ -2,6 +2,7 @@ import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
 import { User } from "../interfaces/user";
 import { getData, postData } from "./DatabaseController";
+import { DeleteQuiz } from "./QuizController";
 import { UpdateUser, GetUser } from "./UserController";
 
 interface GetPlatformParams{
@@ -45,6 +46,11 @@ export async function DeletePlatform({platformId, user}: DeletePlatformParams){
       if(user.id !== platformQuery.ownerId){
         return{message: "Not platform owner!"};
       }
+      //delete existing quizzes
+      for(var i = 0; i<platformQuery.quizzes.length; i++){
+        await DeleteQuiz({quizId:platformQuery.quizzes[i], user:user});
+      }
+      //delete platform from owner list
       var userQuery = await GetUser({user: user}) as User;
       var tempPlatform = [...userQuery.platformsOwned];
       var deleteIndex = tempPlatform.indexOf(platformId);
