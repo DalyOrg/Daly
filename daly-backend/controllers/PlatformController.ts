@@ -30,9 +30,10 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
 
   console.log(userData.platformsOwned, resId)
 
-  await UpdateUser({userId: userData.id, newUser: {
+  await UpdateUser({newUser: {
     platformsOwned: [...userData.platformsOwned, resId]
-  }});
+    // @ts-ignore
+  }, user: {id: userData.id}});
 
   return resId;
 }
