@@ -3,8 +3,9 @@ import { Platform } from "../interfaces/platform";
 import { SubscriptionFeed, Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user"
 import { getData, updateData } from "./DatabaseController";
-import { GetPlatform } from "./PlatformController";
-import { GetQuiz } from './QuizController'
+import { DeletePlatform, GetPlatform } from "./PlatformController";
+import {Quiz} from "../interfaces/quiz";
+import { GetQuiz } from "./QuizController";
 
 
 interface GetUserParams{
@@ -39,7 +40,10 @@ export async function GetUser({user}: GetUserParams): Promise<User>{
   }
 }
 
-
+interface Likes{
+  id: string
+  likes: string[]
+}
 export async function DeleteUser({user}: GetUserParams){
   if(user === undefined){
     let err: StdError = {
@@ -49,6 +53,41 @@ export async function DeleteUser({user}: GetUserParams){
     throw err;
   }
   else{
+      var userObj = await GetUser({user:user}) as User;
+      //delete platforms owned
+      for(var i=0; i<userObj.platformsOwned.length; i++){
+        try{
+          console.log("deleting platform", userObj.platformsOwned[i]);
+          await DeletePlatform({platformId:userObj.platformsOwned[i], user: userObj});
+          console.log("deleting platform completed");
+        }catch(err){
+          console.log("platform already deleted")
+        }
+      }
+      //unsubscribe from subscribed platforms, platform subscription number -1
+      for(var i=0; i<userObj.subscribedPlatforms.length; i++){
+        try{
+          console.log("unsubscribing platform", userObj.subscribedPlatforms[i]);
+          await UpdateUserSubscription({platformId:userObj.subscribedPlatforms[i], add: false, user: userObj});
+          console.log("unsubscribing platform completed");
+        }catch(err){
+          console.log("platform already deleted, cannot unsubscibe");
+        }
+      }
+      //delete likes from like id
+      var likesQuery = await GetUserLikes({user:userObj}) as Likes;
+      for(var i=0; i<likesQuery.likes.length; i++){
+        try{
+          console.log("unliking", likesQuery.likes[i]);
+          var currentLikeCount = await GetQuiz({quizId: likesQuery.likes[i]}) as Quiz;
+          await db.collection(`quizzes`).doc(likesQuery.likes[i]).update("likes", currentLikeCount.likes - 1);
+          await UpdateUserLikes({quizId:likesQuery.likes[i], add:false, user:userObj});
+          console.log("unliking completed");
+        }catch(err){
+          console.log("quiz does not exist, cannot unlike");
+        }
+      }
+
       let userQuery;
       if(user.id){
         userQuery = await db.collection(`users`).doc(user.id).delete();
