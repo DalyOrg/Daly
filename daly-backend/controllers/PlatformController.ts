@@ -42,11 +42,28 @@ interface DeletePlatformParams{
   platformId: string
   user: User
 }
+interface Subscriptions{
+  id: string
+  subscriptions: string[]
+}
 export async function DeletePlatform({platformId, user}: DeletePlatformParams){
       var platformQuery = await GetPlatform({platformId}) as Platform;
       if(user.id !== platformQuery.ownerId){
         return{message: "Not platform owner!"};
       }
+
+      //unsubscribe all users
+      var subQuery = (await db.collection(`subscriptions`).doc(platformQuery.subscribersId).get()).data() as Subscriptions;
+      for(var i=0; i<subQuery.subscriptions.length; i++){
+        var userQuery = (await db.collection(`users`).doc(subQuery.subscriptions[i]).get()).data() as User;
+        var tempSub = [...userQuery.subscribedPlatforms];
+        var deleteIndex = tempSub.indexOf(platformId);
+        if (deleteIndex > -1) {
+          tempSub.splice(deleteIndex, 1);
+        }
+        await db.collection(`users`).doc(subQuery.subscriptions[i]).update("subscribedPlatforms", tempSub);
+      }
+
       //delete existing quizzes
       for(var i = 0; i<platformQuery.quizzes.length; i++){
         await DeleteQuiz({quizId:platformQuery.quizzes[i], user:user});
