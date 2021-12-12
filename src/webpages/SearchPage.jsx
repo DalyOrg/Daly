@@ -57,9 +57,7 @@ const SearchPage = () => {
 
             
             <div className="ms-auto p-2 bd-highlight">
-            <p style={{color: 'hotpink'}}>{result.timestamp ? `Available since: ${new Date(result.timestamp).getMonth() + 1}
-            ${"/" +new Date(result.timestamp).getDate() + "/" + new Date(result.timestamp).getFullYear() }`            
-            : ""}
+            <p style={{color: 'hotpink'}}>{result.timestamp ? `Available since: ${new Date(result.timestamp).getMonth() + 1}${"/" +new Date(result.timestamp).getDate() + "/" + new Date(result.timestamp).getFullYear()}` : ""}
             </p>
             </div>
             
