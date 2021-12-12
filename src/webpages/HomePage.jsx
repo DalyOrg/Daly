@@ -19,7 +19,7 @@ let breakPoints = [
 
 
 const HomePage = () => {
-  const [store, dispatch] = useContext(GlobalStoreContext);
+  const [store] = useContext(GlobalStoreContext);
   const history = useHistory();
   const [subFeed, setSubFeed] = useState([]);
   const [trendingFeed, setTrendingFeed] = useState([]);
@@ -27,12 +27,11 @@ const HomePage = () => {
   const initSubFeed = useCallback(async function(){
     if(store !== undefined && store.userInfo !== undefined){
       let subFeedRes = await getSubscriptionFeed();
-      for(let quizId of subFeedRes.feed){
-        getQuiz(quizId).then((quiz) => {
-          console.log(quiz)
-          setSubFeed((prevState) => [...prevState, quiz])
-        })
+      if(subFeedRes === undefined){
+        return;
       }
+      console.log(subFeedRes)
+      setSubFeed(subFeedRes.feed);
     }
   }, [store]);
 

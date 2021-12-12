@@ -4,6 +4,7 @@ import { SubscriptionFeed, Subscriptions } from "../interfaces/subscriptions";
 import { User } from "../interfaces/user"
 import { getData, updateData } from "./DatabaseController";
 import { GetPlatform } from "./PlatformController";
+import { GetQuiz } from './QuizController'
 
 
 interface GetUserParams{
@@ -177,7 +178,22 @@ interface GetUserSubscriptionFeedParams{
 export async function GetUserSubscriptionFeed({user}: GetUserSubscriptionFeedParams){
   let userData = await GetUser({user}) as User;
   let subscriberData = await getData('subscriptionFeeds', userData.subscriptionFeedId) as SubscriptionFeed;
-  return(subscriberData);
+  let retFeed = []
+  let garbageQueue = []
+  for(let quizId of subscriberData.feed){
+    try{
+      let quizData = await GetQuiz({quizId});
+      retFeed.push(quizData);
+    }
+    catch {
+      garbageQueue.push(quizId);
+    }
+  }
+  if(garbageQueue.length > 0){
+    let newFeed = subscriberData.feed.filter((id) => !garbageQueue.includes(id));
+    await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed})
+  }
+  return({feed: retFeed});
 }
 
 interface UpdateUserSubscriptionFeedParams{
