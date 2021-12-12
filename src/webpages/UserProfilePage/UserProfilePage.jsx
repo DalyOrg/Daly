@@ -58,14 +58,14 @@ const UserProfilePage = () => {
        const initPlatform = useCallback(async function(){
         if(user !== undefined && user.subscribedPlatforms !== undefined){
           setPlatformList(user.subscribedPlatforms);
-          user.subscribedPlatforms.forEach(async(platform) => 
+          user.subscribedPlatforms.forEach(async(platform, index) => 
             {
               let platformObj
               try{
                 platformObj = await getPlatformAdapter(platform);
               }
               catch{}
-              setPlatformList((prevState, index) =>
+              setPlatformList((prevState) =>
               {
                 let newPlatformList = [...prevState];
                 newPlatformList[index] = platformObj;
