@@ -20,9 +20,9 @@ const SettingsPage = () => {
     const history = useHistory();
 
     //TODO
-    function deleteAccount(){
+    async function deleteAccount(){
         console.log('delete account', store.userInfo.id, store.userInfo.username);
-        deleteUser(store.userInfo);
+        await deleteUser(store.userInfo);
         getLogout();
         dispatch({type: 'logout'});
         history.push(`/`);
