@@ -86,11 +86,17 @@ const QuizSetup = () => {
             commentsId: undefined, //create comment when the first person comments
             backgroundImage: backgroundURL,
             cssSettings: undefined
-        };   
-        var quiz = await postQuiz(newQuiz);
-        if(quiz){
-            setquizId(quiz);
+        }; 
+        if(((min * 60) + sec)>0){
+            //console.log(min, sec, ((min * 60) + sec));
+            var quiz = await postQuiz(newQuiz);
+            if(quiz){
+                setquizId(quiz);
+            }
+        }else{
+            alert('Please input a time for the quiz!');
         }
+        
     }
 
     return (
@@ -115,18 +121,20 @@ const QuizSetup = () => {
                   <tr>
                       <td>
                         <span>
-                            <input style={{width:"100%"}} type="text" id="min" name="min" value={min? min : ''} required 
+                            <input style={{width:"100%"}} type="number" id="min" name="min" value={min? min : ''} required 
                             onChange={
-                            e=>setMin(parseInt(e.target.value.replace(/\D/,''),10))
+                            //e=>setMin(parseInt(e.target.value.replace(/\D/,''),10))
+                            e=>setMin(parseInt(e.target.value,10))
                             }
                         ></input></span>
                       </td>
                       <td style={{paddingRight:"50px", paddingLeft:"20px"}}>Min</td>
                       <td>
                       <span>
-                        <input style={{width:"100%"}} type="text" id="sec" name="sec" value={sec? sec : ''} required 
+                        <input style={{width:"100%"}} type="number" id="sec" name="sec" value={sec? sec : ''} required 
                             onChange={
-                                e=>setSec(parseInt(e.target.value.replace(/\D/,''),10))
+                                //e=>setSec(parseInt(e.target.value.replace(/\D/,''),10))
+                                e=>setSec(parseInt(e.target.value,10))
                             }
                         ></input></span>
                       </td>

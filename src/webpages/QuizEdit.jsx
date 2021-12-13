@@ -96,7 +96,7 @@ const QuizEdit = () => {
         var second = quiz.timeLimitSeconds%60;
         setMinutes(minute);
         setSeconds(second);
-        setTimeLimitSeconds(quiz.timeLimitSeconds.toString());
+        setTimeLimitSeconds(quiz.timeLimitSeconds);
         
     }
 
@@ -462,18 +462,18 @@ const QuizEdit = () => {
                   <tr>
                       <th>
                         <span key={timeLimitSeconds}>
-                            <input type="text" id="timeMinutes" name="timeMinutes" defaultValue={timeLimitSeconds ? parseInt(parseInt(timeLimitSeconds,10)/60,10) : ''} required 
+                            <input type="number" id="timeMinutes" name="timeMinutes" defaultValue={timeLimitSeconds ? parseInt(timeLimitSeconds/60,10) : ''} required 
                             onChange={
-                            e=>setMinutes(parseInt(e.target.value.replace(/\D/,''),10))
+                            e=>setMinutes(parseInt(e.target.value,10))
                             }
                         ></input></span>
                       </th>
                       <th>Min</th>
                       <th>
                       <span key={timeLimitSeconds}>
-                        <input type="text" id="timeSeconds" name="timeSeconds" defaultValue={timeLimitSeconds ? parseInt(timeLimitSeconds,10)%60 : ''} required 
+                        <input type="number" id="timeSeconds" name="timeSeconds" defaultValue={timeLimitSeconds ? timeLimitSeconds%60 : ''} required 
                             onChange={
-                                e=>setSeconds(parseInt(e.target.value.replace(/\D/,''),10))
+                                e=>setSeconds(parseInt(e.target.value,10))
                             }
                         ></input></span>
                       </th>
