@@ -22,14 +22,14 @@ const SearchPage = () => {
                   let tempResults = results;
                   tempResults.push(quizInfo);
                   setResults((prevResults) => [...prevResults, quizInfo]);
-                  console.log("quizInfo added, results",results);
+                  
                 })
               } else {
                 getPlatform(elem.id).then((platformInfo) => {
                   let tempResults = results;
                   tempResults.push(platformInfo);
                   setResults((prevResults) => [...prevResults, platformInfo]);
-                  console.log("platformInfo added, results",results);
+                  
                 });
               }
             })

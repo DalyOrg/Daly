@@ -14,7 +14,6 @@ signInWithPopup(auth, provider)
     const user = result.user;
     // Send to DB
   }).catch((error) => {
-    console.log(error.message);
   });
 }
 

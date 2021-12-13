@@ -21,7 +21,7 @@ const SettingsPage = () => {
 
     //TODO
     async function deleteAccount(){
-        console.log('delete account', store.userInfo.id, store.userInfo.username);
+        
         await deleteUser(store.userInfo);
         getLogout();
         dispatch({type: 'logout'});
@@ -45,7 +45,7 @@ const SettingsPage = () => {
       if(url){
         return url.data;
       }else{
-        console.log("unable to grab link", url);
+        
       }
     }
 
@@ -58,10 +58,9 @@ const SettingsPage = () => {
         }
         dispatch({type: 'login', payload: tempUser});
         let newUserInfo = await putUser(tempUser);
-        console.log('change profile pic');
+        
         if(newUserInfo){
-          console.log(newUserInfo);
-          console.log(store.userInfo.profilePicture);
+          
         }
     }
 
@@ -72,13 +71,13 @@ const SettingsPage = () => {
         profileBanner: url
       }
       dispatch({type: 'login', payload: tempUser});
-      console.log(profilebanner);
+      
       let newUserInfo = await putUser(tempUser);
-      console.log('change profile banner');
+      
       if(newUserInfo){
-        console.log(newUserInfo);
+        
       }
-      console.log(store.userInfo.profileBanner);
+      
     }  
 
 
@@ -88,7 +87,7 @@ const SettingsPage = () => {
         let reader = new FileReader();
         reader.onloadend = function() {
             setProfilePic(reader.result);
-            console.log(profilepic);
+            
         }
         reader.readAsDataURL(file);
     }
@@ -100,7 +99,7 @@ const SettingsPage = () => {
         let reader = new FileReader();
         reader.onloadend = function() {
             setProfileBanner(reader.result);
-            console.log(profilebanner);
+            
         }
         reader.readAsDataURL(file);
     }

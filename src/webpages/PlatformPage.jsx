@@ -84,7 +84,7 @@ const PlatformPage = () => {
     if(url){
       return url.data;
     }else{
-      console.log("unable to grab link", url);
+      
     }
   }
 
