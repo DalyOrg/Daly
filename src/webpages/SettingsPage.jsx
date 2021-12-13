@@ -179,7 +179,7 @@ const SettingsPage = () => {
       </div>
       <div className="modal-body">
       <label  style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
-                                <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfilePic(e)}></input>
+                                <input type="file"  accept=".jpg,.png,.img,.jpeg" onChange={e=>updateProfilePic(e)}></input>
                                 Upload Image</label><br/>
       <div style={{left: "27%", width:'70%', height: '70%', position: 'relative'}}>
       {profilepic !== undefined ? <ReactRoundedImage image={profilepic}/> : ""}                          
@@ -204,7 +204,7 @@ const SettingsPage = () => {
       </div>
       <div className="modal-body">
       <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
-                                <input type="file"  accept=".jpg,.png,.img" onChange={e=>updateProfileBanner(e)}></input>
+                                <input type="file"  accept=".jpg,.png,.img,.jpeg" onChange={e=>updateProfileBanner(e)}></input>
                                 Upload Image</label>
       <div>
           {profilebanner !== undefined ? <img style={{width:'70%', height: '70%', position: 'relative'}} src={profilebanner}/> : ""}                          
