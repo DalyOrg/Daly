@@ -213,7 +213,7 @@ export async function UpdateUserSubscription({platformId, add, user}: UpdateUser
       for(let quiz of subscriptionFeed.feed){
         try{
           // @ts-ignore timestamp is actually a string; might be the case that the conversion fails so try catch is needed
-          if (new Date(quiz.timestamp).getUTCSeconds() < new Date(quizData.timestamp).getUTCSeconds()){
+          if (!added && new Date(quiz.timestamp).getUTCSeconds() < new Date(quizData.timestamp).getUTCSeconds()){
             newFeed.push(quizToAdd);
             newFeed.push(quiz.id);
             added = true;
