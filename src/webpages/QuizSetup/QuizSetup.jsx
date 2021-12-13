@@ -43,8 +43,6 @@ const QuizSetup = () => {
         setUploadProgress("Upload Complete!");
         if(url){
           return url.data;
-        }else{
-          console.log("unable to grab link", url);
         }
       }
 
@@ -76,8 +74,6 @@ const QuizSetup = () => {
             alert("You must log in to create a quiz.");
             return;
         }
-
-        console.log(store.platformId);
         var newQuiz = {
             name: name,
             questions: [],
@@ -93,7 +89,6 @@ const QuizSetup = () => {
         };   
         var quiz = await postQuiz(newQuiz);
         if(quiz){
-            console.log(quiz);
             setquizId(quiz);
         }
     }
