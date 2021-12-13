@@ -47,6 +47,14 @@ input[type=text]{
     border-radius: 40px;
 }
 
+input[type=number]{
+    width: 65%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 40px;
+}
+
 .categories{
     width: 58%!important;
 }
