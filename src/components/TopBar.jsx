@@ -1,7 +1,6 @@
 import "../App.css";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { MDBInput } from 'mdb-react-ui-kit';
-import { Nav, Navbar, NavbarBrand, NavDropdown } from "react-bootstrap";
 import { Archive, Cart } from 'react-bootstrap-icons';
 import { Collection } from 'react-bootstrap-icons';
 import { Person } from 'react-bootstrap-icons';
@@ -10,20 +9,11 @@ import { Justify } from 'react-bootstrap-icons';
 import { PersonX } from 'react-bootstrap-icons';
 import { Search } from 'react-bootstrap-icons';
 import { Link, useHistory } from 'react-router-dom';
-import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
-import { getPlatform } from '../adapters/platform';
-//global store
-import React, { Component, useContext } from 'react';
+import { useState } from 'react';
+import React from 'react';
 import { useGlobalStore } from "../store/useGlobalStore";
 import { getLogout } from "../adapters/user";
-import { useCallback } from 'react';
 
-
-//let loggedIn = false;
-
-
-//export default class TopBar extends Component {
 const TopBar =() =>{
     
     const [store, dispatch] = useGlobalStore();
@@ -47,7 +37,6 @@ const TopBar =() =>{
         }}>
         <MDBInput id='typeText' type='text' onChange={e => setSearchText(e.target.value)} value={searchText} style={{color: "white", width: "100%"}}/>
         <MDBBtn style={{color: "white", backgroundColor: "#5321d0", marginLeft: '1rem'}} rounded ><Search color="white" size={20} onClick={()=>{
-            console.log(searchText);
             history.push('/search/'+searchText);
         }}/></MDBBtn>
         
