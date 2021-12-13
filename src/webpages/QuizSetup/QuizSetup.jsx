@@ -209,7 +209,7 @@ const QuizSetup = () => {
       </div>
       <div className="modal-body">
       <label style={{color: "white", backgroundColor: "#8B008B", borderRadius: '50px'}} className="upload-button">
-                                <input type="file"  accept=".jpg,.png,.img" onChange={event=>{
+                                <input type="file"  accept=".jpg,.png,.img,.jpeg" onChange={event=>{
                                   var file=event.target.files[0];
 
                                   let reader = new FileReader();
