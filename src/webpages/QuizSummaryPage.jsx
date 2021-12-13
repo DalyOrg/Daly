@@ -97,7 +97,7 @@ const QuizSummaryPage = () => {
             
                 <MDBCardTitle className='d-flex justify-content-center'>{quiz.name}</MDBCardTitle>
                 <MDBCardTitle style={{ marginBottom: '1.5rem' }} className='d-flex justify-content-center'>{quiz.creator}</MDBCardTitle>
-                <p className='d-flex justify-content-center'>Time Limit: {quiz.timeLimitSeconds}</p>
+                <p className='d-flex justify-content-center'>Time Limit: {quiz.timeLimitSeconds < 60 ? quiz.timeLimitSeconds + " seconds ": parseInt((quiz.timeLimitSeconds / 60),10) + " minutes " + ((quiz.timeLimitSeconds) % 60) + " seconds"}</p>
                 <p className='d-flex justify-content-center'>Number of Questions: {quiz.questions.length}</p>
                 
                 <div className='d-flex justify-content-center'>

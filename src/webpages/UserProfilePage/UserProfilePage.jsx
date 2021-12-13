@@ -4,12 +4,13 @@ import { GlobalStoreContext } from '../../store/useGlobalStore';
 import Carousel from 'react-elastic-carousel';
 import ItemCarousel from "../../components/ItemCarousel";
 import { getPlatform } from '../../adapters/platform';
+import { getPlatformAdapter } from "../../adapters/platform";
 
 import { useState, useCallback } from 'react';
 import { useEffect } from 'react';
 
 import { useHistory, useParams } from 'react-router';
-import { getOtherUser } from "../../adapters/user";
+import { getOtherUser, putUser } from "../../adapters/user";
 
 
 //TODO: implement get profile banner, profile picture, user name,
@@ -57,20 +58,27 @@ const UserProfilePage = () => {
        const initPlatform = useCallback(async function(){
         if(user !== undefined && user.subscribedPlatforms !== undefined){
           setPlatformList(user.subscribedPlatforms);
-          user.subscribedPlatforms.forEach(async(platform,index) => 
+          user.subscribedPlatforms.forEach(async(platform, index) => 
             {
-              let platformObj = await getPlatform(platform);
+              let platformObj
+              try{
+                platformObj = await getPlatformAdapter(platform);
+              }
+              catch{}
               setPlatformList((prevState) =>
               {
                 let newPlatformList = [...prevState];
                 newPlatformList[index] = platformObj;
                 return newPlatformList;
+              });
+              if(platformObj === undefined){
+                let newSubList = user.subscribedPlatforms.filter((id) => id !== platform);
+                await putUser({id: userId, subscribedPlatforms: newSubList});
               }
-              );
             }
           )
         }
-      }, [user])
+      }, [user, userId])
   
   
       
@@ -150,12 +158,20 @@ const UserProfilePage = () => {
        
         <h1 style={{ textAlign: "left", marginLeft: '1rem', color:'white', fontSize: "30px" }}>Subscribed Platforms</h1>
        
-        {user.subscribedPlatforms.length !== 0 && platformList.length !== 0?
+        {user.subscribedPlatforms.length !== 0 && platformList.filter((p) => p !== undefined).length !== 0?
         <Carousel breakPoints={breakPointsSubscriptions}>
           {
-            platformList.map((platform) => 
-            <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`,backgroundPositionX: "center",
-            backgroundPositionY: "center",}}> </ItemCarousel>
+            platformList.map((platform) => {
+              if(platform !== undefined){
+                return(
+                  <ItemCarousel onClick={()=>linkTo(platform.id)} style={{color: '#FFFFFF',backgroundSize: 'cover',backgroundImage:`url(${platform.platformBanner})`,backgroundPositionX: "center",
+                  backgroundPositionY: "center",}}> </ItemCarousel>
+                )
+              }
+              else{
+                return(<></>)
+              }
+            }
             )
           }
         </Carousel>

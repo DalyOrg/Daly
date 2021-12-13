@@ -37,7 +37,6 @@ const PlatformPage = () => {
     const history = useHistory();
   
     const linkTo = (quizId) => {
-
       history.push(`/quiz/` + quizId);
     }
 
@@ -45,7 +44,7 @@ const PlatformPage = () => {
     const [resetModal, setResetModal] = useState(0);
 
     async function deletePlatformAction(){
-        var res = await deletePlatform(platform.id);
+        await deletePlatform(platform.id);
         history.push("/" + platform.ownerId + '/platformpicker');
         window.location.reload();
     }
@@ -54,10 +53,12 @@ const PlatformPage = () => {
   
       const initPlatform = useCallback(async function(){
           let platformObj = await getPlatform(platformId);
-          setPlatform(platformObj); 
-          setSubCount(platformObj.subscriberCount);
-          setPlatformBanner(platformObj.platformBanner);
-          setPlatformPic(platformObj.platformPicture);
+          if(platformObj !== undefined){
+            setPlatform(platformObj); 
+            setSubCount(platformObj.subscriberCount);
+            setPlatformBanner(platformObj.platformBanner);
+            setPlatformPic(platformObj.platformPicture);
+          }
       }, [platformId])
 
     useEffect(() => {
@@ -195,10 +196,10 @@ const PlatformPage = () => {
                     </div>
                        
                      <div className="mx-auto mx-5 mt-5" style={{}}>
-                         <span style={{fontSize: "20px", color: "white"}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{subCount}</span></span>
+                         <span style={{fontSize: "20px", color: "white"}}>Subscribers<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{platform!==undefined ? subCount : ""}</span></span>
                     </div>
                      <div className="mx-auto mx-5 mt-5" style={{}}>
-                     <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{(platform.quizzes).length}</span></span>
+                     <span style={{fontSize: "20px", color: "white" }}>Quizzes<span style={{fontSize: "15px",display: "block", fontWeight: "bold"}}>{platform!==undefined ? (platform.quizzes).length : ""}</span></span>
                     </div>
                     <div className="ms-auto p-2 bd-highlight" style={{}}>
                     {platformOwner !== false ? 
@@ -243,7 +244,7 @@ const PlatformPage = () => {
             : <></>}  
         </div>
 
-            :<span> Loading... </span>}
+            :<span>Loading...</span>}
         
         {/* modal for name change */}
 <div class="modal hide fade in" style={{pointerEvents: 'none'}} id="nameModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
