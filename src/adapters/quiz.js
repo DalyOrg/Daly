@@ -2,21 +2,17 @@ import axios from 'axios';
 import { wrapErrorHandling } from './common';
 
 async function getQuizAdapter(quizId){
-    console.log(quizId);
     let res = await axios.get(
         `/quiz/${quizId}`
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
 async function postQuizAdapter(quizObject){
-    console.log(quizObject);
     let body = { newQuiz: quizObject };
     let res = await axios.post(
         `/quiz`, body
     );
-    console.log(res);
     return res.data;
 }
 
@@ -27,16 +23,13 @@ async function putQuizAdapter(quiz){
 }
 
 async function getQuizLikedAdapter(quizId){
-    console.log(quizId);
     let res = await axios.get(
         `/quiz/${quizId}/liked`
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
 async function putQuizLikedAdapter(quizId, add){
-    console.log(quizId);
     let body = {
         quizId: quizId,
         add: add
@@ -45,7 +38,6 @@ async function putQuizLikedAdapter(quizId, add){
         `/quiz/${quizId}/liked`,
         body
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
@@ -53,15 +45,12 @@ async function getQuizCommentsAdapter(quizId){
     let res = await axios.get(
         `/quiz/${quizId}/comments`
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 async function getLeaderBoardAdapter(quizId){
-    console.log(quizId);
     let res = await axios.get(
         `/quiz/${quizId}/leaderboard`
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
@@ -76,7 +65,6 @@ async function postQuizCommentAdapter(quizId, commentText){
         `/quiz/${quizId}/comments`,
         body
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
@@ -91,7 +79,6 @@ async function submitQuizAttemptAdapter(quizId, timeLeft, score){
         `/quiz/${quizId}/leaderboard/attempt`,
         body
     );
-    console.log(res)
     return res.data; // Quiz Object
 }
 
@@ -101,9 +88,7 @@ async function deleteQuizAdapter(quizId){
         let res = await axios.delete(
             `/quiz/${quizId}`, body
         );
-        console.log({message: "Quiz deleted!"});
     }catch(err){
-        console.log("quiz delete error", err)
     }
 }
 

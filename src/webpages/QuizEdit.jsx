@@ -91,21 +91,20 @@ const QuizEdit = () => {
     }
 
     function initTime(){
-        console.log(quiz);
+        
         var minute = parseInt(quiz.timeLimitSeconds/60,10);
         var second = quiz.timeLimitSeconds%60;
         setMinutes(minute);
         setSeconds(second);
         setTimeLimitSeconds(quiz.timeLimitSeconds.toString());
-        console.log(quiz.timeLimitSeconds);
-        console.log(minutes, "min", seconds, "sec");
+        
     }
 
     function handleCloseTimeModal(){
         setTimeLimitSeconds();
         setMinutes();
         setSeconds(); 
-        console.log(minutes, "min", seconds, "sec");
+        
     }
 
     function updateTimer(){
@@ -115,7 +114,7 @@ const QuizEdit = () => {
             timeLimitSeconds: time
         }
         setQuiz(tempQuiz);
-        console.log(quiz.timeLimitSeconds);
+        
     }
 
     function initQuestion(question, indx){
@@ -219,7 +218,7 @@ const QuizEdit = () => {
         // indx = index of question in quiz.questions
         let tempQuestions = [...quiz.questions];
         tempQuestions.splice(indx, 1);
-        console.log(tempQuestions);
+        
         var tempQuiz = {
             ...quiz,
             questions: tempQuestions
@@ -252,7 +251,7 @@ const QuizEdit = () => {
         if(url){
           return url.data;
         }else{
-          console.log("unable to grab link", url);
+          
         }
       }
 

@@ -5,7 +5,6 @@ async function getItemsAdapter(){
     let res = await axios.get(
         `/shop/items`,
     );
-    console.log(res)
     return res.data;
 }
 

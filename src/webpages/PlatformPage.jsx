@@ -84,7 +84,7 @@ const PlatformPage = () => {
     if(url){
       return url.data;
     }else{
-      console.log("unable to grab link", url);
+      
     }
   }
 
@@ -244,11 +244,7 @@ const PlatformPage = () => {
             : <></>}  
         </div>
 
-            :<div>
-              <div style={{justifyContent: "center"}}><h1 style={{color: "white", textAlign: "center"}}>Platform is deleted by platform owner!</h1><br/>
-                <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF", margin: "auto", display: "flex"}} onClick={()=>{history.push(`/home`)}}>Back to Home Page</MDBBtn>
-              </div>
-            </div>}
+            :<span>Loading...</span>}
         
         {/* modal for name change */}
 <div class="modal hide fade in" style={{pointerEvents: 'none'}} id="nameModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">

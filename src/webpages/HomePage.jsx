@@ -30,7 +30,7 @@ const HomePage = () => {
       if(subFeedRes === undefined){
         return;
       }
-      console.log(subFeedRes)
+      
       setSubFeed(subFeedRes.feed);
     }
   }, [store]);
@@ -41,7 +41,7 @@ const HomePage = () => {
 
   const initTrendingFeed = useCallback(async function(){
     let trendingFeedRes = await getTrendingFeed();
-    console.log(trendingFeedRes)
+    
     setTrendingFeed(trendingFeedRes.feed);
   }, []);
 

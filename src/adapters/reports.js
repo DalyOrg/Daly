@@ -5,7 +5,6 @@ async function getUserReportsAdapter(){
     let res = await axios.get(
         `/report/userReports`,
     );
-    console.log(res)
     return res.data;
 }
 
@@ -17,7 +16,6 @@ async function postReportAdapter(reason, description, metadata){
         `/report`,
         body
     );
-    console.log(res)
     return res.data;
 }
 

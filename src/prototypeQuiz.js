@@ -49,7 +49,6 @@ function App() {
     const questionsList = questionsSnapshot.docs.map((question) => {
       return {...question.data(), id: question.id};
     });
-    console.log(questionsList[0])
     setQuestions(questionsList);
     setSelectedQuestion(0);
   }, [selectedQuiz]);

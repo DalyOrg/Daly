@@ -39,7 +39,7 @@ const QuizPage = () => {
     const submitAttempt = useCallback(async function(){
         clearInterval(timer);
         if(store && store.userInfo){ // if logged in
-            console.log(store.userInfo);
+            
             let submitData = await submitQuizAttempt(quiz.id, quiz.timeLimitSeconds - time, calculateScore());
             let newUserInfo = await getUser();
             dispatch({type: 'login', payload: newUserInfo});

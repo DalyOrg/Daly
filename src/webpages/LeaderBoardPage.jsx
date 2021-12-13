@@ -23,7 +23,7 @@ const LeaderBoardPage = () => {
         let newRanks = [...prevState];
         newRanks[indx] = {...newRanks[indx], ...userData};
         setRankings(newRanks);
-        console.log(rankings);
+        
 
       })
     })

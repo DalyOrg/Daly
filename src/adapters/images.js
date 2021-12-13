@@ -7,10 +7,8 @@ import { wrapErrorHandling } from './common';
         let res = await axios.post(
             `/api/upload`, body
         );
-        console.log({message: "Image uploaded"});
         return res.data;
     }catch(err){
-        console.log("image upload error", err)
     }
 }
 
