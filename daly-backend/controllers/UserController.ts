@@ -284,12 +284,15 @@ export async function UpdateUserSubscriptionFeed({newQuizId, add, user}: UpdateU
   let subscriptionFeed = await GetUserSubscriptionFeed({user}) as SubscriptionFeed;
   let newFeed;
   if(add){
-    newFeed = [newQuizId, ...subscriptionFeed.feed];
+    // @ts-ignore
+    newFeed = subscriptionFeed.feed.map((quiz) => quiz.id);
+    newFeed = [newQuizId, ...newFeed];
   }
   else{
-    newFeed = subscriptionFeed.feed.filter((quizId) => quizId !== newQuizId);
+    // @ts-ignore
+    newFeed = subscriptionFeed.feed.filter((quiz) => quiz.id !== newQuizId).map((quiz) => quiz.id);
   }
-  let res = await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed});
+  await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed});
   return({message: 'Feed Updated'});
 }
 
