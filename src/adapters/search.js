@@ -2,7 +2,6 @@ import axios from 'axios';
 import { wrapErrorHandling } from './common';
 
 async function postSearchAdapter(query){
-    console.log(query);
     let body = {
         query: query
     }
@@ -10,12 +9,10 @@ async function postSearchAdapter(query){
         `/search`,
         body
     );
-    console.log(res.data)
     return res.data;
 }
 
 async function postFilterAdapter(query){
-    console.log(query);
     let body = {
         field: 'questions',
         operator: '<',
@@ -25,7 +22,6 @@ async function postFilterAdapter(query){
         `/search`,
         body
     );
-    console.log(res.data)
     return res.data;
 }
 

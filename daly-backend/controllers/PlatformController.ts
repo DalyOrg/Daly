@@ -2,6 +2,7 @@ import { db } from "../common/firestore";
 import { Platform } from "../interfaces/platform";
 import { User } from "../interfaces/user";
 import { getData, postData } from "./DatabaseController";
+import { DeleteQuiz } from "./QuizController";
 import { UpdateUser, GetUser } from "./UserController";
 
 interface GetPlatformParams{
@@ -29,9 +30,10 @@ export async function CreatePlatform({newPlatform, user}: CreatePlatformParams){
 
   console.log(userData.platformsOwned, resId)
 
-  await UpdateUser({userId: userData.id, newUser: {
+  await UpdateUser({newUser: {
     platformsOwned: [...userData.platformsOwned, resId]
-  }});
+    // @ts-ignore
+  }, user: {id: userData.id}});
 
   return resId;
 }
@@ -40,11 +42,33 @@ interface DeletePlatformParams{
   platformId: string
   user: User
 }
+interface Subscriptions{
+  id: string
+  subscriptions: string[]
+}
 export async function DeletePlatform({platformId, user}: DeletePlatformParams){
       var platformQuery = await GetPlatform({platformId}) as Platform;
       if(user.id !== platformQuery.ownerId){
         return{message: "Not platform owner!"};
       }
+
+      //unsubscribe all users
+      var subQuery = (await db.collection(`subscriptions`).doc(platformQuery.subscribersId).get()).data() as Subscriptions;
+      for(var i=0; i<subQuery.subscriptions.length; i++){
+        var userQuery = (await db.collection(`users`).doc(subQuery.subscriptions[i]).get()).data() as User;
+        var tempSub = [...userQuery.subscribedPlatforms];
+        var deleteIndex = tempSub.indexOf(platformId);
+        if (deleteIndex > -1) {
+          tempSub.splice(deleteIndex, 1);
+        }
+        await db.collection(`users`).doc(subQuery.subscriptions[i]).update("subscribedPlatforms", tempSub);
+      }
+
+      //delete existing quizzes
+      for(var i = 0; i<platformQuery.quizzes.length; i++){
+        await DeleteQuiz({quizId:platformQuery.quizzes[i], user:user});
+      }
+      //delete platform from owner list
       var userQuery = await GetUser({user: user}) as User;
       var tempPlatform = [...userQuery.platformsOwned];
       var deleteIndex = tempPlatform.indexOf(platformId);

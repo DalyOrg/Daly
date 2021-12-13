@@ -1,6 +1,5 @@
 const Results = ({answerMap}) => {
     function calculateScore(){
-        console.log(answerMap)
         let sum = 0;
         for(let question in answerMap){
             if(answerMap[question].correctAnswer)

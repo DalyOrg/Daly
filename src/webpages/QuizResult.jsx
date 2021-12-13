@@ -11,12 +11,23 @@
 
 import LikeButton from "../components/LikeButton";
 import { useState } from "react";
-import { MDBBtn } from 'mdb-react-ui-kit';
+import { useHistory, useParams } from 'react-router';
+import { MDBBtn, MDBBtnGroup } from 'mdb-react-ui-kit';
 import { FlagFill } from "react-bootstrap-icons";
 import ReportModal from "../components/ReportModal";
 
 const QuizResult = ({quiz, setQuiz, score, badgesEarned, time, isLoggedIn}) => {
     const [reportMetadata, setReportMetadata] = useState();
+
+
+    const history = useHistory();
+    const {quizId} = useParams();
+  
+    const linkTo = (quizId) => {
+  
+      history.push(`/quiz/` + quizId);
+    }
+
 
     function getMessage(){
         if(score <= 25){
@@ -85,6 +96,9 @@ const QuizResult = ({quiz, setQuiz, score, badgesEarned, time, isLoggedIn}) => {
                 >
                     <FlagFill />
                 </MDBBtn> 
+            </div>
+            <div className='mx-auto'>
+            <MDBBtn onClick={()=>linkTo(quizId)} style={{color: "white", backgroundColor: "#5321d0"}}>Back to Quiz Summary Page</MDBBtn>
             </div>
             <ReportModal
                 reasons={['Offensive Language', 'Mistake In Question/Answer', 'Other']}

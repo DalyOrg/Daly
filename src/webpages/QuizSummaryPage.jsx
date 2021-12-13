@@ -46,7 +46,7 @@ const QuizSummaryPage = () => {
           setComments((prevState) => {
             let newComments = [...prevState];
             newComments[indx] = {...newComments[indx], ...userData};
-            setComments(newComments)
+            return newComments;
           })
         })
       }
@@ -62,7 +62,10 @@ const QuizSummaryPage = () => {
       await initComments();
       setIsCommentButtonReady(true);
     }
-    
+    const linkToUser = (userId) => {
+      history.push(`/user/` + userId);
+    }
+
     return (
         <>
         {quiz !== undefined ?
@@ -94,7 +97,7 @@ const QuizSummaryPage = () => {
             
                 <MDBCardTitle className='d-flex justify-content-center'>{quiz.name}</MDBCardTitle>
                 <MDBCardTitle style={{ marginBottom: '1.5rem' }} className='d-flex justify-content-center'>{quiz.creator}</MDBCardTitle>
-                <p className='d-flex justify-content-center'>Time Limit: {quiz.timeLimitSeconds}</p>
+                <p className='d-flex justify-content-center'>Time Limit: {quiz.timeLimitSeconds < 60 ? quiz.timeLimitSeconds + " seconds ": parseInt((quiz.timeLimitSeconds / 60),10) + " minutes " + ((quiz.timeLimitSeconds) % 60) + " seconds"}</p>
                 <p className='d-flex justify-content-center'>Number of Questions: {quiz.questions.length}</p>
                 
                 <div className='d-flex justify-content-center'>
@@ -164,24 +167,18 @@ const QuizSummaryPage = () => {
           
       { comments &&
         comments.map((comment) => 
-        <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowY: "scroll", overflowX: 'hidden'}}>
+        <div className="card" style={{backgroundColor: "#640979", marginBottom: "10px", maxHeight: "25vh", overflowX: 'hidden'}}>
             <div className="row row-cols-3">
               <div className="col">
                <div className="col">
-                  <img width="100"
-                    style={{borderRadius:"50%", marginTop: "10px", marginLeft: "10px"}}
-                    height="100"
-                    alt='User Profile'
-                    src={`${comment.profilePicture ? comment.profilePicture :
-                      'https://media.istockphoto.com/photos/side-view-of-maine-coon-sitting-and-looking-away-picture-id102716889?k=20&m=102716889&s=612x612&w=0&h=A4CvsPKg1CrrSp6b5Rnf8oc2RkIjaaQinUCJuBXYEL8='
-                    }`}
+                  <MDBBtn
+                  onClick={()=>linkToUser(comment.userId)}
+                    style={{backgroundPosition: 'center',backgroundSize: 'cover',height:"110px", width:"110px",borderRadius:"50%", marginTop: "10px", objectFit: "cover", marginLeft: "10px", backgroundImage: `url(${(comment.profilePicture ? comment.profilePicture : "https://i.imgur.com/gpOVR3I.png")})`}}
+                    
                   />
+                  <p style={{color: "white", marginLeft: "13px", overflow: "hidden", maxWidth: "115px", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{comment.username ? comment.username : 'loading...'}</p>
                 </div>
-                <div className="col"
-                style={{color: "white", marginLeft: "25px"}}
-                >
-                  {comment.username ? comment.username : 'loading...'}
-                </div>
+                
               { store && store.userInfo &&
               <div className="col" style={{marginTop: "5px", marginLeft: "30px"}}>
                 <MDBBtn rounded style={{color: "white", backgroundColor: "red", marginBottom: "10px"}}

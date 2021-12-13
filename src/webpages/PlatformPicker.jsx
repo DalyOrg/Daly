@@ -43,7 +43,7 @@ const PlatformPicker = () => {
             {
               let newPlatformList = [...prevState];
               newPlatformList[index] = platformObj;
-              setPlatformList(newPlatformList);
+              return newPlatformList;
             }
             );
           }
@@ -80,16 +80,14 @@ const PlatformPicker = () => {
             };       
             var platform = await postPlatform(newPlatform);
             if(platform){
-                setPlatformId(platform);  
                 var tempUser = {
                   ...store.userInfo,
                   platformsOwned: [...store.userInfo.platformsOwned, platform]
                 }
                 dispatch({type: 'login', payload: tempUser});
-                let newUserInfo = await putUser(tempUser);
-                if(newUserInfo){
-                  console.log(newUserInfo);
-                }                
+                await putUser(tempUser);
+                setPlatformId(platform);  
+                        
             }
     }
 
@@ -127,16 +125,20 @@ const PlatformPicker = () => {
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
-      <input type="text" class="form-control" required placeholder="New Platform Name" value={name ? name : ''} 
-                    onChange={
-                        e=>setName(e.target.value)
-                    }
+      <input  type="text"
+        class="form-control"
+        placeholder="New Platform Name" 
+        value={name ? name : ''} 
+        onChange={
+              e=>setName(e.target.value)
+              }
+                    
     ></input>
 
       </div>
 
       <div className="modal-footer">
-        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#640979"}} type="button" onClick={newPlatform} class="btn btn-danger">Submit</MDBBtn>
+        <MDBBtn rounded data-bs-dismiss="modal" style={{color: "white", backgroundColor: "#640979"}} type="submit" onClick={newPlatform} class="btn btn-danger">Submit</MDBBtn>
       </div>
     </div>
   </div>

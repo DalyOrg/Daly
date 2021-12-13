@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import QuizResult from './QuizResult';
 import { Opacity } from '@mui/icons-material';
 import { useGlobalStore } from '../store/useGlobalStore';
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const QuizPage = () => {
     const {quizId} = useParams();
@@ -17,7 +19,7 @@ const QuizPage = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(0);
     const [showResults, setShowResults] = useState(false);
     const [badgesEarned, setBadgesEarned] = useState(-1);
-
+    const history = useHistory();
 
     async function countDown(){
         if(!showResults){
@@ -37,7 +39,7 @@ const QuizPage = () => {
     const submitAttempt = useCallback(async function(){
         clearInterval(timer);
         if(store && store.userInfo){ // if logged in
-            console.log(store.userInfo);
+            
             let submitData = await submitQuizAttempt(quiz.id, quiz.timeLimitSeconds - time, calculateScore());
             let newUserInfo = await getUser();
             dispatch({type: 'login', payload: newUserInfo});
@@ -51,7 +53,7 @@ const QuizPage = () => {
         if(time<=0 && quiz.questions.length!==0){
             // auto submit
             submitAttempt();
-            alert("Times up!");
+            // alert("Times up!");
         }
     }, [quiz, time, submitAttempt])
 
@@ -94,21 +96,32 @@ const QuizPage = () => {
         />
         : quiz !== undefined ?
         quiz.questions.length === 0 ?
-            <span>No Questions Yet!</span>
+            <div style={{justifyContent: "center"}}><h1 style={{color: "white", textAlign: "center"}}>No Questions Yet!</h1><br/>
+            <MDBBtn rounded size='sm' style={{backgroundColor: "#00B5FF", margin: "auto", display: "flex"}} onClick={()=>{history.push(`/quiz/`+quizId+`/`)}}>Back To Summary Page</MDBBtn>
+            </div>
         :
         <div className='d-flex flex-column gap-3'
             style={{
                 backgroundColor: "rgba(18, 5, 77, .5)",
                 backgroundSize: 'cover',
-                height: '100vh'
             }}
         > 
         <div>
             
         </div>
-            <h1 className='mx-auto' style={{color: '#FFFFFF'}}>
-                {quiz.name}
-            </h1>
+
+            <div class="d-flex justify-content-between">
+                <h1  style={{color: '#FFFFFF', marginLeft: "1rem"}}>
+                    {quiz.name}
+                 </h1>
+
+                 <p
+                    style={{color: '#FFFFFF', marginRight: "2rem", fontSize: "30px"}}
+                 >
+                    Time Left: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
+                </p>
+            </div>
+   
             <div className='mx-auto' style={{color: '#FFFFFF'}}>
                 <Question
                     question={quiz.questions[selectedQuestion]}
@@ -141,11 +154,7 @@ const QuizPage = () => {
             >
                 Submit
             </button>
-            <span className='mx-auto'
-                style={{color: '#FFFFFF'}}
-            >
-                Time Left: {`${parseInt((time / 60), 10)}:${(time % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}`}
-            </span>
+         
         </div>
         
         :<span> Loading... </span>}

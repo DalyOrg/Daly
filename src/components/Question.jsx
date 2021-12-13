@@ -8,16 +8,17 @@ const Question = ({question, setQuestion}) => {
 
   return (
       <div className='d-flex flex-column gap-3'>
-          <h3>
-              {question.questionText}
-          </h3>
+
           {
             question.imageUrl &&
-            <img className='mx-auto'
+            <img className="mx-auto" height="300"
               src={question.imageUrl}
               alt={question.questionText}
             />
           }
+          <h3>
+              {question.questionText}
+          </h3>
           <div className='d-flex flex-column gap-3 mx-auto'>
               {
                   question.answers.map((answer) =>
