@@ -64,7 +64,7 @@ const QuizResult = ({quiz, setQuiz, score, badgesEarned, time, isLoggedIn}) => {
                 <span
                     style={{color: '#FFFFFF'}}
                 >
-                    Your score was: {score}%
+                    Your score was: {Math.floor(score)}%
                 </span>
             </div>
             <div className='mx-auto'>

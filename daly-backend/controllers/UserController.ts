@@ -197,17 +197,49 @@ interface UpdateUserSubscriptionParams{
   user: User
 }
 export async function UpdateUserSubscription({platformId, add, user}: UpdateUserSubscriptionParams){
+  let userData = await GetUser({user}) as User;
   let platformData = await GetPlatform({platformId}) as Platform;
   let subscriberData = await getData('subscriptions', platformData.subscribersId) as Subscriptions;
   if(add){
-    subscriberData.subscriptions.push(user.id);
+    subscriberData.subscriptions.push(userData.id);
+    // async update feed
+    const updateFeed = async () => {
+      let quizToAdd = platformData.quizzes[platformData.quizzes.length - 1];
+      let quizData = await GetQuiz({quizId: quizToAdd});
+      let subscriptionFeed = await GetUserSubscriptionFeed({user});
+      let newFeed = [];
+      let added = false;
+      for(let quiz of subscriptionFeed.feed){
+        if (quiz.timestamp.seconds < quizData.timestamp.seconds){
+          newFeed.push(quizToAdd);
+          newFeed.push(quiz.id);
+          added = true;
+        }
+        else{
+          newFeed.push(quiz.id);
+        }
+      }
+      if(!added){
+        newFeed.push(quizToAdd);
+      }
+      console.log(newFeed);
+      await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed});
+    }
+    updateFeed();
   }
   else{
     subscriberData.subscriptions = subscriberData.subscriptions.filter((id) => id !== user.id);
+    // async update feed
+    const updateFeed = async () => {
+      let subscriptionFeed = await GetUserSubscriptionFeed({user});
+      let newFeed = subscriptionFeed.feed.filter((quiz) => quiz.platformId !== platformId);
+      newFeed = newFeed.map((quizData) => quizData.id);
+      await updateData('subscriptionFeeds', userData.subscriptionFeedId, {feed: newFeed});
+    }
+    updateFeed();
   }
   await updateData('subscriptions', platformData.subscribersId, subscriberData);
   await db.collection(`platforms`).doc(platformId).update("subscriberCount", subscriberData.subscriptions.length);
-  console.log(subscriberData, platformId, platformData);
   return({message: 'Subscription Updated'})
 }
 
