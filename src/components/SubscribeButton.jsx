@@ -13,7 +13,6 @@ const SubscribeButton = ({platformId, subsChange}) => {
 
     useEffect(() => {
         getPlatformSubscribed(platformId).then((res) => {
-            console.log(res);
             setIsSubscribed(res.isSubscribed);
             setIsReady(true);
         })
@@ -29,7 +28,7 @@ const SubscribeButton = ({platformId, subsChange}) => {
             }
 
         }
-      }, [store, dispatch]);
+      }, [store, dispatch, platformId]);
 
 
       const removePlatformFromUser = useCallback(async function(){
@@ -45,7 +44,7 @@ const SubscribeButton = ({platformId, subsChange}) => {
             }
 
         }
-      }, [store, dispatch]);
+      }, [store, dispatch, platformId]);
 
     async function handleClick(){
         if(!isSubscribed){
