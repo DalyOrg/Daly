@@ -25,7 +25,6 @@ export function wrapErrorHandling(adapter){
             return res
         } catch(err){
             // axios error
-            console.log('Error!')
             displayErrorModal(err.response.data);
             return undefined
         }

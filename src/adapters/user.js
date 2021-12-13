@@ -7,9 +7,7 @@ async function deleteUserAdapter(userData){
         let res = await axios.delete(
             `/user/${userData.id}`, body
         );
-        console.log({message: "User data deleted!"});
     }catch(err){
-        console.log("user delete error", err)
     }
 }
 
@@ -18,7 +16,6 @@ async function getUserAdapter(){
         let res = await axios.get(
             `/user`
         );
-        console.log(res);
         return res.data; // User Object
     } catch(err){
         return {data: {}}
@@ -29,7 +26,6 @@ async function getOtherUserAdapter(userId){
     let res = await axios.get(
         `/user/${userId}`
     );
-    console.log(res);
     return res.data; // User Object
 }
 
@@ -40,7 +36,6 @@ async function getLogoutAdapter(){
         );
         return;
     } catch(err){
-        console.log(err);
     }
 }
 
@@ -48,15 +43,12 @@ async function getSubscriptionFeedAdapter(){
     let res = await axios.get(
         `/user/feed`
     );
-    console.log(res);
     return res.data;
 }
 
 async function putUserAdapter(user){
-    console.log(user);
     let body = { newUser: user };
     let res = await axios.put(`/user/${user.id}`, body)
-    console.log(res);
     return res.data;
 }
 
